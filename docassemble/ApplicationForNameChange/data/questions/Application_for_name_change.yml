@@ -9,9 +9,9 @@ metadata:
     Apply for a name change
   description: |-
     This interview helps someone in Minnesota ask the court to change their name and the names of their spouse and children.
-  tags:
-    - "FA-11-00-00-00"
-    - "GO-00-00-00-00"
+#  tags:
+#    - "FA-11-00-00-00"
+#    - "GO-00-00-00-00"
   authors:
     - Coleman Silver
   original_form:
@@ -44,6 +44,7 @@ code: |
 ---
 objects:
   - users: ALPeopleList.using(ask_number=True,target_number=1)
+  - al_logo: DAStaticFile.using(filename="MNfavicon-96x96.png", alt_text="LawHelpMN") 
 ---
 sections:
   - review_Application_for_name_change: Review your answers
