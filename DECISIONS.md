@@ -22,3 +22,13 @@ Preserve wet signatures, initials, execution dates, and witness/notary attestati
 ## Restore the LawHelpMN asset
 
 Reuse the same `MNfavicon-96x96.png` already supplied in Amanda’s Health Care Directive package. Both interviews referenced that exact filename but omitted it. This restores the existing intended branding without introducing a new logo or changing the interview’s theme.
+
+## Consistent help links — 2026-10-04
+
+Use the verified matching LawHelpMN resource, [Name Change - Minnesota Court Forms and Information](https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information), in publishing metadata, the introduction, the download screen, and printable next steps. Keep direct court/statutory sources for form requirements. Name Change’s matching resource is a court-forms directory, not an Education for Justice fact sheet. No claim of LHI feature parity is made.
+
+## Repair conditional gathering and output
+
+Ask about marriage and minor children before gathering people. Gather actual children instead of unconditionally requesting five birthdates. List a spouse even when not applying, as the printed form requires, but collect signature/contact details only for an included spouse. Derive the mutually exclusive criminal-history checkboxes from one answer. Split felony rows and requested child names into smaller screens. Guard dormant PDF mappings so editing a branch to No cannot print retained answers. Correct the city/state/ZIP field to address.line_two(). Remove arbitrary short name limits.
+
+Preserve the supplied NAM102 (Rev 7/23) pending current-packet comparison; this package produces an application, not a complete filing packet. The five-row paper limits currently use an explicit extra-sheet instruction. Narrative scenarios will expose remaining review/overflow/usability gaps.

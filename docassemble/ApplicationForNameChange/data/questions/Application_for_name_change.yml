@@ -1,29 +1,25 @@
 ---
 include:
-  - docassemble.AssemblyLine:assembly_line.yml
+- docassemble.AssemblyLine:assembly_line.yml
 ---
 metadata:
-  title: >-
-    Application for name change
-  short title: >-
-    Apply for a name change
-  description: |-
-    This interview helps someone in Minnesota ask the court to change their name and the names of their spouse and children.
-#  tags:
-#    - "FA-11-00-00-00"
-#    - "GO-00-00-00-00"
+  title: Application for name change
+  short title: Apply for a name change
+  description: This interview helps someone in Minnesota ask the court to change their name and the names
+    of their spouse and children.
   authors:
-    - Coleman Silver
+  - Coleman Silver
   original_form:
-    - https://www.mncourts.gov/GetForms.aspx?c=27
-  help_page_url: >-
-    https://www.mncourts.gov/Help-Topics/Name-Change.aspx
-  help_page_title: >-
-    Name Change FAQ
+  - https://www.mncourts.gov/GetForms.aspx?c=27
+  help_page_url: https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information
+  help_page_title: Name Change - Minnesota Court Forms and Information
   allowed_courts: []
-  typical_role: "na"
-  al_weaver_version: "1.10.3"
-  generated_on: "2024-02-28"
+  typical_role: na
+  al_weaver_version: 1.10.3
+  generated_on: '2024-02-28'
+  jurisdiction: NAM-US-US+MN
+  maturity: testing
+  unlisted: true
 ---
 code: |
   # This controls the default country and list of states in address field questions
@@ -36,82 +32,84 @@ code: |
 code: |
   github_repo_name =  'docassemble-ApplicationForNameChange'
 ---
-code: |
-  interview_short_title = "Ask the court to change your name and your spouse and children names"
+template: interview_short_title
+content: |
+  Apply for a Minnesota name change
 ---
 code: |
-  al_form_type = "other" 
+  al_form_type = "other_form"
 ---
 objects:
-  - users: ALPeopleList.using(ask_number=True,target_number=1)
-  - al_logo: DAStaticFile.using(filename="MNfavicon-96x96.png", alt_text="LawHelpMN") 
+- users: ALPeopleList.using(ask_number=True,target_number=1)
+- al_logo: DAStaticFile.using(filename="MNfavicon-96x96.png", alt_text="LawHelpMN")
+- spouses: ALPeopleList.using(there_are_any=True, target_number=1)
+- children: ALPeopleList.using(there_are_any=True, complete_attribute="complete")
 ---
 sections:
-  - review_Application_for_name_change: Review your answers
+- review_Application_for_name_change: Review your answers
 ---
-#################### Interview order #####################
-comment: |
-  Controls order and branching logic for questions specific to this form
-id: interview_order_Application_for_name_change
 code: |
-  # Set the allowed courts for this interview
-  allowed_courts = []
-  nav.set_section("review_Application_for_name_change")
-  user_role = "na"
-  user_ask_role = "na"
-  users.gather()
-  set_parts(subtitle=str(users))
-  users[0].birthdate
-  users[0].address.address
-  users[0].phone_number
-  users[0].email
-  set_progress(14)
-  interpreter_request
-  district_court_county
-  docket_number
-  users1_name_first_change
-  request_for_applicant_name_change_on_birth_record
-  set_progress(28)
-  spouses.gather()
-  not_married
-  spouses[0].birthdate
-  spouses[0].address.address
-  spouses[0].phone_number
-  set_progress(42)
-  spouses[0].email
-  children.gather()
-  children[0].birthdate
-  children[1].birthdate
-  children[2].birthdate
-  set_progress(56)
-  children[3].birthdate
-  children[4].birthdate
-  no_minor_children
-  no_nonapplicant_parent
-  no_parties_have_criminal_history
-  set_progress(70)
-  applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
-  county_and_state_where_signed
-  interview_order_Application_for_name_change = True
+  children[i].name.first
+  children[i].birthdate
+  children[i].complete = True
 ---
-###################### Main order ######################
 comment: |
   This block includes the logic for standalone interviews.
   Delete mandatory: True to include in another interview
-mandatory: True
+mandatory: true
 code: |
   al_intro_screen
   Application_for_name_change_intro
-  interview_order_Application_for_name_change
-  signature_date
-  # Store anonymous data for analytics / statistics
-  store_variables_snapshot(
-      persistent=True,
-      data={
-          "zip": showifdef("users[0].address.zip"),
-          "reached_interview_end": True,
-      },
-  )
+  user_role = "na"
+  user_ask_role = "na"
+  users.gather()
+  users[0].birthdate
+  users[0].address.address
+  users[0].address.county
+  users[0].phone_number
+  users[0].email
+  interpreter_request
+  district_court_county
+  request_for_applicant_name_change
+  request_for_applicant_name_change_on_birth_record
+  request_sex_change_on_birth_record
+  replacement_birth_record
+  not_married
+  if not not_married:
+    spouses.gather()
+    spouses[0].birthdate
+    if application_includes_spouse == "yes_includes_spouse":
+      request_applicant_spouse_name_change
+      spouses[0].address.address
+      spouses[0].phone_number
+      spouses[0].email
+  no_minor_children
+  if not no_minor_children:
+    children.gather()
+    if children.number_gathered() > 5:
+      children_extra_sheet
+    minor_children_listed_not_included_in_application
+    if minor_children_listed_not_included_in_application == "minor_children_included_yes":
+      request_childrens_name_change
+      if request_childrens_name_change:
+        for index in range(min(children.number_gathered(), 5)):
+          value("children" + str(index + 1) + "_name_first_change")
+  no_nonapplicant_parent = no_minor_children or minor_children_listed_not_included_in_application != "minor_children_included_yes"
+  if not no_nonapplicant_parent:
+    parents_nonapplicant_unknown
+  parties_have_criminal_history
+  no_parties_have_criminal_history = not parties_have_criminal_history
+  if parties_have_criminal_history:
+    criminal_history
+    parties_with_criminal_history
+    if parties_with_criminal_history:
+      felony_count
+      for index in range(felony_count):
+        value("party" + str(index + 1) + "_with_offense")
+  applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
+  users1_involved_in_victim_or_witness_protection
+  users1_other_statements
+  county_and_state_where_signed
   Application_for_name_change_download
 ---
 comment: |
@@ -121,652 +119,457 @@ continue button field: Application_for_name_change_intro
 question: |
   Application for name change
 subquestion: |
-  This interview will help you ask the court to change your name and your spouse and children names.
-  
-  Before you get started, please gather:
-  
-  1. All current names which you would like to be changed, including your own, your spouse, and your children; 
-  2.  All the new names which you will apply to be changed, including your new name, your spouse's new name, and your children's new names;
-  3.  All criminal history for any person you are including in this form to have their name changed, including:
-  (3a) the name of the person who has been convicted of a felony,
-  (3b) the name of the offense which that person was convicted,
-  (3c) the date the offense was committed, and 
-  (3d) the state in which the offense was committed.
-  
-  When you are finished, you will need to:
-  
-  1. All persons who you are applying to have names changed must sign the form; 
-  2. The form must be filed with the court. 
-  
-  Most people take about 30 minutes to finish this interview.
+  Prepare an Application for Name Change and Other Relief (NAM102).
+  You can include a spouse or minor children. Gather current names, dates of birth,
+  requested names, and any criminal history or Minnesota property interests.
+
+  This interview prepares the application, not every document you may need to file.
+  Read the [court instructions](https://mncourts.gov/help-topics/name-change)
+  for additional forms, notice requirements, and the hearing.
+
+  The application states that everyone requesting a name change has lived in Minnesota
+  for at least six months. Get help before signing if that statement is not true.
+
+  Read [Name Change - Minnesota Court Forms and Information](https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information) on LawHelpMN for more information.
 ---
 id: Interpreter
-question: |
-  Interpreter
-subquestion: |
-  Specify whether you need to request an interpreter and what language the interpreter must speak
+question: Do you need an interpreter?
 fields:
-  - "Request an interpreter": interpreter_request
-    datatype: yesno
-  - "Language for the requested interpreter": interpreter_language
-    maxlength: 35
+- Request an interpreter: interpreter_request
+  datatype: yesnoradio
+- Language for the requested interpreter: interpreter_language
+  show if: interpreter_request
 ---
 id: Court Information
-question: |
-  Court Information
-subquestion: |
-  Specify information about the court where you will file the application
+question: Where will you file?
 fields:
-  - "District court county where you will file this application": district_court_county
-    maxlength: 27
-  - "Judicial district where you will file this application": judicial_district
-    maxlength: 23
+- District court county where you will file this application: district_court_county
+- Judicial district where you will file this application: judicial_district
+- Court file number, if you have one: docket_number
+  required: false
 ---
 id: Requesting your name change
-question: |
-  Requesting your name change
-subquestion: |
-  Specify what parts of your name you are requesting to change
+question: What name are you requesting?
+subquestion: Enter the full name you want, including any parts that will stay the same.
 fields:
-  - "Change your first name to:": users1_name_first_change
-    maxlength: 11
-  - "Change your middle name to:": users1_name_middle_change
-    maxlength: 11
-  - "Change your last name to:": users1_name_last_change
-    maxlength: 10
-  - "You are requesting your own name be changed": request_for_applicant_name_change
-    datatype: yesno
+- Are you asking to change your name?: request_for_applicant_name_change
+  datatype: yesnoradio
+- 'Change your first name to:': users1_name_first_change
+  show if: request_for_applicant_name_change
+- 'Change your middle name to:': users1_name_middle_change
+  required: false
+  show if: request_for_applicant_name_change
+- 'Change your last name to:': users1_name_last_change
+  show if: request_for_applicant_name_change
 ---
 id: Birth Record
-question: |
-  Birth Record
-subquestion: |
-  Specify whether you are requesting your name be changed on the official birth record, what you would like your birth record name changed to, whether you would like your birth record replaced, and whether to keep that information confidential
+question: Do you want to change your name on your birth record?
+subquestion: The requested name must match your current name or the new name you are requesting.
 fields:
-  - "You are requesting your own name be changed on your official birth record": request_for_applicant_name_change_on_birth_record
-    datatype: yesno
-  - "Change your birth record first name to:": users1_name_first_change_birth_record
-    maxlength: 44
-  - "Change your birth record middle name to:": users1_name_middle_change_birth_record
-    maxlength: 44
-  - "Change your birth record last name to:": users1_name_last_change_birth_record
-    maxlength: 44
-  - "Request sex change on your birth record": request_sex_change_on_birth_record
-    datatype: yesno
-  - "You current sex": sex_current
-    maxlength: 13
-  - "Change your sex to": sex_change
-    maxlength: 15
-  - "Request to have the Minnesota Department of Health issue and register a replacement birth record": replacement_birth_record
-    datatype: yesno
-  - "Request the prior birth record be kept confidential and the replacement birth record not to include any reference to your name": keep_former_name_confidential
-    datatype: yesno
-  - "Request the prior birth record be kept confidential and the replacement birth record not to include any reference to your sex": keep_former_sex_confidential
-    datatype: yesno
+- You are requesting your own name be changed on your official birth record: request_for_applicant_name_change_on_birth_record
+  datatype: yesnoradio
+- 'Change your birth record first name to:': users1_name_first_change_birth_record
+  show if: request_for_applicant_name_change_on_birth_record
+- 'Change your birth record middle name to:': users1_name_middle_change_birth_record
+  required: false
+  show if: request_for_applicant_name_change_on_birth_record
+- 'Change your birth record last name to:': users1_name_last_change_birth_record
+  show if: request_for_applicant_name_change_on_birth_record
+---
+id: birth record sex
+question: Do you want to change the sex listed on your birth record?
+fields:
+- Request sex change on your birth record: request_sex_change_on_birth_record
+  datatype: yesnoradio
+- You current sex: sex_current
+  show if: request_sex_change_on_birth_record
+- Change your sex to: sex_change
+  show if: request_sex_change_on_birth_record
+---
+id: replacement birth record
+question: Do you want a replacement birth record?
+fields:
+- Ask for a replacement birth record: replacement_birth_record
+  datatype: yesnoradio
+  help: Ask the Minnesota Department of Health to issue and register a replacement birth record.
+- ? Request the prior birth record be kept confidential and the replacement birth record not to include
+    any reference to your name
+  : keep_former_name_confidential
+  datatype: yesnoradio
+  show if: replacement_birth_record
+- ? Request the prior birth record be kept confidential and the replacement birth record not to include
+    any reference to your sex
+  : keep_former_sex_confidential
+  datatype: yesnoradio
+  show if: replacement_birth_record
 ---
 id: Spouse Information
-question: |
-  Spouse Information
-subquestion: |
-  Specify whether you have a spouse and whether you are requesting your spouse's name be changed
+question: Are you married?
 fields:
-  - "You are not married": not_married
-    datatype: yesno
-  - "This application includes your spouse": application_includes_spouse
-    input type: radio
-    choices:
-      - Yes includes spouse: yes_includes_spouse
-      - No includes spouse: no_includes_spouse
-  - "Request your spouse's name be changed": request_applicant_spouse_name_change
-    datatype: yesno
-  - "Change your spouse's first name to:": spouses_name_first_change
-    maxlength: 44
-  - "Change your Spouse's middle name to:": spouses_name_middle_change
-    maxlength: 44
-  - "Change your Spouse's last name to:": spouses_name_last_change
-    maxlength: 44
+- Are you married?: not_married
+  datatype: radio
+  choices:
+  - 'Yes': false
+  - 'No': true
+- Include your spouse in this application?: application_includes_spouse
+  input type: radio
+  choices:
+  - 'Yes': yes_includes_spouse
+  - 'No': no_includes_spouse
+  show if:
+    variable: not_married
+    is: false
+---
+id: spouse requested name
+question: What name is your spouse requesting?
+fields:
+- Request your spouse's name be changed: request_applicant_spouse_name_change
+  datatype: yesnoradio
+- 'Change your spouse''s first name to:': spouses_name_first_change
+  show if: request_applicant_spouse_name_change
+- 'Change your Spouse''s middle name to:': spouses_name_middle_change
+  required: false
+  show if: request_applicant_spouse_name_change
+- 'Change your Spouse''s last name to:': spouses_name_last_change
+  show if: request_applicant_spouse_name_change
 ---
 id: Children Information
-question: |
-  Children Information
-subquestion: |
-  Specify whether you have any minor children, and whether you will be requesting any of their names be changed
+question: Do you have minor children?
 fields:
-  - "You do not have any minor children": no_minor_children
-    datatype: yesno
-  - "The minor children you listed are included in application": minor_children_listed_not_included_in_application
-    input type: radio
-    choices:
-      - Minor children included yes: minor_children_included_yes
-      - Minor children included no: minor_children_included_no
-  - "List the names of the minor children you listed who are included in this application": minor_children_included_names
-    input type: area
-  - "Request your children's names be changed": request_childrens_name_change
-    datatype: yesno
-  - "Change the first name of your first listed child to:": children1_name_first_change
-    maxlength: 44
-  - "Change the middle name of your first listed child to:": children1_name_middle_change
-    maxlength: 44
-  - "Change the last name of your first listed child to:": children1_name_last_change
-    maxlength: 44
-  - "Change the first name of your second listed child to:": children2_name_first_change
-    maxlength: 44
-  - "Change the middle name of your second listed child to:": children2_name_middle_change
-    maxlength: 44
-  - "Change the last name of your second listed child to:": children2_name_last_change
-    maxlength: 44
-  - "Change the first name of your third listed child to:": children3_name_first_change
-    maxlength: 44
-  - "Change the middle name of your third listed child to:": children3_name_middle_change
-    maxlength: 44
-  - "Change the last name of your third listed child to:": children3_name_last_change
-    maxlength: 44
-  - "Change the first name of your fourth listed child to:": children4_name_first_change
-    maxlength: 44
-  - "Change the middle name of your fourth listed child to:": children4_name_middle_change
-    maxlength: 44
-  - "Change the last name of your fourth listed child to:": children4_name_last_change
-    maxlength: 44
-  - "Change the first name of your fifth listed child to:": children5_name_first_change
-    maxlength: 44
-  - "Change the middle name of your fifth listed child to:": children5_name_middle_change
-    maxlength: 44
-  - "Change the last name of your fifth listed child to:": children5_name_last_change
-    maxlength: 44
+- Do you have any minor children?: no_minor_children
+  datatype: radio
+  choices:
+  - 'Yes': false
+  - 'No': true
+---
+id: children extra sheet reminder
+question: Add an extra sheet for additional children
+subquestion: This application has five rows. List additional children and any requested name changes on
+  an extra sheet.
+continue button field: children_extra_sheet
+---
+id: children included
+question: Are any of your children applying with you?
+fields:
+- Include any minor children in this application?: minor_children_listed_not_included_in_application
+  input type: radio
+  choices:
+  - 'Yes': minor_children_included_yes
+  - 'No': minor_children_included_no
+- Names of the children included in this application: minor_children_included_names
+  input type: area
+  show if:
+    variable: minor_children_listed_not_included_in_application
+    is: minor_children_included_yes
+---
+id: children request
+question: Are you asking to change your children’s names?
+fields:
+- Request your children's names be changed: request_childrens_name_change
+  datatype: yesnoradio
+---
+id: child 1 requested name
+question: What name are you requesting for ${ children[0] }?
+subquestion: Leave all three fields blank if this child is not requesting a name change.
+fields:
+- 'Change the first name of your first listed child to:': children1_name_first_change
+  required: false
+- 'Change the middle name of your first listed child to:': children1_name_middle_change
+  required: false
+- 'Change the last name of your first listed child to:': children1_name_last_change
+  required: false
+---
+id: child 2 requested name
+question: What name are you requesting for ${ children[1] }?
+subquestion: Leave all three fields blank if this child is not requesting a name change.
+fields:
+- 'Change the first name of your second listed child to:': children2_name_first_change
+  required: false
+- 'Change the middle name of your second listed child to:': children2_name_middle_change
+  required: false
+- 'Change the last name of your second listed child to:': children2_name_last_change
+  required: false
+---
+id: child 3 requested name
+question: What name are you requesting for ${ children[2] }?
+subquestion: Leave all three fields blank if this child is not requesting a name change.
+fields:
+- 'Change the first name of your third listed child to:': children3_name_first_change
+  required: false
+- 'Change the middle name of your third listed child to:': children3_name_middle_change
+  required: false
+- 'Change the last name of your third listed child to:': children3_name_last_change
+  required: false
+---
+id: child 4 requested name
+question: What name are you requesting for ${ children[3] }?
+subquestion: Leave all three fields blank if this child is not requesting a name change.
+fields:
+- 'Change the first name of your fourth listed child to:': children4_name_first_change
+  required: false
+- 'Change the middle name of your fourth listed child to:': children4_name_middle_change
+  required: false
+- 'Change the last name of your fourth listed child to:': children4_name_last_change
+  required: false
+---
+id: child 5 requested name
+question: What name are you requesting for ${ children[4] }?
+subquestion: Leave all three fields blank if this child is not requesting a name change.
+fields:
+- 'Change the first name of your fifth listed child to:': children5_name_first_change
+  required: false
+- 'Change the middle name of your fifth listed child to:': children5_name_middle_change
+  required: false
+- 'Change the last name of your fifth listed child to:': children5_name_last_change
+  required: false
 ---
 id: Non Applicant Parent Information
-question: |
-  Non-Applicant Parent Information
-subquestion: |
-  Specify whether there is a non-applicant parent to the minor children you have listed
+question: Tell us about the parent who is not applying
+subquestion: Use an extra sheet if children have different non-applicant parents.
 fields:
-  - "There is no non-applicant parent": no_nonapplicant_parent
-    datatype: yesno
-  - "First name of the non-applicant parent": parents_nonapplicant_name_first
-    maxlength: 62
-  - "Middle name of the non-applicant parent": parents_nonapplicant_name_middle
-    maxlength: 60
-  - "Last name of the non-applicant parent": parents_nonapplicant_name_last
-    maxlength: 62
-  - "Street address of the non-applicant parent": parents_nonapplicant_address_address
-    maxlength: 59
-  - "City, state, and zipcode of the non-applicant parent": parents_nonapplicant_city_state_zip
-    maxlength: 59
-  - "The non-applicant parent is not known, and the non-applicant parent's name is not shown on the child's birth certificate": parents_nonapplicant_unknown
-    datatype: yesno
+- Is the other parent unknown and absent from the birth certificate?: parents_nonapplicant_unknown
+  datatype: yesnoradio
+  help: Choose Yes only if the parent is unknown and their name is not on the child’s birth certificate.
+- First name of the non-applicant parent: parents_nonapplicant_name_first
+  show if:
+    variable: parents_nonapplicant_unknown
+    is: false
+- Middle name of the non-applicant parent: parents_nonapplicant_name_middle
+  required: false
+  show if:
+    variable: parents_nonapplicant_unknown
+    is: false
+- Last name of the non-applicant parent: parents_nonapplicant_name_last
+  show if:
+    variable: parents_nonapplicant_unknown
+    is: false
+- Street address of the non-applicant parent: parents_nonapplicant_address_address
+  show if:
+    variable: parents_nonapplicant_unknown
+    is: false
+- City, state, and zipcode of the non-applicant parent: parents_nonapplicant_city_state_zip
+  show if:
+    variable: parents_nonapplicant_unknown
+    is: false
 ---
 id: Criminal History
-question: |
-  Criminal History
-subquestion: |
-  State whether anyone you have included in this application have a criminal history, and specify which parties have been convicted of felonies
+question: Does anyone applying have a criminal history?
 fields:
-  - "No parties applying for a name change in this application have a criminal history": no_parties_have_criminal_history
-    datatype: yesno
-  - "One or more parties applying for a name change in this application have a criminal history": parties_have_criminal_history
-    datatype: yesno
-  - "The parties in this application with a criminal history include:": criminal_history
-    input type: area
-  - "One or more parties included in this application have been convicted of a felony": parties_with_criminal_history
-    datatype: yesno
-  - "Name of the first party with an offense": party1_with_offense
-    maxlength: 21
-  - "Name of the offense which the first party committed": party1_name_of_offense
-    maxlength: 21
-  - "Date of the offense which the first party committed": party1_date_of_offense
-    maxlength: 11
-  - "State where the first party committed the offense": party1_state_of_offense
-    maxlength: 11
-  - "Name of the second party with an offense": party2_with_offense
-    maxlength: 21
-  - "Name of the offense which the second party committed": party2_name_of_offense
-    maxlength: 21
-  - "Date of the offense which the second party committed": party2_date_of_offense
-    maxlength: 11
-  - "State in which the second party committed the offense": party2_state_of_offense
-    maxlength: 11
-  - "Name of the third party with an offense": party3_with_offense
-    maxlength: 21
-  - "Name of the offense which the third party committed": party3_name_of_offense
-    maxlength: 21
-  - "Date of the offense which the third party committed": party3_date_of_offense
-    maxlength: 11
-  - "State in which the third party committed the offense": party3_state_of_offense
-    maxlength: 11
-  - "Name of the fourth party with an offense": party4_with_offense
-    maxlength: 21
-  - "Name of the offense which the fourth party committed": party4_name_of_offense
-    maxlength: 21
-  - "Date of the offense which the fourth party committed": party4_date_of_offense
-    maxlength: 11
-  - "State in which the fourth party committed the offense": party4_state_of_offense
-    maxlength: 11
-  - "Name of the fifth party with an offense": party5_with_offense
-    maxlength: 21
-  - "Name of the offense which the fifth party committed": party5_name_of_offense
-    maxlength: 21
-  - "Date of the offense which the fifth party committed": party5_date_of_offense
-    maxlength: 11
-  - "State in which the fifth party committed the offense": party5_state_of_offense
-    maxlength: 11
+- One or more parties applying for a name change in this application have a criminal history: parties_have_criminal_history
+  datatype: yesnoradio
+---
+id: criminal history details
+question: Tell us about the criminal history
+fields:
+- 'The parties in this application with a criminal history include:': criminal_history
+  input type: area
+- One or more parties included in this application have been convicted of a felony: parties_with_criminal_history
+  datatype: yesnoradio
+---
+id: felony count
+question: How many felony offenses do you need to list?
+subquestion: This form has five rows. If you need more, list the remaining offenses on an extra sheet.
+fields:
+- Number of rows to fill: felony_count
+  datatype: integer
+  min: 1
+  max: 5
+---
+id: felony 1
+question: Tell us about felony offense 1
+fields:
+- Name of the first party with an offense: party1_with_offense
+- Name of the offense which the first party committed: party1_name_of_offense
+- Date of the offense which the first party committed: party1_date_of_offense
+- State where the first party committed the offense: party1_state_of_offense
+---
+id: felony 2
+question: Tell us about felony offense 2
+fields:
+- Name of the second party with an offense: party2_with_offense
+- Name of the offense which the second party committed: party2_name_of_offense
+- Date of the offense which the second party committed: party2_date_of_offense
+- State in which the second party committed the offense: party2_state_of_offense
+---
+id: felony 3
+question: Tell us about felony offense 3
+fields:
+- Name of the third party with an offense: party3_with_offense
+- Name of the offense which the third party committed: party3_name_of_offense
+- Date of the offense which the third party committed: party3_date_of_offense
+- State in which the third party committed the offense: party3_state_of_offense
+---
+id: felony 4
+question: Tell us about felony offense 4
+fields:
+- Name of the fourth party with an offense: party4_with_offense
+- Name of the offense which the fourth party committed: party4_name_of_offense
+- Date of the offense which the fourth party committed: party4_date_of_offense
+- State in which the fourth party committed the offense: party4_state_of_offense
+---
+id: felony 5
+question: Tell us about felony offense 5
+fields:
+- Name of the fifth party with an offense: party5_with_offense
+- Name of the offense which the fifth party committed: party5_name_of_offense
+- Date of the offense which the fifth party committed: party5_date_of_offense
+- State in which the fifth party committed the offense: party5_state_of_offense
 ---
 id: Other Relevant Information
-question: |
-  Other Relevant Information
-subquestion: |
-  Specify whether you or anyone you have included in this application meet the following categories
+question: Does anyone applying have an interest in Minnesota land?
 fields:
-  - "Do you, your spouse, or your children included in this application have a claim, interest, or lien in or on land inMinnesota?": applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
-    input type: radio
-    choices:
-      - Parties have claim interest or lien: parties_have_claim_interest_or_lien
-      - Parties do not have claim interest or lien: parties_do_not_have_claim_interest_or_lien
-  - "Give the name of the person with the claim, interest, or lien, and a legal description": name_of_person_and_description_of_person_with_claim_interest_or_lien
-    input type: area
-  - "You are currently involved in a victim or witness protection program": users1_involved_in_victim_or_witness_protection
-    datatype: yesno
-  - "You are an an inmate in a correctional facility and submitting the Inmate Affidavit for Name Change": users1_inmate_in_correctional_facility_and_submitting_inmate_aff
-    datatype: yesno
-  - "You are divorced and seeking to change your name to the legal name on your birth certificate and are submitting a certified copy of the Certification of Dissolution or equivalent court order ending the marriage and a certified copy of the your birth certificate. (No criminal history is required pursuant to Minn. Stat. § 259.11(b) and (c)(3))": users1_divorced_seeking_change_to_legal_name_on_birth_certificate
-    datatype: yesno
-  - "Other information which you think should be given to the court:": users1_other_statements
-    input type: area
+- Does anyone applying have a claim, interest, or lien in Minnesota land?: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
+  input type: radio
+  choices:
+  - 'Yes': parties_have_claim_interest_or_lien
+  - 'No': parties_do_not_have_claim_interest_or_lien
+- Give the name of the person with the claim, interest, or lien, and a legal description: name_of_person_and_description_of_person_with_claim_interest_or_lien
+  input type: area
+  show if:
+    variable: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
+    is: parties_have_claim_interest_or_lien
+---
+id: additional circumstances
+question: Do any of these statements apply to you?
+fields:
+- You are currently involved in a victim or witness protection program: users1_involved_in_victim_or_witness_protection
+  datatype: yesnoradio
+- Are you in a correctional facility and submitting an Inmate Affidavit for Name Change?: users1_inmate_in_correctional_facility_and_submitting_inmate_aff
+  datatype: yesnoradio
+- Are you using the divorce exception described below?: users1_divorced_seeking_change_to_legal_name_on_birth_certificate
+  datatype: yesnoradio
+  help: Choose Yes only if you are divorced and want the legal name on your birth certificate. You must
+    submit certified copies of your dissolution document and birth certificate. Review NAM101 for the
+    exception under Minn. Stat. § 259.11.
+---
+id: other statements
+question: Is there anything else you want the court to know?
+fields:
+- 'Other information which you think should be given to the court:': users1_other_statements
+  input type: area
+  required: false
 ---
 id: Signatures
-question: |
-  Signatures
-subquestion: |
-  State where the application is going to be signed, and if there is a minor child who is fourteen years or older, their name (children fourteen years or older are required to sign this form)
+question: Information for signing
+subquestion: You may leave these fields blank to fill in when signing. Review the court instructions about
+  who must sign.
 fields:
-  - "County and state where signed": county_and_state_where_signed
-    maxlength: 24
-  - "Name of any minor (if fourteen years or older) who will sign this form:": minor_fourteen_years_old_name_full
-    maxlength: 43
+- County and state where signed: county_and_state_where_signed
+  required: false
+- 'Name of any minor (if fourteen years or older) who will sign this form:': minor_fourteen_years_old_name_full
+  required: false
 ---
 id: preview Application_for_name_change
 question: |
   Preview your form before you sign it
-subquestion: |
-  Here is a preview of the form you will sign on the next page.   
-  
-  ${ al_court_bundle.as_pdf(key='preview') }
-
-  Click the image to open it in a new tab. Click the "Edit answers" button
-  to edit your answers.
-
-  ${ action_button_html(url_action('review_Application_for_name_change'), label='Edit answers', color='info') }
-  
-  Remember to come back to this window to continue and sign your form.
-continue button field: Application_for_name_change_preview_question    
+subquestion: "Here is a preview of the form you will sign on the next page.   \n\n${ al_court_bundle.as_pdf(key='preview')\
+  \ }\n\nClick the image to open it in a new tab. Click the \"Edit answers\" button\nto edit your answers.\n\
+  \n${ action_button_html(url_action('review_Application_for_name_change'), label='Edit answers', color='info')\
+  \ }\n\nRemember to come back to this window to continue and sign your form.\n"
+continue button field: Application_for_name_change_preview_question
 ---
 code: |
   signature_fields = []
 ---
-code: |
-  # This is a placeholder for the addresses that will be searched
-  # for matching address to court. Edit if court venue is based on 
-  # a different address than the user's
-  [user.address.address for user in users.complete_elements()]
-  addresses_to_search = [user.address for user in users.complete_elements()]
+code: "# This is a placeholder for the addresses that will be searched\n# for matching address to court.\
+  \ Edit if court venue is based on \n# a different address than the user's\n[user.address.address for\
+  \ user in users.complete_elements()]\naddresses_to_search = [user.address for user in users.complete_elements()]\n"
 ---
 id: Application for name change review screen
 event: review_Application_for_name_change
 question: |
   Review your answers
 review:
-  - Edit: district_court_county
-    button: |
-      **District court county where you will file this application**:
-      ${ district_court_county }
-  - Edit: docket_number
-    button: |
-      **Docket number**:
-      ${ docket_number }
-  - Edit: judicial_district
-    button: |
-      **Judicial district where you will file this application**:
-      ${ judicial_district }
-  - Edit: interpreter_request
-    button: |
-      **Request an interpreter**:
-      ${ word(yesno(interpreter_request)) }
-  - Edit: interpreter_language
-    button: |
-      **Language for the requested interpreter**:
-      ${ interpreter_language }
-  - Edit: users.revisit
-    button: |
-      **Users**
-
-      % for item in users:
-        * ${ item }
-      % endfor
-  - Edit: users1_name_first_change
-    button: |
-      **Change your first name to:**:
-      ${ users1_name_first_change }
-  - Edit: users1_name_middle_change
-    button: |
-      **Change your middle name to:**:
-      ${ users1_name_middle_change }
-  - Edit: users1_name_last_change
-    button: |
-      **Change your last name to:**:
-      ${ users1_name_last_change }
-  - Edit: not_married
-    button: |
-      **You are not married**:
-      ${ word(yesno(not_married)) }
-  - Edit: spouses.revisit
-    button: |
-      **Spouses**
-
-      % for item in spouses:
-        * ${ item }
-      % endfor
-  - Edit: application_includes_spouse
-    button: |
-      **This application includes your spouse**:
-      ${ application_includes_spouse }
-  - Edit: no_minor_children
-    button: |
-      **You do not have any minor children**:
-      ${ word(yesno(no_minor_children)) }
-  - Edit: children.revisit
-    button: |
-      **Children**
-
-      % for item in children:
-        * ${ item }
-      % endfor
-  - Edit: minor_children_listed_not_included_in_application
-    button: |
-      **The minor children you listed are included in application**:
-      ${ minor_children_listed_not_included_in_application }
-  - Edit: minor_children_included_names
-    button: |
-      **List the names of the minor children you listed who are included in this application**:
-      > ${ single_paragraph(minor_children_included_names) }
-  - Edit: no_nonapplicant_parent
-    button: |
-      **There is no non-applicant parent**:
-      ${ word(yesno(no_nonapplicant_parent)) }
-  - Edit: parents_nonapplicant_name_first
-    button: |
-      **First name of the non-applicant parent**:
-      ${ parents_nonapplicant_name_first }
-  - Edit: parents_nonapplicant_name_middle
-    button: |
-      **Middle name of the non-applicant parent**:
-      ${ parents_nonapplicant_name_middle }
-  - Edit: parents_nonapplicant_name_last
-    button: |
-      **Last name of the non-applicant parent**:
-      ${ parents_nonapplicant_name_last }
-  - Edit: parents_nonapplicant_address_address
-    button: |
-      **Street address of the non-applicant parent**:
-      ${ parents_nonapplicant_address_address }
-  - Edit: parents_nonapplicant_city_state_zip
-    button: |
-      **City, state, and zipcode of the non-applicant parent**:
-      ${ parents_nonapplicant_city_state_zip }
-  - Edit: parents_nonapplicant_unknown
-    button: |
-      **The non-applicant parent is not known, and the non-applicant parent's name is not shown on the child's birth certificate**:
-      ${ word(yesno(parents_nonapplicant_unknown)) }
-  - Edit: request_for_applicant_name_change
-    button: |
-      **You are requesting your own name be changed**:
-      ${ word(yesno(request_for_applicant_name_change)) }
-  - Edit: request_for_applicant_name_change_on_birth_record
-    button: |
-      **You are requesting your own name be changed on your official birth record**:
-      ${ word(yesno(request_for_applicant_name_change_on_birth_record)) }
-  - Edit: users1_name_first_change_birth_record
-    button: |
-      **Change your birth record first name to:**:
-      ${ users1_name_first_change_birth_record }
-  - Edit: users1_name_middle_change_birth_record
-    button: |
-      **Change your birth record middle name to:**:
-      ${ users1_name_middle_change_birth_record }
-  - Edit: users1_name_last_change_birth_record
-    button: |
-      **Change your birth record last name to:**:
-      ${ users1_name_last_change_birth_record }
-  - Edit: request_sex_change_on_birth_record
-    button: |
-      **Request sex change on your birth record**:
-      ${ word(yesno(request_sex_change_on_birth_record)) }
-  - Edit: sex_current
-    button: |
-      **You current sex**:
-      ${ sex_current }
-  - Edit: sex_change
-    button: |
-      **Change your sex to**:
-      ${ sex_change }
-  - Edit: replacement_birth_record
-    button: |
-      **Request to have the Minnesota Department of Health issue and register a replacement birth record**:
-      ${ word(yesno(replacement_birth_record)) }
-  - Edit: keep_former_name_confidential
-    button: |
-      **Request the prior birth record be kept confidential and the replacement birth record not to include any reference to your name**:
-      ${ word(yesno(keep_former_name_confidential)) }
-  - Edit: keep_former_sex_confidential
-    button: |
-      **Request the prior birth record be kept confidential and the replacement birth record not to include any reference to your sex**:
-      ${ word(yesno(keep_former_sex_confidential)) }
-  - Edit: request_applicant_spouse_name_change
-    button: |
-      **Request your spouse's name be changed**:
-      ${ word(yesno(request_applicant_spouse_name_change)) }
-  - Edit: spouses_name_first_change
-    button: |
-      **Change your spouse's first name to:**:
-      ${ spouses_name_first_change }
-  - Edit: spouses_name_middle_change
-    button: |
-      **Change your Spouse's middle name to:**:
-      ${ spouses_name_middle_change }
-  - Edit: spouses_name_last_change
-    button: |
-      **Change your Spouse's last name to:**:
-      ${ spouses_name_last_change }
-  - Edit: request_childrens_name_change
-    button: |
-      **Request your children's names be changed**:
-      ${ word(yesno(request_childrens_name_change)) }
-  - Edit: children1_name_first_change
-    button: |
-      **Change the first name of your first listed child to:**:
-      ${ children1_name_first_change }
-  - Edit: children1_name_middle_change
-    button: |
-      **Change the middle name of your first listed child to:**:
-      ${ children1_name_middle_change }
-  - Edit: children1_name_last_change
-    button: |
-      **Change the last name of your first listed child to:**:
-      ${ children1_name_last_change }
-  - Edit: children2_name_first_change
-    button: |
-      **Change the first name of your second listed child to:**:
-      ${ children2_name_first_change }
-  - Edit: children2_name_middle_change
-    button: |
-      **Change the middle name of your second listed child to:**:
-      ${ children2_name_middle_change }
-  - Edit: children2_name_last_change
-    button: |
-      **Change the last name of your second listed child to:**:
-      ${ children2_name_last_change }
-  - Edit: children3_name_first_change
-    button: |
-      **Change the first name of your third listed child to:**:
-      ${ children3_name_first_change }
-  - Edit: children3_name_middle_change
-    button: |
-      **Change the middle name of your third listed child to:**:
-      ${ children3_name_middle_change }
-  - Edit: children3_name_last_change
-    button: |
-      **Change the last name of your third listed child to:**:
-      ${ children3_name_last_change }
-  - Edit: children4_name_first_change
-    button: |
-      **Change the first name of your fourth listed child to:**:
-      ${ children4_name_first_change }
-  - Edit: children4_name_middle_change
-    button: |
-      **Change the middle name of your fourth listed child to:**:
-      ${ children4_name_middle_change }
-  - Edit: children4_name_last_change
-    button: |
-      **Change the last name of your fourth listed child to:**:
-      ${ children4_name_last_change }
-  - Edit: children5_name_first_change
-    button: |
-      **Change the first name of your fifth listed child to:**:
-      ${ children5_name_first_change }
-  - Edit: children5_name_middle_change
-    button: |
-      **Change the middle name of your fifth listed child to:**:
-      ${ children5_name_middle_change }
-  - Edit: children5_name_last_change
-    button: |
-      **Change the last name of your fifth listed child to:**:
-      ${ children5_name_last_change }
-  - Edit: no_parties_have_criminal_history
-    button: |
-      **No parties applying for a name change in this application have a criminal history**:
-      ${ word(yesno(no_parties_have_criminal_history)) }
-  - Edit: parties_have_criminal_history
-    button: |
-      **One or more parties applying for a name change in this application have a criminal history**:
-      ${ word(yesno(parties_have_criminal_history)) }
-  - Edit: criminal_history
-    button: |
-      **The parties in this application with a criminal history include:**:
-      > ${ single_paragraph(criminal_history) }
-  - Edit: parties_with_criminal_history
-    button: |
-      **One or more parties included in this application have been convicted of a felony**:
-      ${ word(yesno(parties_with_criminal_history)) }
-  - Edit: party1_with_offense
-    button: |
-      **Name of the first party with an offense**:
-      ${ party1_with_offense }
-  - Edit: party1_name_of_offense
-    button: |
-      **Name of the offense which the first party committed**:
-      ${ party1_name_of_offense }
-  - Edit: party1_date_of_offense
-    button: |
-      **Date of the offense which the first party committed**:
-      ${ party1_date_of_offense }
-  - Edit: party1_state_of_offense
-    button: |
-      **State where the first party committed the offense**:
-      ${ party1_state_of_offense }
-  - Edit: party2_with_offense
-    button: |
-      **Name of the second party with an offense**:
-      ${ party2_with_offense }
-  - Edit: party2_name_of_offense
-    button: |
-      **Name of the offense which the second party committed**:
-      ${ party2_name_of_offense }
-  - Edit: party2_date_of_offense
-    button: |
-      **Date of the offense which the second party committed**:
-      ${ party2_date_of_offense }
-  - Edit: party2_state_of_offense
-    button: |
-      **State in which the second party committed the offense**:
-      ${ party2_state_of_offense }
-  - Edit: party3_with_offense
-    button: |
-      **Name of the third party with an offense**:
-      ${ party3_with_offense }
-  - Edit: party3_name_of_offense
-    button: |
-      **Name of the offense which the third party committed**:
-      ${ party3_name_of_offense }
-  - Edit: party3_date_of_offense
-    button: |
-      **Date of the offense which the third party committed**:
-      ${ party3_date_of_offense }
-  - Edit: party3_state_of_offense
-    button: |
-      **State in which the third party committed the offense**:
-      ${ party3_state_of_offense }
-  - Edit: party4_with_offense
-    button: |
-      **Name of the fourth party with an offense**:
-      ${ party4_with_offense }
-  - Edit: party4_name_of_offense
-    button: |
-      **Name of the offense which the fourth party committed**:
-      ${ party4_name_of_offense }
-  - Edit: party4_date_of_offense
-    button: |
-      **Date of the offense which the fourth party committed**:
-      ${ party4_date_of_offense }
-  - Edit: party4_state_of_offense
-    button: |
-      **State in which the fourth party committed the offense**:
-      ${ party4_state_of_offense }
-  - Edit: party5_with_offense
-    button: |
-      **Name of the fifth party with an offense**:
-      ${ party5_with_offense }
-  - Edit: party5_name_of_offense
-    button: |
-      **Name of the offense which the fifth party committed**:
-      ${ party5_name_of_offense }
-  - Edit: party5_date_of_offense
-    button: |
-      **Date of the offense which the fifth party committed**:
-      ${ party5_date_of_offense }
-  - Edit: party5_state_of_offense
-    button: |
-      **State in which the fifth party committed the offense**:
-      ${ party5_state_of_offense }
-  - Edit: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
-    button: |
-      **Do you, your spouse, or your children included in this application have a claim, interest, or lien in or on land inMinnesota?**:
-      ${ applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota }
-  - Edit: name_of_person_and_description_of_person_with_claim_interest_or_lien
-    button: |
-      **Give the name of the person with the claim, interest, or lien, and a legal description**:
-      > ${ single_paragraph(name_of_person_and_description_of_person_with_claim_interest_or_lien) }
-  - Edit: users1_involved_in_victim_or_witness_protection
-    button: |
-      **You are currently involved in a victim or witness protection program**:
-      ${ word(yesno(users1_involved_in_victim_or_witness_protection)) }
-  - Edit: users1_inmate_in_correctional_facility_and_submitting_inmate_aff
-    button: |
-      **You are an an inmate in a correctional facility and submitting the Inmate Affidavit for Name Change**:
-      ${ word(yesno(users1_inmate_in_correctional_facility_and_submitting_inmate_aff)) }
-  - Edit: users1_divorced_seeking_change_to_legal_name_on_birth_certificate
-    button: |
-      **You are divorced and seeking to change your name to the legal name on your birth certificate and are submitting a certified copy of the Certification of Dissolution or equivalent court order ending the marriage and a certified copy of the your birth certificate. (No criminal history is required pursuant to Minn. Stat. § 259.11(b) and (c)(3))**:
-      ${ word(yesno(users1_divorced_seeking_change_to_legal_name_on_birth_certificate)) }
-  - Edit: users1_other_statements
-    button: |
-      **Other information which you think should be given to the court:**:
-      > ${ single_paragraph(users1_other_statements) }
-  - Edit: county_and_state_where_signed
-    button: |
-      **County and state where signed**:
-      ${ county_and_state_where_signed }
-  - Edit: minor_fourteen_years_old_name_full
-    button: |
-      **Name of any minor (if fourteen years or older) who will sign this form:**:
-      ${ minor_fourteen_years_old_name_full }
+- Edit: users[0].name.first
+  button: Your name
+- Edit: users[0].birthdate
+  button: Your birthdate
+- Edit: users[0].address.address
+  button: Your address
+- Edit: users[0].address.county
+  button: Your county
+- Edit: district_court_county
+  button: Court information
+- Edit: interpreter_request
+  button: Interpreter
+- Edit: request_for_applicant_name_change
+  button: Requested name
+- Edit: request_for_applicant_name_change_on_birth_record
+  button: Name on birth record
+- Edit: request_sex_change_on_birth_record
+  button: Sex on birth record
+- Edit: replacement_birth_record
+  button: Replacement birth record
+- Edit: not_married
+  button: Marriage and spouse
+- Edit: spouses.revisit
+  button: Spouse details
+  show if: not not_married
+- Edit: request_applicant_spouse_name_change
+  button: Spouse requested name
+  show if: not not_married and application_includes_spouse == "yes_includes_spouse"
+- Edit: no_minor_children
+  button: Minor children
+- Edit: children.revisit
+  button: Children’s details
+  show if: not no_minor_children
+- Edit: minor_children_listed_not_included_in_application
+  button: Children applying
+  show if: not no_minor_children
+- Edit: parents_nonapplicant_unknown
+  button: Non-applicant parent
+  show if: not no_nonapplicant_parent
+- Edit: parties_have_criminal_history
+  button: Criminal history
+- Edit: criminal_history
+  button: Criminal history details
+  show if: parties_have_criminal_history
+- Edit: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
+  button: Minnesota land interests
+- Edit: users1_involved_in_victim_or_witness_protection
+  button: Other circumstances
+- Edit: users1_other_statements
+  button: Other statements
+- Edit: county_and_state_where_signed
+  button: Signing information
+- Edit: children1_name_first_change
+  show if: not no_minor_children and children.number_gathered() > 0 and minor_children_listed_not_included_in_application
+    == "minor_children_included_yes" and request_childrens_name_change
+  button: Child 1 requested name
+- Edit: party1_with_offense
+  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 0
+  button: Felony offense 1
+- Edit: children2_name_first_change
+  show if: not no_minor_children and children.number_gathered() > 1 and minor_children_listed_not_included_in_application
+    == "minor_children_included_yes" and request_childrens_name_change
+  button: Child 2 requested name
+- Edit: party2_with_offense
+  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 1
+  button: Felony offense 2
+- Edit: children3_name_first_change
+  show if: not no_minor_children and children.number_gathered() > 2 and minor_children_listed_not_included_in_application
+    == "minor_children_included_yes" and request_childrens_name_change
+  button: Child 3 requested name
+- Edit: party3_with_offense
+  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 2
+  button: Felony offense 3
+- Edit: children4_name_first_change
+  show if: not no_minor_children and children.number_gathered() > 3 and minor_children_listed_not_included_in_application
+    == "minor_children_included_yes" and request_childrens_name_change
+  button: Child 4 requested name
+- Edit: party4_with_offense
+  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 3
+  button: Felony offense 4
+- Edit: children5_name_first_change
+  show if: not no_minor_children and children.number_gathered() > 4 and minor_children_listed_not_included_in_application
+    == "minor_children_included_yes" and request_childrens_name_change
+  button: Child 5 requested name
+- Edit: party5_with_offense
+  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 4
+  button: Felony offense 5
+- Edit: felony_count
+  show if: parties_have_criminal_history and parties_with_criminal_history
+  button: Number of felony offenses
 ---
 id: edit users
 continue button field: users.revisit
@@ -780,24 +583,23 @@ subquestion: |
 table: users.table
 rows: users
 columns:
-  - Name: |
-      row_item.name.full() if defined("row_item.name.first") else ""
-  - Address: |
-      row_item.address.block() if defined("row_item.address.address") else ""
-  - Birthdate: |
-      row_item.birthdate if defined("row_item.birthdate") else ""
-  - Phone number: |
-      row_item.phone_number if defined("row_item.phone_number") else ""
-  - Email: |
-      row_item.email if defined("row_item.email") else ""
+- Name: |
+    row_item.name.full() if defined("row_item.name.first") else ""
+- Address: |
+    row_item.address.block() if defined("row_item.address.address") else ""
+- Birthdate: |
+    row_item.birthdate if defined("row_item.birthdate") else ""
+- Phone number: |
+    row_item.phone_number if defined("row_item.phone_number") else ""
+- Email: |
+    row_item.email if defined("row_item.email") else ""
 edit:
-  - name.first
-  - address.address
-  - birthdate
-  - phone_number
-  - email
-confirm: True
-
+- name.first
+- address.address
+- birthdate
+- phone_number
+- email
+confirm: true
 ---
 id: edit spouses
 continue button field: spouses.revisit
@@ -811,24 +613,23 @@ subquestion: |
 table: spouses.table
 rows: spouses
 columns:
-  - Name: |
-      row_item.name.full() if defined("row_item.name.first") else ""
-  - Birthdate: |
-      row_item.birthdate if defined("row_item.birthdate") else ""
-  - Address: |
-      row_item.address.block() if defined("row_item.address.address") else ""
-  - Phone number: |
-      row_item.phone_number if defined("row_item.phone_number") else ""
-  - Email: |
-      row_item.email if defined("row_item.email") else ""
+- Name: |
+    row_item.name.full() if defined("row_item.name.first") else ""
+- Birthdate: |
+    row_item.birthdate if defined("row_item.birthdate") else ""
+- Address: |
+    row_item.address.block() if defined("row_item.address.address") else ""
+- Phone number: |
+    row_item.phone_number if defined("row_item.phone_number") else ""
+- Email: |
+    row_item.email if defined("row_item.email") else ""
 edit:
-  - name.first
-  - birthdate
-  - address.address
-  - phone_number
-  - email
-confirm: True
-
+- name.first
+- birthdate
+- address.address
+- phone_number
+- email
+confirm: true
 ---
 id: edit children
 continue button field: children.revisit
@@ -842,215 +643,331 @@ subquestion: |
 table: children.table
 rows: children
 columns:
-  - Name: |
-      row_item.name.full() if defined("row_item.name.last") else ""
-  - Birthdate: |
-      row_item.birthdate if defined("row_item.birthdate") else ""
+- Name: |
+    row_item.name.full() if defined("row_item.name.last") else ""
+- Birthdate: |
+    row_item.birthdate if defined("row_item.birthdate") else ""
 edit:
-  - name.last
-  - birthdate
-confirm: True
-
+- name.last
+- birthdate
+confirm: true
 ---
 id: download Application_for_name_change
 event: Application_for_name_change_download
-question: |
-  All done
+question: Review and print your application
 subquestion: |
-  Thank you ${users}. Your form is ready to download and deliver.
-  
-  View, download and send your form below. Click the "Edit answers" button to fix any mistakes.
+  Review every page before signing. Nothing has been filed with the court.
 
   ${ action_button_html(url_action('review_Application_for_name_change'), label='Edit answers', color='info') }
-  
-  
   ${ al_user_bundle.download_list_html() }
-  
 
-  ${ al_user_bundle.send_button_html(show_editable_checkbox=False) }
+  Read the court instructions for additional forms and steps.
 
+  Learn more: [Name Change - Minnesota Court Forms and Information](https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information) on LawHelpMN.
 progress: 100
 ---
-# ALDocument objects specify the metadata for each template
 objects:
-  - Application_for_name_change_Post_interview_instructions: ALDocument.using(title="Instructions", filename="Application_for_name_change_next_steps.docx", enabled=True, has_addendum=False)
-  - Application_for_name_change_attachment: ALDocument.using(title="Application for name change", filename="Application_for_name_change", enabled=True, has_addendum=True, default_overflow_message=AL_DEFAULT_OVERFLOW_MESSAGE)
+- Application_for_name_change_Post_interview_instructions: ALDocument.using(title="Instructions", filename="Application_for_name_change_next_steps.docx",
+    enabled=True, has_addendum=False)
+- Application_for_name_change_attachment: ALDocument.using(title="Application for name change", filename="Application_for_name_change",
+    enabled=True, has_addendum=True, default_overflow_message=AL_DEFAULT_OVERFLOW_MESSAGE)
 ---
-# Bundles group the ALDocuments into separate downloads, such as for court and for the user
 objects:
-  - al_user_bundle: ALDocumentBundle.using(elements=[Application_for_name_change_Post_interview_instructions, Application_for_name_change_attachment], filename="Application_for_name_change", title="All forms to download for your records", enabled=True)
-  - al_court_bundle: ALDocumentBundle.using(elements=[Application_for_name_change_attachment],  filename="Application_for_name_change", title="All forms to deliver to court", enabled=True)
+- al_user_bundle: ALDocumentBundle.using(elements=[Application_for_name_change_Post_interview_instructions,
+    Application_for_name_change_attachment], filename="Application_for_name_change", title="All forms
+    to download for your records", enabled=True)
+- al_court_bundle: ALDocumentBundle.using(elements=[Application_for_name_change_attachment],  filename="Application_for_name_change",
+    title="All forms to deliver to court", enabled=True)
 ---
-# Each attachment defines a key in an ALDocument. We use `i` as the placeholder here so the same template is 
-# used for "preview" and "final" keys, and logic in the template checks the value of 
-# `i` to show or hide the user's signature
 attachment:
   name: Post-interview-Instructions
   filename: Application_for_name_change_next_steps
   docx template file: Application_for_name_change_next_steps.docx
   variable name: Application_for_name_change_Post_interview_instructions[i]
-  skip undefined: True
-  tagged pdf: True
+  skip undefined: true
+  tagged pdf: true
 ---
 attachment:
   name: Application for name change
   filename: Application_for_name_change
   variable name: Application_for_name_change_attachment[i]
-  skip undefined: True
+  skip undefined: true
   pdf template file: Application_for_name_change.pdf
   fields:
-      - "district_court_county": ${ district_court_county }
-      - "docket_number": ${ docket_number }
-      - "judicial_district": ${ judicial_district }
-      - "interpreter_request": ${ interpreter_request }
-      - "interpreter_language": ${ interpreter_language }
-      - "users1_name_first": ${ users[0].name.first }
-      - "users1_name_first__1": ${ users[0].name.first }
-      - "users1_name_first__2": ${ users[0].name.first }
-      - "users1_name_middle": ${ users[0].name.middle }
-      - "users1_name_middle__1": ${ users[0].name.middle }
-      - "users1_name_middle__2": ${ users[0].name.middle }
-      - "users1_name_last": ${ users[0].name.last }
-      - "users1_name_last__1": ${ users[0].name.last }
-      - "users1_name_last__2": ${ users[0].name.last }
-      - "users1_name_first_change": ${ users1_name_first_change }
-      - "users1_name_first_change__1": ${ users1_name_first_change }
-      - "users1_name_middle_change": ${ users1_name_middle_change }
-      - "users1_name_middle_change__1": ${ users1_name_middle_change }
-      - "users1_name_last_change": ${ users1_name_last_change }
-      - "users1_name_last_change__1": ${ users1_name_last_change }
-      - "users1_address_address": ${ users[0].address.address }
-      - "users1_address_city": ${ users[0].address.city }
-      - "users1_address_county": ${ users[0].address.county }
-      - "users1_birthdate": ${ users[0].birthdate.format() }
-      - "not_married": ${ not_married }
-      - "spouses_name_first": ${ spouses[0].name.first }
-      - "spouses_name_first__1": ${ spouses[0].name.first }
-      - "spouses_name_middle": ${ spouses[0].name.middle }
-      - "spouses_name_middle__1": ${ spouses[0].name.middle }
-      - "spouses_name_last": ${ spouses[0].name.last }
-      - "spouses_name_last__1": ${ spouses[0].name.last }
-      - "spouses_birthdate": ${ spouses[0].birthdate.format() }
-      - "application_includes_spouse": ${ application_includes_spouse }
-      - "no_minor_children": ${ no_minor_children }
-      - "children1_name_first": ${ children[0].name.first }
-      - "children1_name_first__1": ${ children[0].name.first }
-      - "children1_name_middle": ${ children[0].name.middle }
-      - "children1_name_middle__1": ${ children[0].name.middle }
-      - "children1_name_last": ${ children[0].name.last }
-      - "children1_name_last__1": ${ children[0].name.last }
-      - "children1_birthdate": ${ children[0].birthdate.format() }
-      - "children2_name_first": ${ children[1].name.first }
-      - "children2_name_first__1": ${ children[1].name.first }
-      - "children2_name_middle": ${ children[1].name.middle }
-      - "children2_name_middle__1": ${ children[1].name.middle }
-      - "children2_name_last": ${ children[1].name.last }
-      - "children3_name_last": ${ children[2].name.last }
-      - "children3_name_last__1": ${ children[2].name.last }
-      - "children2_birthdate": ${ children[1].birthdate.format() }
-      - "children3_name_first": ${ children[2].name.first }
-      - "children3_name_first__1": ${ children[2].name.first }
-      - "children3_name_middle": ${ children[2].name.middle }
-      - "children3_name_middle__1": ${ children[2].name.middle }
-      - "children3_birthdate": ${ children[2].birthdate.format() }
-      - "children4_name_last": ${ children[3].name.last }
-      - "children4_name_last__1": ${ children[3].name.last }
-      - "children4_name_first": ${ children[3].name.first }
-      - "children4_name_first__1": ${ children[3].name.first }
-      - "children4_name_middle": ${ children[3].name.middle }
-      - "children4_name_middle__1": ${ children[3].name.middle }
-      - "children4_birthdate": ${ children[3].birthdate.format() }
-      - "children5_name_first": ${ children[4].name.first }
-      - "children5_name_first__1": ${ children[4].name.first }
-      - "children5_name_middle": ${ children[4].name.middle }
-      - "children5_name_middle__1": ${ children[4].name.middle }
-      - "children5_name_last": ${ children[4].name.last }
-      - "children5_name_last__1": ${ children[4].name.last }
-      - "children5_birthdate": ${ children[4].birthdate.format() }
-      - "minor_children_listed_not_included_in_application": ${ minor_children_listed_not_included_in_application }
-      - "minor_children_included_names": ${ Application_for_name_change_attachment.safe_value("minor_children_included_names") }
-      - "no_nonapplicant_parent": ${ no_nonapplicant_parent }
-      - "parents_nonapplicant_name_first": ${ parents_nonapplicant_name_first }
-      - "parents_nonapplicant_name_middle": ${ parents_nonapplicant_name_middle }
-      - "parents_nonapplicant_name_last": ${ parents_nonapplicant_name_last }
-      - "parents_nonapplicant_address_address": ${ parents_nonapplicant_address_address }
-      - "parents_nonapplicant_city_state_zip": ${ parents_nonapplicant_city_state_zip }
-      - "parents_nonapplicant_unknown": ${ parents_nonapplicant_unknown }
-      - "request_for_applicant_name_change": ${ request_for_applicant_name_change }
-      - "request_for_applicant_name_change_on_birth_record": ${ request_for_applicant_name_change_on_birth_record }
-      - "users1_name_first_change_birth_record": ${ users1_name_first_change_birth_record }
-      - "users1_name_middle_change_birth_record": ${ users1_name_middle_change_birth_record }
-      - "users1_name_last_change_birth_record": ${ users1_name_last_change_birth_record }
-      - "request_sex_change_on_birth_record": ${ request_sex_change_on_birth_record }
-      - "sex_current": ${ sex_current }
-      - "sex_change": ${ sex_change }
-      - "replacement_birth_record": ${ replacement_birth_record }
-      - "keep_former_name_confidential": ${ keep_former_name_confidential }
-      - "keep_former_sex_confidential": ${ keep_former_sex_confidential }
-      - "request_applicant_spouse_name_change": ${ request_applicant_spouse_name_change }
-      - "spouses_name_first_change": ${ spouses_name_first_change }
-      - "spouses_name_middle_change": ${ spouses_name_middle_change }
-      - "spouses_name_last_change": ${ spouses_name_last_change }
-      - "request_childrens_name_change": ${ request_childrens_name_change }
-      - "children1_name_first_change": ${ children1_name_first_change }
-      - "children1_name_middle_change": ${ children1_name_middle_change }
-      - "children1_name_last_change": ${ children1_name_last_change }
-      - "children2_name_last__1": ${ children[1].name.last }
-      - "children2_name_first_change": ${ children2_name_first_change }
-      - "children2_name_middle_change": ${ children2_name_middle_change }
-      - "children2_name_last_change": ${ children2_name_last_change }
-      - "children3_name_first_change": ${ children3_name_first_change }
-      - "children3_name_middle_change": ${ children3_name_middle_change }
-      - "children3_name_last_change": ${ children3_name_last_change }
-      - "children4_name_first_change": ${ children4_name_first_change }
-      - "children4_name_middle_change": ${ children4_name_middle_change }
-      - "children4_name_last_change": ${ children4_name_last_change }
-      - "children5_name_first_change": ${ children5_name_first_change }
-      - "children5_name_middle_change": ${ children5_name_middle_change }
-      - "children5_name_last_change": ${ children5_name_last_change }
-      - "no_parties_have_criminal_history": ${ no_parties_have_criminal_history }
-      - "parties_have_criminal_history": ${ parties_have_criminal_history }
-      - "criminal_history": ${ Application_for_name_change_attachment.safe_value("criminal_history") }
-      - "parties_with_criminal_history": ${ parties_with_criminal_history }
-      - "party1_with_offense": ${ party1_with_offense }
-      - "party1_name_of_offense": ${ party1_name_of_offense }
-      - "party1_date_of_offense": ${ party1_date_of_offense }
-      - "party1_state_of_offense": ${ party1_state_of_offense }
-      - "party2_with_offense": ${ party2_with_offense }
-      - "party2_name_of_offense": ${ party2_name_of_offense }
-      - "party2_date_of_offense": ${ party2_date_of_offense }
-      - "party2_state_of_offense": ${ party2_state_of_offense }
-      - "party3_with_offense": ${ party3_with_offense }
-      - "party3_name_of_offense": ${ party3_name_of_offense }
-      - "party3_date_of_offense": ${ party3_date_of_offense }
-      - "party3_state_of_offense": ${ party3_state_of_offense }
-      - "party4_with_offense": ${ party4_with_offense }
-      - "party4_name_of_offense": ${ party4_name_of_offense }
-      - "party4_date_of_offense": ${ party4_date_of_offense }
-      - "party4_state_of_offense": ${ party4_state_of_offense }
-      - "party5_with_offense": ${ party5_with_offense }
-      - "party5_name_of_offense": ${ party5_name_of_offense }
-      - "party5_date_of_offense": ${ party5_date_of_offense }
-      - "party5_state_of_offense": ${ party5_state_of_offense }
-      - "applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota": ${ applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota }
-      - "name_of_person_and_description_of_person_with_claim_interest_or_lien": ${ Application_for_name_change_attachment.safe_value("name_of_person_and_description_of_person_with_claim_interest_or_lien") }
-      - "users1_involved_in_victim_or_witness_protection": ${ users1_involved_in_victim_or_witness_protection }
-      - "users1_inmate_in_correctional_facility_and_submitting_inmate_aff": ${ users1_inmate_in_correctional_facility_and_submitting_inmate_aff }
-      - "users1_divorced_seeking_change_to_legal_name_on_birth_certificate": ${ users1_divorced_seeking_change_to_legal_name_on_birth_certificate }
-      - "users1_other_statements": ${ Application_for_name_change_attachment.safe_value("users1_other_statements") }
-      - "users1_name_full": ${ users[0] }
-      - "users1_address_line_one": ${ users[0].address.line_one() }
-      - "county_and_state_where_signed": ${ county_and_state_where_signed }
-      - "county_and_state_where_signed__1": ${ county_and_state_where_signed }
-      - "users1_address_line_two": ${ users[0].address.line_two() }
-      - "users1_phone_number": ${ users[0].phone_number }
-      - "users1_email": ${ users[0].email }
-      - "spouses_name_full": ${ spouses[0] }
-      - "spouses_address_line_one": ${ spouses[0].address.line_one() }
-      - "spouses_address_line_two": ${ spouses[0].address.line_two() }
-      - "spouses_phone_number": ${ spouses[0].phone_number }
-      - "spouses_email": ${ spouses[0].email }
-      - "minor_fourteen_years_old_name_full": ${ minor_fourteen_years_old_name_full }
+  - district_court_county: ${ district_court_county }
+  - docket_number: ${ docket_number }
+  - judicial_district: ${ judicial_district }
+  - interpreter_request: ${ interpreter_request }
+  - interpreter_language: ${ (interpreter_language) if interpreter_request else "" }
+  - users1_name_first: ${ users[0].name.first }
+  - users1_name_first__1: ${ users[0].name.first }
+  - users1_name_first__2: ${ users[0].name.first }
+  - users1_name_middle: ${ users[0].name.middle }
+  - users1_name_middle__1: ${ users[0].name.middle }
+  - users1_name_middle__2: ${ users[0].name.middle }
+  - users1_name_last: ${ users[0].name.last }
+  - users1_name_last__1: ${ users[0].name.last }
+  - users1_name_last__2: ${ users[0].name.last }
+  - users1_name_first_change: ${ (users1_name_first_change) if request_for_applicant_name_change else
+      "" }
+  - users1_name_first_change__1: ${ users1_name_first_change }
+  - users1_name_middle_change: ${ (users1_name_middle_change) if request_for_applicant_name_change else
+      "" }
+  - users1_name_middle_change__1: ${ users1_name_middle_change }
+  - users1_name_last_change: ${ (users1_name_last_change) if request_for_applicant_name_change else ""
+      }
+  - users1_name_last_change__1: ${ users1_name_last_change }
+  - users1_address_address: ${ users[0].address.address }
+  - users1_address_city: ${ users[0].address.line_two() }
+  - users1_address_county: ${ users[0].address.county }
+  - users1_birthdate: ${ users[0].birthdate.format() }
+  - not_married: ${ not_married }
+  - spouses_name_first: ${ (spouses[0].name.first) if not not_married else "" }
+  - spouses_name_first__1: ${ (spouses[0].name.first) if not not_married else "" }
+  - spouses_name_middle: ${ (spouses[0].name.middle) if not not_married else "" }
+  - spouses_name_middle__1: ${ (spouses[0].name.middle) if not not_married else "" }
+  - spouses_name_last: ${ (spouses[0].name.last) if not not_married else "" }
+  - spouses_name_last__1: ${ (spouses[0].name.last) if not not_married else "" }
+  - spouses_birthdate: ${ (spouses[0].birthdate.format()) if not not_married else "" }
+  - application_includes_spouse: ${ (application_includes_spouse) if not not_married else "" }
+  - no_minor_children: ${ no_minor_children }
+  - children1_name_first: ${ (children[0].name.first) if not no_minor_children and children.number_gathered()
+      >= 1 else "" }
+  - children1_name_first__1: ${ (children[0].name.first) if not no_minor_children and children.number_gathered()
+      >= 1 else "" }
+  - children1_name_middle: ${ (children[0].name.middle) if not no_minor_children and children.number_gathered()
+      >= 1 else "" }
+  - children1_name_middle__1: ${ (children[0].name.middle) if not no_minor_children and children.number_gathered()
+      >= 1 else "" }
+  - children1_name_last: ${ (children[0].name.last) if not no_minor_children and children.number_gathered()
+      >= 1 else "" }
+  - children1_name_last__1: ${ (children[0].name.last) if not no_minor_children and children.number_gathered()
+      >= 1 else "" }
+  - children1_birthdate: ${ (children[0].birthdate.format()) if not no_minor_children and children.number_gathered()
+      >= 1 else "" }
+  - children2_name_first: ${ (children[1].name.first) if not no_minor_children and children.number_gathered()
+      >= 2 else "" }
+  - children2_name_first__1: ${ (children[1].name.first) if not no_minor_children and children.number_gathered()
+      >= 2 else "" }
+  - children2_name_middle: ${ (children[1].name.middle) if not no_minor_children and children.number_gathered()
+      >= 2 else "" }
+  - children2_name_middle__1: ${ (children[1].name.middle) if not no_minor_children and children.number_gathered()
+      >= 2 else "" }
+  - children2_name_last: ${ (children[1].name.last) if not no_minor_children and children.number_gathered()
+      >= 2 else "" }
+  - children3_name_last: ${ (children[2].name.last) if not no_minor_children and children.number_gathered()
+      >= 3 else "" }
+  - children3_name_last__1: ${ (children[2].name.last) if not no_minor_children and children.number_gathered()
+      >= 3 else "" }
+  - children2_birthdate: ${ (children[1].birthdate.format()) if not no_minor_children and children.number_gathered()
+      >= 2 else "" }
+  - children3_name_first: ${ (children[2].name.first) if not no_minor_children and children.number_gathered()
+      >= 3 else "" }
+  - children3_name_first__1: ${ (children[2].name.first) if not no_minor_children and children.number_gathered()
+      >= 3 else "" }
+  - children3_name_middle: ${ (children[2].name.middle) if not no_minor_children and children.number_gathered()
+      >= 3 else "" }
+  - children3_name_middle__1: ${ (children[2].name.middle) if not no_minor_children and children.number_gathered()
+      >= 3 else "" }
+  - children3_birthdate: ${ (children[2].birthdate.format()) if not no_minor_children and children.number_gathered()
+      >= 3 else "" }
+  - children4_name_last: ${ (children[3].name.last) if not no_minor_children and children.number_gathered()
+      >= 4 else "" }
+  - children4_name_last__1: ${ (children[3].name.last) if not no_minor_children and children.number_gathered()
+      >= 4 else "" }
+  - children4_name_first: ${ (children[3].name.first) if not no_minor_children and children.number_gathered()
+      >= 4 else "" }
+  - children4_name_first__1: ${ (children[3].name.first) if not no_minor_children and children.number_gathered()
+      >= 4 else "" }
+  - children4_name_middle: ${ (children[3].name.middle) if not no_minor_children and children.number_gathered()
+      >= 4 else "" }
+  - children4_name_middle__1: ${ (children[3].name.middle) if not no_minor_children and children.number_gathered()
+      >= 4 else "" }
+  - children4_birthdate: ${ (children[3].birthdate.format()) if not no_minor_children and children.number_gathered()
+      >= 4 else "" }
+  - children5_name_first: ${ (children[4].name.first) if not no_minor_children and children.number_gathered()
+      >= 5 else "" }
+  - children5_name_first__1: ${ (children[4].name.first) if not no_minor_children and children.number_gathered()
+      >= 5 else "" }
+  - children5_name_middle: ${ (children[4].name.middle) if not no_minor_children and children.number_gathered()
+      >= 5 else "" }
+  - children5_name_middle__1: ${ (children[4].name.middle) if not no_minor_children and children.number_gathered()
+      >= 5 else "" }
+  - children5_name_last: ${ (children[4].name.last) if not no_minor_children and children.number_gathered()
+      >= 5 else "" }
+  - children5_name_last__1: ${ (children[4].name.last) if not no_minor_children and children.number_gathered()
+      >= 5 else "" }
+  - children5_birthdate: ${ (children[4].birthdate.format()) if not no_minor_children and children.number_gathered()
+      >= 5 else "" }
+  - minor_children_listed_not_included_in_application: ${ (minor_children_listed_not_included_in_application)
+      if not no_minor_children else "" }
+  - minor_children_included_names: ${ (Application_for_name_change_attachment.safe_value("minor_children_included_names"))
+      if not no_minor_children and minor_children_listed_not_included_in_application == "minor_children_included_yes"
+      else "" }
+  - no_nonapplicant_parent: ${ no_nonapplicant_parent }
+  - parents_nonapplicant_name_first: ${ (parents_nonapplicant_name_first) if not no_nonapplicant_parent
+      and not parents_nonapplicant_unknown else "" }
+  - parents_nonapplicant_name_middle: ${ (parents_nonapplicant_name_middle) if not no_nonapplicant_parent
+      and not parents_nonapplicant_unknown else "" }
+  - parents_nonapplicant_name_last: ${ (parents_nonapplicant_name_last) if not no_nonapplicant_parent
+      and not parents_nonapplicant_unknown else "" }
+  - parents_nonapplicant_address_address: ${ (parents_nonapplicant_address_address) if not no_nonapplicant_parent
+      and not parents_nonapplicant_unknown else "" }
+  - parents_nonapplicant_city_state_zip: ${ (parents_nonapplicant_city_state_zip) if not no_nonapplicant_parent
+      and not parents_nonapplicant_unknown else "" }
+  - parents_nonapplicant_unknown: ${ (parents_nonapplicant_unknown) if not no_nonapplicant_parent else
+      "" }
+  - request_for_applicant_name_change: ${ request_for_applicant_name_change }
+  - request_for_applicant_name_change_on_birth_record: ${ request_for_applicant_name_change_on_birth_record
+      }
+  - users1_name_first_change_birth_record: ${ (users1_name_first_change_birth_record) if request_for_applicant_name_change_on_birth_record
+      else "" }
+  - users1_name_middle_change_birth_record: ${ (users1_name_middle_change_birth_record) if request_for_applicant_name_change_on_birth_record
+      else "" }
+  - users1_name_last_change_birth_record: ${ (users1_name_last_change_birth_record) if request_for_applicant_name_change_on_birth_record
+      else "" }
+  - request_sex_change_on_birth_record: ${ request_sex_change_on_birth_record }
+  - sex_current: ${ (sex_current) if request_sex_change_on_birth_record else "" }
+  - sex_change: ${ (sex_change) if request_sex_change_on_birth_record else "" }
+  - replacement_birth_record: ${ replacement_birth_record }
+  - keep_former_name_confidential: ${ (keep_former_name_confidential) if replacement_birth_record else
+      "" }
+  - keep_former_sex_confidential: ${ (keep_former_sex_confidential) if replacement_birth_record else ""
+      }
+  - request_applicant_spouse_name_change: ${ (request_applicant_spouse_name_change) if not not_married
+      and application_includes_spouse == "yes_includes_spouse" else "" }
+  - spouses_name_first_change: ${ (spouses_name_first_change) if not not_married and application_includes_spouse
+      == "yes_includes_spouse" and request_applicant_spouse_name_change else "" }
+  - spouses_name_middle_change: ${ (spouses_name_middle_change) if not not_married and application_includes_spouse
+      == "yes_includes_spouse" and request_applicant_spouse_name_change else "" }
+  - spouses_name_last_change: ${ (spouses_name_last_change) if not not_married and application_includes_spouse
+      == "yes_includes_spouse" and request_applicant_spouse_name_change else "" }
+  - request_childrens_name_change: ${ (request_childrens_name_change) if not no_minor_children and minor_children_listed_not_included_in_application
+      == "minor_children_included_yes" else "" }
+  - children1_name_first_change: ${ (children1_name_first_change) if not no_minor_children and children.number_gathered()
+      >= 1 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children1_name_middle_change: ${ (children1_name_middle_change) if not no_minor_children and children.number_gathered()
+      >= 1 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children1_name_last_change: ${ (children1_name_last_change) if not no_minor_children and children.number_gathered()
+      >= 1 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children2_name_last__1: ${ (children[1].name.last) if not no_minor_children and children.number_gathered()
+      >= 2 else "" }
+  - children2_name_first_change: ${ (children2_name_first_change) if not no_minor_children and children.number_gathered()
+      >= 2 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children2_name_middle_change: ${ (children2_name_middle_change) if not no_minor_children and children.number_gathered()
+      >= 2 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children2_name_last_change: ${ (children2_name_last_change) if not no_minor_children and children.number_gathered()
+      >= 2 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children3_name_first_change: ${ (children3_name_first_change) if not no_minor_children and children.number_gathered()
+      >= 3 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children3_name_middle_change: ${ (children3_name_middle_change) if not no_minor_children and children.number_gathered()
+      >= 3 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children3_name_last_change: ${ (children3_name_last_change) if not no_minor_children and children.number_gathered()
+      >= 3 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children4_name_first_change: ${ (children4_name_first_change) if not no_minor_children and children.number_gathered()
+      >= 4 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children4_name_middle_change: ${ (children4_name_middle_change) if not no_minor_children and children.number_gathered()
+      >= 4 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children4_name_last_change: ${ (children4_name_last_change) if not no_minor_children and children.number_gathered()
+      >= 4 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children5_name_first_change: ${ (children5_name_first_change) if not no_minor_children and children.number_gathered()
+      >= 5 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children5_name_middle_change: ${ (children5_name_middle_change) if not no_minor_children and children.number_gathered()
+      >= 5 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - children5_name_last_change: ${ (children5_name_last_change) if not no_minor_children and children.number_gathered()
+      >= 5 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and
+      request_childrens_name_change else "" }
+  - no_parties_have_criminal_history: ${ no_parties_have_criminal_history }
+  - parties_have_criminal_history: ${ parties_have_criminal_history }
+  - criminal_history: ${ (Application_for_name_change_attachment.safe_value("criminal_history")) if parties_have_criminal_history
+      else "" }
+  - parties_with_criminal_history: ${ (parties_with_criminal_history) if parties_have_criminal_history
+      else "" }
+  - party1_with_offense: ${ (party1_with_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 1 else "" }
+  - party1_name_of_offense: ${ (party1_name_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 1 else "" }
+  - party1_date_of_offense: ${ (party1_date_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 1 else "" }
+  - party1_state_of_offense: ${ (party1_state_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 1 else "" }
+  - party2_with_offense: ${ (party2_with_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 2 else "" }
+  - party2_name_of_offense: ${ (party2_name_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 2 else "" }
+  - party2_date_of_offense: ${ (party2_date_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 2 else "" }
+  - party2_state_of_offense: ${ (party2_state_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 2 else "" }
+  - party3_with_offense: ${ (party3_with_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 3 else "" }
+  - party3_name_of_offense: ${ (party3_name_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 3 else "" }
+  - party3_date_of_offense: ${ (party3_date_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 3 else "" }
+  - party3_state_of_offense: ${ (party3_state_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 3 else "" }
+  - party4_with_offense: ${ (party4_with_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 4 else "" }
+  - party4_name_of_offense: ${ (party4_name_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 4 else "" }
+  - party4_date_of_offense: ${ (party4_date_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 4 else "" }
+  - party4_state_of_offense: ${ (party4_state_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 4 else "" }
+  - party5_with_offense: ${ (party5_with_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 5 else "" }
+  - party5_name_of_offense: ${ (party5_name_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 5 else "" }
+  - party5_date_of_offense: ${ (party5_date_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 5 else "" }
+  - party5_state_of_offense: ${ (party5_state_of_offense) if parties_have_criminal_history and parties_with_criminal_history
+      and felony_count >= 5 else "" }
+  - applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota: ${ applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
+      }
+  - name_of_person_and_description_of_person_with_claim_interest_or_lien: ${ (Application_for_name_change_attachment.safe_value("name_of_person_and_description_of_person_with_claim_interest_or_lien"))
+      if applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota == "parties_have_claim_interest_or_lien"
+      else "" }
+  - users1_involved_in_victim_or_witness_protection: ${ users1_involved_in_victim_or_witness_protection
+      }
+  - users1_inmate_in_correctional_facility_and_submitting_inmate_aff: ${ users1_inmate_in_correctional_facility_and_submitting_inmate_aff
+      }
+  - users1_divorced_seeking_change_to_legal_name_on_birth_certificate: ${ users1_divorced_seeking_change_to_legal_name_on_birth_certificate
+      }
+  - users1_other_statements: ${ Application_for_name_change_attachment.safe_value("users1_other_statements")
+      }
+  - users1_name_full: ${ users[0] }
+  - users1_address_line_one: ${ users[0].address.line_one() }
+  - county_and_state_where_signed: ${ county_and_state_where_signed }
+  - county_and_state_where_signed__1: ${ county_and_state_where_signed }
+  - users1_address_line_two: ${ users[0].address.line_two() }
+  - users1_phone_number: ${ users[0].phone_number }
+  - users1_email: ${ users[0].email }
+  - spouses_name_full: ${ (spouses[0]) if not not_married and application_includes_spouse == "yes_includes_spouse"
+      else "" }
+  - spouses_address_line_one: ${ (spouses[0].address.line_one()) if not not_married and application_includes_spouse
+      == "yes_includes_spouse" else "" }
+  - spouses_address_line_two: ${ (spouses[0].address.line_two()) if not not_married and application_includes_spouse
+      == "yes_includes_spouse" else "" }
+  - spouses_phone_number: ${ (spouses[0].phone_number) if not not_married and application_includes_spouse
+      == "yes_includes_spouse" else "" }
+  - spouses_email: ${ (spouses[0].email) if not not_married and application_includes_spouse == "yes_includes_spouse"
+      else "" }
+  - minor_fourteen_years_old_name_full: ${ minor_fourteen_years_old_name_full }
 ---
 code: |
   Application_for_name_change_attachment.overflow_fields["minor_children_included_names"].overflow_trigger = 144
@@ -1062,6 +979,3 @@ code: |
   Application_for_name_change_attachment.overflow_fields["users1_other_statements"].overflow_trigger = 144
   Application_for_name_change_attachment.overflow_fields["users1_other_statements"].label = "Other information which you think should be given to the court:"
   Application_for_name_change_attachment.overflow_fields.gathered = True
-
-
-
