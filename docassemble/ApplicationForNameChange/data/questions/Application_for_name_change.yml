@@ -42,7 +42,7 @@ code: |
 objects:
 - users: ALPeopleList.using(ask_number=True,target_number=1)
 - al_logo: DAStaticFile.using(filename="MNfavicon-96x96.png", alt_text="LawHelpMN")
-- spouses: ALPeopleList.using(there_are_any=True, target_number=1)
+- spouses: ALPeopleList.using(there_are_any=True, ask_number=True, target_number=1)
 - children: ALPeopleList.using(there_are_any=True, complete_attribute="complete")
 ---
 sections:
@@ -979,3 +979,9 @@ code: |
   Application_for_name_change_attachment.overflow_fields["users1_other_statements"].overflow_trigger = 144
   Application_for_name_change_attachment.overflow_fields["users1_other_statements"].label = "Other information which you think should be given to the court:"
   Application_for_name_change_attachment.overflow_fields.gathered = True
+---
+id: applicant county
+question: |
+  Which county do you live in?
+fields:
+  - County: users[0].address.county

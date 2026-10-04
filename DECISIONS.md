@@ -32,3 +32,7 @@ Use the verified matching LawHelpMN resource, [Name Change - Minnesota Court For
 Ask about marriage and minor children before gathering people. Gather actual children instead of unconditionally requesting five birthdates. List a spouse even when not applying, as the printed form requires, but collect signature/contact details only for an included spouse. Derive the mutually exclusive criminal-history checkboxes from one answer. Split felony rows and requested child names into smaller screens. Guard dormant PDF mappings so editing a branch to No cannot print retained answers. Correct the city/state/ZIP field to address.line_two(). Remove arbitrary short name limits.
 
 Preserve the supplied NAM102 (Rev 7/23) pending current-packet comparison; this package produces an application, not a complete filing packet. The five-row paper limits currently use an explicit extra-sheet instruction. Narrative scenarios will expose remaining review/overflow/usability gaps.
+
+## Scenario-driven runtime fixes
+
+Add an explicit residence-county question because AssemblyLine does not supply that fallback. Set ask_number=True with a target of one spouse to prevent an unrelated additional-spouse loop. Both were found by exercising the narrative fixtures, not by static linting.
