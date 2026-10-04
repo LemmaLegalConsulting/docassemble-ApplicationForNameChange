@@ -1,0 +1,157 @@
+Checker source: SuffolkLITLab/DAYamlChecker@5676a949ebca269325eb0d8bf0abad52eda4aa61 (source version 1.7.0)
+Command: dayamlchecker --style .
+Exit code: 0
+
+Found 51 issues (0 errors, 15 warnings, 36 infos):
+INFO  [IG416] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:5
+  metadata block is missing common CourtFormsOnline publishing fields: can_I_use_this_form, before_you_start, LIST_topics, jurisdiction
+
+WARN  [WT702] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:39
+  move user-facing text out of `code:` blocks and into a translatable template: Ask the court to change your name and your spouse and children names
+
+WARN  [WT702] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:1055
+  move user-facing text out of `code:` blocks and into a translatable template: List the names of the minor children you listed who are included in this application
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:123
+  consider replacing 'please' in subquestion with simpler language, such as '(omit)'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:123
+  consider replacing 'persons' in subquestion with simpler language, such as 'people, anyone'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:146
+  review 'request' in subquestion for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:149
+  review 'Request' in fields[0].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:194
+  review 'Request' in fields[4].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:200
+  review 'Request' in fields[7].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:200
+  consider replacing 'issue' in fields[7].first_key with simpler language, such as 'give, send, problem'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:202
+  review 'Request' in fields[8].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:204
+  review 'Request' in fields[9].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:220
+  review 'Request' in fields[2].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:244
+  review 'Request' in fields[3].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:278
+  consider replacing 'Applicant' in question with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:280
+  consider replacing 'there is' in subquestion with simpler language, such as '(omit)'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:280
+  consider replacing 'applicant' in subquestion with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:283
+  consider replacing 'There is' in fields[0].first_key with simpler language, such as '(omit)'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:283
+  consider replacing 'applicant' in fields[0].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:285
+  consider replacing 'applicant' in fields[1].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:287
+  consider replacing 'applicant' in fields[2].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:289
+  consider replacing 'applicant' in fields[3].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:291
+  consider replacing 'applicant' in fields[4].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:293
+  consider replacing 'applicant' in fields[5].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:295
+  consider replacing 'applicant' in fields[6].first_key with simpler language, such as 'you'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:356
+  review 'following' in subquestion for simpler wording if the meaning permits: these, this, or after (depending on the sentence)
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:366
+  consider replacing 'currently' in fields[2].first_key with simpler language, such as '(omit), now'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:370
+  consider replacing 'equivalent' in fields[4].first_key with simpler language, such as 'equal, the same'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:370
+  consider replacing 'pursuant to' in fields[4].first_key with simpler language, such as 'under, because of, in line with'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:378
+  consider replacing 'there is' in subquestion with simpler language, such as '(omit)'
+
+WARN  [WS713] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:359
+  variable roots should use snake_case: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
+
+WARN  [WS714] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:123
+  sentence in subquestion exceeds 20 words: All criminal history for any person you are including in this form to have their name changed, including: (3a) the name of the person who has been convicted of a felony, (3b) th...
+
+WARN  [WS714] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:359
+  sentence in fields[0].first_key exceeds 20 words: Do you, your spouse, or your children included in this application have a claim, interest, or lien in or on land inMinnesota ?
+
+WARN  [WS714] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:370
+  sentence in fields[4].first_key exceeds 20 words: You are divorced and seeking to change your name to the legal name on your birth certificate and are submitting a certified copy of the Certification of Dissolution or equivalen...
+
+WARN  [WS717] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:200
+  field label exceeds 90 characters: Request to have the Minnesota Department of Health issue and register a replacement birth record
+
+WARN  [WS717] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:295
+  field label exceeds 90 characters: The non-applicant parent is not known, and the non-applicant parent's name is not shown on the child's birth certificate
+
+WARN  [WS717] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:359
+  field label exceeds 90 characters: Do you, your spouse, or your children included in this application have a claim, interest, or lien in or on land inMinnesota?
+
+WARN  [WS729] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:242
+  field label can usually omit instruction verbs like enter, write, or list: List the names of the minor children you listed who are included in this application
+
+WARN  [WS718] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:181
+  screen can show 10 logical input fields, counting parts of the same address as one; consider splitting it into smaller steps
+
+WARN  [WS718] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:230
+  screen can show 19 logical input fields, counting parts of the same address as one; consider splitting it into smaller steps
+
+WARN  [WS718] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:278
+  screen can show 7 logical input fields, counting parts of the same address as one; consider splitting it into smaller steps
+
+WARN  [WS718] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:299
+  screen can show 24 logical input fields, counting parts of the same address as one; consider splitting it into smaller steps
+
+INFO  [IS720] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:181
+  complex screen has no help, hint, or note text: You are requesting your own name be changed on your official birth record, Change your birth record first name to:, Change your birth record middle name to:, Change your birth r...
+
+INFO  [IS720] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:208
+  complex screen has no help, hint, or note text: You are not married, This application includes your spouse, Request your spouse's name be changed, Change your spouse's first name to:, Change your Spouse's middle name to:, Cha...
+
+INFO  [IS720] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:230
+  complex screen has no help, hint, or note text: You do not have any minor children, The minor children you listed are included in application, List the names of the minor children you listed who are included in this applicati...
+
+INFO  [IS720] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:278
+  complex screen has no help, hint, or note text: There is no non-applicant parent, First name of the non-applicant parent, Middle name of the non-applicant parent, Last name of the non-applicant parent, Street address of the n...
+
+INFO  [IS720] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:299
+  complex screen has no help, hint, or note text: No parties applying for a name change in this application have a criminal history, One or more parties applying for a name change in this application have a criminal history, Th...
+
+INFO  [IS720] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:354
+  complex screen has no help, hint, or note text: Do you, your spouse, or your children included in this application have a claim, interest, or lien in or on land inMinnesota?, Give the name of the person with the claim, intere...
+
+INFO  [IA561] docassemble/ApplicationForNameChange/data/templates/Application_for_name_change_next_steps.docx
+  the document title metadata is missing
+
+WARN  [WA557] docassemble/ApplicationForNameChange/data/templates/Application_for_name_change_next_steps.docx
+  heading structure starts at level 2 instead of level 1
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/Application_for_name_change_next_steps.docx
+  10 empty paragraphs are used for spacing, the longest run being 3 (longest run is near "Congratulations {{ users }}! You have finished all the forms you need to Ask…")

@@ -768,6 +768,7 @@ review:
       **Name of any minor (if fourteen years or older) who will sign this form:**:
       ${ minor_fourteen_years_old_name_full }
 ---
+id: edit users
 continue button field: users.revisit
 question: |
   Edit users
@@ -798,6 +799,7 @@ edit:
 confirm: True
 
 ---
+id: edit spouses
 continue button field: spouses.revisit
 question: |
   Edit spouses
@@ -828,6 +830,7 @@ edit:
 confirm: True
 
 ---
+id: edit children
 continue button field: children.revisit
 question: |
   Edit children
@@ -941,7 +944,7 @@ attachment:
       - "children2_name_first__1": ${ children[1].name.first }
       - "children2_name_middle": ${ children[1].name.middle }
       - "children2_name_middle__1": ${ children[1].name.middle }
-      - "children3_name_last": ${ children[2].name.last }
+      - "children2_name_last": ${ children[1].name.last }
       - "children3_name_last": ${ children[2].name.last }
       - "children3_name_last__1": ${ children[2].name.last }
       - "children2_birthdate": ${ children[1].birthdate.format() }
