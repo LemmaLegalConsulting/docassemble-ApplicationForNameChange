@@ -36,3 +36,7 @@ Preserve the supplied NAM102 (Rev 7/23) pending current-packet comparison; this 
 ## Scenario-driven runtime fixes
 
 Add an explicit residence-county question because AssemblyLine does not supply that fallback. Set ask_number=True with a target of one spouse to prevent an unrelated additional-spouse loop. Both were found by exercising the narrative fixtures, not by static linting.
+
+## Testing approach
+
+Use narrative ALKiln story tables plus assertions against downloaded PDF text. Include negative paths, recording-date/deadline boundaries, optional people, long text, and review edits. Save raw artifacts locally and commit only a sanitized execution summary. Keep synthetic unit/template checks in CI. Distinguish failures in test-tool compatibility from actual interview defects; document both, and never turn a failed expectation into a pass without explaining the change.
