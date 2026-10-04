@@ -1,944 +1,780 @@
 {
-  "scope": "Static template labels and attachment mapping; no end-to-end interview certification",
-  "method": "ALDashboard get_docx_run_items/update_docx/validate_docx_template_syntax; pikepdf logical-field inspection",
+  "review_date": "2026-10-04",
+  "method": "Read DOCX body/table/header/footer XML; parse docxtpl variables; compare all PDF logical fields to YAML mappings and check tooltips.",
   "templates": [
     {
-      "file": "Application_for_name_change_next_steps.docx",
-      "type": "docx",
-      "expressions": [
-        "other_parties",
-        "users"
-      ],
-      "new_labels": [],
-      "syntax": {
-        "valid": true,
-        "errors": [],
-        "warnings": [],
-        "error_count": 0,
-        "warning_count": 0
-      },
-      "manual_completion": null
-    },
-    {
       "file": "Application_for_name_change.pdf",
-      "type": "pdf",
       "logical_fields": [
         {
           "name": "district_court_county",
           "label": "County where application is filed",
-          "expression": "${ district_court_county }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "docket_number",
           "label": "Court file number",
-          "expression": "${ docket_number }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "judicial_district",
           "label": "Judicial district",
-          "expression": "${ judicial_district }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "interpreter_request",
           "label": "Interpreter requested",
-          "expression": "${ interpreter_request }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "interpreter_language",
           "label": "Interpreter language",
-          "expression": "${ interpreter_language }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_first",
           "label": "Applicant: current first name",
-          "expression": "${ users[0].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_middle",
           "label": "Applicant: current middle name",
-          "expression": "${ users[0].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_last",
           "label": "Applicant: current last name",
-          "expression": "${ users[0].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_first_change",
           "label": "Applicant: requested first name",
-          "expression": "${ users1_name_first_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_middle_change",
           "label": "Applicant: requested middle name",
-          "expression": "${ users1_name_middle_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_last_change",
           "label": "Applicant: requested last name",
-          "expression": "${ users1_name_last_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_birthdate",
           "label": "Applicant: date of birth",
-          "expression": "${ users[0].birthdate.format() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_address_city",
           "label": "Applicant: city, state, and ZIP code",
-          "expression": "${ users[0].address.city }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_address_county",
           "label": "Applicant: county",
-          "expression": "${ users[0].address.county }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_first__1",
           "label": "Applicant: current first name",
-          "expression": "${ users[0].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_middle__1",
           "label": "Applicant: current middle name",
-          "expression": "${ users[0].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_last__1",
           "label": "Applicant: current last name",
-          "expression": "${ users[0].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_name_first",
           "label": "Spouse: current first name",
-          "expression": "${ spouses[0].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_name_middle",
           "label": "Spouse: current middle name",
-          "expression": "${ spouses[0].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_name_last",
           "label": "Spouse: current last name",
-          "expression": "${ spouses[0].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_birthdate",
           "label": "Spouse: date of birth",
-          "expression": "${ spouses[0].birthdate.format() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "not_married",
           "label": "Applicant is not married",
-          "expression": "${ not_married }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "children1_name_first",
           "label": "Child 1: current first name",
-          "expression": "${ children[0].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children1_name_middle",
           "label": "Child 1: current middle name",
-          "expression": "${ children[0].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children1_name_last",
           "label": "Child 1: current last name",
-          "expression": "${ children[0].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children1_birthdate",
           "label": "Child 1: date of birth",
-          "expression": "${ children[0].birthdate.format() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children2_name_first",
           "label": "Child 2: current first name",
-          "expression": "${ children[1].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children2_name_middle",
           "label": "Child 2: current middle name",
-          "expression": "${ children[1].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children2_birthdate",
           "label": "Child 2: date of birth",
-          "expression": "${ children[1].birthdate.format() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children3_name_first",
           "label": "Child 3: current first name",
-          "expression": "${ children[2].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children3_name_middle",
           "label": "Child 3: current middle name",
-          "expression": "${ children[2].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children3_name_last",
           "label": "Child 3: current last name",
-          "expression": "${ children[2].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children3_birthdate",
           "label": "Child 3: date of birth",
-          "expression": "${ children[2].birthdate.format() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "no_minor_children",
           "label": "Applicant has no minor children",
-          "expression": "${ no_minor_children }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "children4_name_first",
           "label": "Child 4: current first name",
-          "expression": "${ children[3].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children4_name_middle",
           "label": "Child 4: current middle name",
-          "expression": "${ children[3].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children4_name_last",
           "label": "Child 4: current last name",
-          "expression": "${ children[3].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children4_birthdate",
           "label": "Child 4: date of birth",
-          "expression": "${ children[3].birthdate.format() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children5_name_first",
           "label": "Child 5: current first name",
-          "expression": "${ children[4].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children5_name_middle",
           "label": "Child 5: current middle name",
-          "expression": "${ children[4].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children5_name_last",
           "label": "Child 5: current last name",
-          "expression": "${ children[4].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children5_birthdate",
           "label": "Child 5: date of birth",
-          "expression": "${ children[4].birthdate.format() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "no_nonapplicant_parent",
           "label": "Non-applicant parent information is not applicable",
-          "expression": "${ no_nonapplicant_parent }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "parents_nonapplicant_name_first",
           "label": "Non-applicant parent: current first name",
-          "expression": "${ parents_nonapplicant_name_first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "parents_nonapplicant_name_middle",
           "label": "Non-applicant parent: current middle name",
-          "expression": "${ parents_nonapplicant_name_middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "parents_nonapplicant_name_last",
           "label": "Non-applicant parent: current last name",
-          "expression": "${ parents_nonapplicant_name_last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "parents_nonapplicant_address_address",
           "label": "Non-applicant parent: street address",
-          "expression": "${ parents_nonapplicant_address_address }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "parents_nonapplicant_city_state_zip",
           "label": "Non-applicant parent: city, state, and ZIP code",
-          "expression": "${ parents_nonapplicant_city_state_zip }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "parents_nonapplicant_unknown",
           "label": "Non-applicant parent is unknown and is not on the birth certificate",
-          "expression": "${ parents_nonapplicant_unknown }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "request_for_applicant_name_change",
-          "label": "Change applicant’s name",
-          "expression": "${ request_for_applicant_name_change }",
-          "widget_count": 1
+          "label": "Change applicant\u2019s name",
+          "type": "/Btn"
         },
         {
           "name": "request_for_applicant_name_change_on_birth_record",
-          "label": "Change applicant’s name on birth record",
-          "expression": "${ request_for_applicant_name_change_on_birth_record }",
-          "widget_count": 1
+          "label": "Change applicant\u2019s name on birth record",
+          "type": "/Btn"
         },
         {
           "name": "children1_name_first__1",
           "label": "Child 1: current first name",
-          "expression": "${ children[0].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children1_name_first_change",
           "label": "Child 1: requested first name",
-          "expression": "${ children1_name_first_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "request_sex_change_on_birth_record",
-          "label": "Change applicant’s sex on birth record",
-          "expression": "${ request_sex_change_on_birth_record }",
-          "widget_count": 1
+          "label": "Change applicant\u2019s sex on birth record",
+          "type": "/Btn"
         },
         {
           "name": "sex_current",
           "label": "Sex currently shown on birth record",
-          "expression": "${ sex_current }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "sex_change",
           "label": "Requested sex on birth record",
-          "expression": "${ sex_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "replacement_birth_record",
           "label": "Issue a replacement birth record",
-          "expression": "${ replacement_birth_record }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "keep_former_name_confidential",
           "label": "Keep former name confidential",
-          "expression": "${ keep_former_name_confidential }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "keep_former_sex_confidential",
           "label": "Keep former sex confidential",
-          "expression": "${ keep_former_sex_confidential }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "request_applicant_spouse_name_change",
-          "label": "Change spouse’s name",
-          "expression": "${ request_applicant_spouse_name_change }",
-          "widget_count": 1
+          "label": "Change spouse\u2019s name",
+          "type": "/Btn"
         },
         {
           "name": "spouses_name_first__1",
           "label": "Spouse: current first name",
-          "expression": "${ spouses[0].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_name_middle__1",
           "label": "Spouse: current middle name",
-          "expression": "${ spouses[0].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_name_last__1",
           "label": "Spouse: current last name",
-          "expression": "${ spouses[0].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_name_first_change",
           "label": "Spouse: requested first name",
-          "expression": "${ spouses_name_first_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_name_middle_change",
           "label": "Spouse: requested middle name",
-          "expression": "${ spouses_name_middle_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_name_last_change",
           "label": "Spouse: requested last name",
-          "expression": "${ spouses_name_last_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "request_childrens_name_change",
-          "label": "Change minor children’s names",
-          "expression": "${ request_childrens_name_change }",
-          "widget_count": 1
+          "label": "Change minor children\u2019s names",
+          "type": "/Btn"
         },
         {
           "name": "children1_name_middle__1",
           "label": "Child 1: current middle name",
-          "expression": "${ children[0].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children1_name_last__1",
           "label": "Child 1: current last name",
-          "expression": "${ children[0].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children1_name_middle_change",
           "label": "Child 1: requested middle name",
-          "expression": "${ children1_name_middle_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children1_name_last_change",
           "label": "Child 1: requested last name",
-          "expression": "${ children1_name_last_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children2_name_first__1",
           "label": "Child 2: current first name",
-          "expression": "${ children[1].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children2_name_middle__1",
           "label": "Child 2: current middle name",
-          "expression": "${ children[1].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children2_name_last__1",
           "label": "Child 2: current last name",
-          "expression": "${ children[1].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children2_name_first_change",
           "label": "Child 2: requested first name",
-          "expression": "${ children2_name_first_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children2_name_middle_change",
           "label": "Child 2: requested middle name",
-          "expression": "${ children2_name_middle_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children2_name_last_change",
           "label": "Child 2: requested last name",
-          "expression": "${ children2_name_last_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children3_name_first__1",
           "label": "Child 3: current first name",
-          "expression": "${ children[2].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children3_name_middle__1",
           "label": "Child 3: current middle name",
-          "expression": "${ children[2].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children3_name_last__1",
           "label": "Child 3: current last name",
-          "expression": "${ children[2].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children3_name_first_change",
           "label": "Child 3: requested first name",
-          "expression": "${ children3_name_first_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children3_name_middle_change",
           "label": "Child 3: requested middle name",
-          "expression": "${ children3_name_middle_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children3_name_last_change",
           "label": "Child 3: requested last name",
-          "expression": "${ children3_name_last_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children4_name_middle__1",
           "label": "Child 4: current middle name",
-          "expression": "${ children[3].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children4_name_first__1",
           "label": "Child 4: current first name",
-          "expression": "${ children[3].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children4_name_first_change",
           "label": "Child 4: requested first name",
-          "expression": "${ children4_name_first_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children4_name_last__1",
           "label": "Child 4: current last name",
-          "expression": "${ children[3].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children4_name_middle_change",
           "label": "Child 4: requested middle name",
-          "expression": "${ children4_name_middle_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children4_name_last_change",
           "label": "Child 4: requested last name",
-          "expression": "${ children4_name_last_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children5_name_first__1",
           "label": "Child 5: current first name",
-          "expression": "${ children[4].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children5_name_middle__1",
           "label": "Child 5: current middle name",
-          "expression": "${ children[4].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children5_name_last__1",
           "label": "Child 5: current last name",
-          "expression": "${ children[4].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children5_name_first_change",
           "label": "Child 5: requested first name",
-          "expression": "${ children5_name_first_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children5_name_middle_change",
           "label": "Child 5: requested middle name",
-          "expression": "${ children5_name_middle_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "children5_name_last_change",
           "label": "Child 5: requested last name",
-          "expression": "${ children5_name_last_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "criminal_history",
           "label": "Criminal history description",
-          "expression": "${ Application_for_name_change_attachment.safe_value(\"criminal_history\") }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "parties_with_criminal_history",
           "label": "Names of applicants convicted of a felony",
-          "expression": "${ parties_with_criminal_history }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "parties_have_criminal_history",
           "label": "One or more applicants have criminal history",
-          "expression": "${ parties_have_criminal_history }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "no_parties_have_criminal_history",
           "label": "No applicant has criminal history",
-          "expression": "${ no_parties_have_criminal_history }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "party1_with_offense",
-          "label": "Offense 1: person’s name",
-          "expression": "${ party1_with_offense }",
-          "widget_count": 1
+          "label": "Offense 1: person\u2019s name",
+          "type": "/Tx"
         },
         {
           "name": "party1_name_of_offense",
           "label": "Offense 1: offense name",
-          "expression": "${ party1_name_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party1_date_of_offense",
           "label": "Offense 1: offense date",
-          "expression": "${ party1_date_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party1_state_of_offense",
           "label": "Offense 1: state",
-          "expression": "${ party1_state_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party2_with_offense",
-          "label": "Offense 2: person’s name",
-          "expression": "${ party2_with_offense }",
-          "widget_count": 1
+          "label": "Offense 2: person\u2019s name",
+          "type": "/Tx"
         },
         {
           "name": "party2_name_of_offense",
           "label": "Offense 2: offense name",
-          "expression": "${ party2_name_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party2_date_of_offense",
           "label": "Offense 2: offense date",
-          "expression": "${ party2_date_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party2_state_of_offense",
           "label": "Offense 2: state",
-          "expression": "${ party2_state_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party3_with_offense",
-          "label": "Offense 3: person’s name",
-          "expression": "${ party3_with_offense }",
-          "widget_count": 1
+          "label": "Offense 3: person\u2019s name",
+          "type": "/Tx"
         },
         {
           "name": "party3_name_of_offense",
           "label": "Offense 3: offense name",
-          "expression": "${ party3_name_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party3_date_of_offense",
           "label": "Offense 3: offense date",
-          "expression": "${ party3_date_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party3_state_of_offense",
           "label": "Offense 3: state",
-          "expression": "${ party3_state_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party4_with_offense",
-          "label": "Offense 4: person’s name",
-          "expression": "${ party4_with_offense }",
-          "widget_count": 1
+          "label": "Offense 4: person\u2019s name",
+          "type": "/Tx"
         },
         {
           "name": "party4_name_of_offense",
           "label": "Offense 4: offense name",
-          "expression": "${ party4_name_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party4_date_of_offense",
           "label": "Offense 4: offense date",
-          "expression": "${ party4_date_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party4_state_of_offense",
           "label": "Offense 4: state",
-          "expression": "${ party4_state_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party5_with_offense",
-          "label": "Offense 5: person’s name",
-          "expression": "${ party5_with_offense }",
-          "widget_count": 1
+          "label": "Offense 5: person\u2019s name",
+          "type": "/Tx"
         },
         {
           "name": "party5_name_of_offense",
           "label": "Offense 5: offense name",
-          "expression": "${ party5_name_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party5_date_of_offense",
           "label": "Offense 5: offense date",
-          "expression": "${ party5_date_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "party5_state_of_offense",
           "label": "Offense 5: state",
-          "expression": "${ party5_state_of_offense }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_involved_in_victim_or_witness_protection",
           "label": "Applicant is in a victim or witness protection program",
-          "expression": "${ users1_involved_in_victim_or_witness_protection }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "users1_name_first__2",
           "label": "Applicant: current first name",
-          "expression": "${ users[0].name.first }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_middle__2",
           "label": "Applicant: current middle name",
-          "expression": "${ users[0].name.middle }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_last__2",
           "label": "Applicant: current last name",
-          "expression": "${ users[0].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_first_change__1",
           "label": "Applicant: requested first name",
-          "expression": "${ users1_name_first_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_middle_change__1",
           "label": "Applicant: requested middle name",
-          "expression": "${ users1_name_middle_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_first_change_birth_record",
           "label": "Applicant: requested first name on birth record",
-          "expression": "${ users1_name_first_change_birth_record }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_middle_change_birth_record",
           "label": "Applicant: requested middle name on birth record",
-          "expression": "${ users1_name_middle_change_birth_record }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_last_change_birth_record",
           "label": "Applicant: requested last name on birth record",
-          "expression": "${ users1_name_last_change_birth_record }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "application_includes_spouse",
           "label": "Application includes spouse",
-          "expression": "${ application_includes_spouse }",
-          "widget_count": 2
+          "type": "/Btn"
         },
         {
           "name": "minor_children_listed_not_included_in_application",
           "label": "Application includes one or more listed minor children",
-          "expression": "${ minor_children_listed_not_included_in_application }",
-          "widget_count": 2
+          "type": "/Btn"
         },
         {
           "name": "users1_inmate_in_correctional_facility_and_submitting_inmate_aff",
           "label": "Applicant is incarcerated and submits an Inmate Affidavit",
-          "expression": "${ users1_inmate_in_correctional_facility_and_submitting_inmate_aff }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "users1_divorced_seeking_change_to_legal_name_on_birth_certificate",
           "label": "Divorced applicant seeks birth-certificate name and submits supporting certificates",
-          "expression": "${ users1_divorced_seeking_change_to_legal_name_on_birth_certificate }",
-          "widget_count": 1
+          "type": "/Btn"
         },
         {
           "name": "county_and_state_where_signed",
           "label": "County and state where signed",
-          "expression": "${ county_and_state_where_signed }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_full",
           "label": "Applicant: full name",
-          "expression": "${ users[0] }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_address_address",
           "label": "Applicant: street address",
-          "expression": "${ users[0].address.address }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_address_line_one",
           "label": "Applicant: street address",
-          "expression": "${ users[0].address.line_one() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_address_line_two",
           "label": "Applicant: city, state, and ZIP code",
-          "expression": "${ users[0].address.line_two() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_phone_number",
           "label": "Applicant: phone number",
-          "expression": "${ users[0].phone_number }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "county_and_state_where_signed__1",
           "label": "County and state where signed",
-          "expression": "${ county_and_state_where_signed }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_email",
           "label": "Applicant: email address",
-          "expression": "${ users[0].email }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_name_full",
           "label": "Spouse: full name",
-          "expression": "${ spouses[0] }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_address_line_one",
           "label": "Spouse: street address",
-          "expression": "${ spouses[0].address.line_one() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_address_line_two",
           "label": "Spouse: city, state, and ZIP code",
-          "expression": "${ spouses[0].address.line_two() }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_phone_number",
           "label": "Spouse: phone number",
-          "expression": "${ spouses[0].phone_number }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "spouses_email",
           "label": "Spouse: email address",
-          "expression": "${ spouses[0].email }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "minor_fourteen_years_old_name_full",
           "label": "Name of minor age 14 or older signing the form",
-          "expression": "${ minor_fourteen_years_old_name_full }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "minor_children_included_names",
           "label": "Names of minor children included in this application",
-          "expression": "${ Application_for_name_change_attachment.safe_value(\"minor_children_included_names\") }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "name_of_person_and_description_of_person_with_claim_interest_or_lien",
           "label": "Person with property interest or lien and legal description of property",
-          "expression": "${ Application_for_name_change_attachment.safe_value(\"name_of_person_and_description_of_person_with_claim_interest_or_lien\") }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_other_statements",
           "label": "Other information for the court",
-          "expression": "${ Application_for_name_change_attachment.safe_value(\"users1_other_statements\") }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "users1_name_last_change__1",
           "label": "Applicant: requested last name",
-          "expression": "${ users1_name_last_change }",
-          "widget_count": 1
+          "type": "/Tx"
         },
         {
           "name": "applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota",
           "label": "Applicant, spouse, or included child has an interest or lien in Minnesota land",
-          "expression": "${ applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota }",
-          "widget_count": 2
+          "type": "/Btn"
         },
         {
           "name": "children2_name_last",
           "label": "Child 2: current last name",
-          "expression": "${ children[1].name.last }",
-          "widget_count": 1
+          "type": "/Tx"
         }
       ],
       "all_fields_mapped": true,
-      "all_fields_named": true,
-      "all_fields_have_tooltips": true
+      "all_tooltips_present": true
+    },
+    {
+      "file": "Application_for_name_change_next_steps.docx",
+      "variables": [],
+      "jinja_labels": [],
+      "conditional_and_loop_tags": [],
+      "manual_execution_fields": "Signatures, initials, signing dates and notarial/witness attestations remain blank where applicable."
     }
   ]
 }
