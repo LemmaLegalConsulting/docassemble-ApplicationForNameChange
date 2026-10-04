@@ -1,0 +1,80 @@
+[
+  {
+    "file": "FEE101.pdf",
+    "url": "https://mncourts.gov/_media/migration/courtforms/fee-waiver/fee101.pdf",
+    "retrieved": "2026-10-04",
+    "sha256": "22126ba810b2a37a4dff8bf6aba6d9715f5733ddd3e4d93a4db44fa636ea756a"
+  },
+  {
+    "file": "FEE102.pdf",
+    "url": "https://mncourts.gov/_media/migration/courtforms/fee-waiver/fee102_current.pdf",
+    "retrieved": "2026-10-04",
+    "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8"
+  },
+  {
+    "file": "NAM101.pdf",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam101.pdf",
+    "retrieved": "2026-10-04",
+    "sha256": "28a8df3b8543bf3e332e097b0d28de4549484513ce5bb0dbad60e83592d92097"
+  },
+  {
+    "file": "NAM103.doc",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam103.doc",
+    "retrieved": "2026-10-04",
+    "sha256": "7eca79d799dc9bfeeb21841663efbd28f2b547e083d572066ee92182f426ace7"
+  },
+  {
+    "file": "NAM104.docx",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam104.docx",
+    "retrieved": "2026-10-04",
+    "sha256": "99bcbe8de7f83c9eddfb8c720292d173549f92e7810217c7fa93e5af7314e965"
+  },
+  {
+    "file": "NAM105.doc",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam105.doc",
+    "retrieved": "2026-10-04",
+    "sha256": "24fa34841b749f465af27b9590269728b859ab2a39039c35dae75dc628bc95ea"
+  },
+  {
+    "file": "NAM106.pdf",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam106.pdf",
+    "retrieved": "2026-10-04",
+    "sha256": "e0c984ce0e4d1aa882eb434f2cf5848f0744adb030e0291fa8690d6e3349973b"
+  },
+  {
+    "file": "NAM107.docx",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam107.docx",
+    "retrieved": "2026-10-04",
+    "sha256": "8d9ccf34b66b400f90998083019d028ec1f529c1ed3c8d693611da83c6b859e0"
+  },
+  {
+    "file": "NAM204.pdf",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam204.pdf",
+    "retrieved": "2026-10-04",
+    "sha256": "2fdc4951d52a50375a13018085ca5bbed7dbee66f3f1501b5dbc10bc7ac720ae"
+  },
+  {
+    "file": "NAM205.doc",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam205.doc",
+    "retrieved": "2026-10-04",
+    "sha256": "825d3f69df7b48c73666d644b51459663d61f2f7f806cbd963a6b222421ba4bd"
+  },
+  {
+    "file": "NAM206.pdf",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam206.pdf",
+    "retrieved": "2026-10-04",
+    "sha256": "54848c5e769853b7c527cefbbd988a58bc3adc77acf3d6ff7e5c4b0ba49571bf"
+  },
+  {
+    "file": "NAM207.doc",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam207.doc",
+    "retrieved": "2026-10-04",
+    "sha256": "4c137a580acd40b42a76f6de9728797f241dfe0b4b6c611b8b97e12b74e3bc97"
+  },
+  {
+    "file": "NAM207.pdf",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam207.pdf",
+    "retrieved": "2026-10-04",
+    "sha256": "353f3af393ee2041152a534d238428740b0142661323bfdcd1161c910a48288e"
+  }
+]

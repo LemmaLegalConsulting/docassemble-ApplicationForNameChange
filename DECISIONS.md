@@ -42,3 +42,19 @@ Add an explicit residence-county question because AssemblyLine does not supply t
 Use narrative ALKiln story tables plus assertions against downloaded PDF text. Include negative paths, recording-date/deadline boundaries, optional people, long text, and review edits. Save raw artifacts locally and commit only a sanitized execution summary. Keep synthetic unit/template checks in CI. Distinguish failures in test-tool compatibility from actual interview defects; document both, and never turn a failed expectation into a pass without explaining the change.
 
 - Clean GitHub CI exposed an implicit PyYAML dependency in the PDF mapping regression test. Pin PyYAML in development requirements so the test does not depend on the workstation environment.
+
+## Expand to the court packet — 2026-10-04
+
+Quinten explicitly requested the full required packet. Supersede the earlier application-only scope. Compare the live LHI 5664 adult flow (including qualification, birth records, release data, and optional fee waiver) with current NAM101 Rev 2/25. Retain the supplied repaired NAM102 Rev 7/23 because that is also the current court revision. Do not claim pixel identity with the newly downloaded original: there are existing field-overlay differences.
+
+Archive court originals and SHA-256 hashes. Label published NAM103, NAM104, NAM105, NAM107, NAM205, and NAM207 Word forms, using LibreOffice for legacy DOC conversion. Do not fill the judicial order section, judge signature, hearing date, service attestations, execution dates, or notice/no-objection findings. Normalize an invalid legacy core-properties relationship before rendering: otherwise docxtpl creates duplicate ZIP entries and LibreOffice rejects the result. Compact conversion-only spacing in release and inmate forms; long answers can expand naturally.
+
+Generate NAM103 for covered people age 10 and older, including children whose requested names are nonblank. Derive packet names from actual selected people rather than parsing a free-text list. A verified sole-adult post-dissolution exception omits the release and requires certified source documents. Repeated inmate requests and minor-only changes get explicit offramps rather than a false affidavit or adult application.
+
+NAM107 is prefilled only above IT IS ORDERED. The unchanged judicial section is checked against the court original. NAM104 is generated for each listed felony offense, with an explicit person and prosecuting jurisdiction; federal/out-of-state convictions mark the Attorney General recipient. The user still must serve the application and provide actual proof of service.
+
+For included children sharing one non-applicant parent, generate a hearing notice and partially prepared NAM205 when an address is known. When an address is unknown, collect actual search efforts for NAM207; explain that its filed-application statement must be true before signing. Publication awaits a judicial order and newspaper proof. Multiple other parents need further implementation.
+
+FEE102 is a clearly identified DOCX adaptation of the current court form, with legal-aid, listed-benefit, low-income, and fuller financial paths. Preserve every numbered declaration and gather household, income, debt, money, expenses, and property information when required. Use current court instructions for poverty guidelines rather than retaining the LHI interview’s dated dollar amounts. Keep the confidential affidavit out of the combined public filing bundle. Inmates receive FEE201 guidance; that distinct financial affidavit is still a separate manual step.
+
+The court’s NAM101/NAM106 and conditional service, publication, and fee-waiver instructions are downloadable public static documents. Court administration supplies hearing details; the actual server signs proof of service. Legal acceptance, local court requirements, and unusual workflows still need client review.
