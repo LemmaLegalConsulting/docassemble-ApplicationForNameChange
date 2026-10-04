@@ -7,7 +7,7 @@ Reviewed 2026-10-04. Static source/template review only; no completed browser in
 1. **Fix spouse and child branching.** In `data/questions/Application_for_name_change.yml`, the interview order gathers spouse details before `not_married`, then accesses five children's birthdates unconditionally before `no_minor_children`. Branch on household and application scope before gathering people. Test unmarried/no children and each supported family combination without forcing extra people.
 2. **Finish semantic PDF mapping QA.** The setup pass split the second child’s last-name widget out of the third child’s field and corrected the corresponding YAML mapping. All 152 logical PDF fields now have exactly one mapping. Confirm checkbox exports, spouse inclusion values, and every repeated field using complete interview scenarios; static coverage does not prove correct answers.
 3. **Replace placeholder next steps.** `Application_for_name_change_next_steps.docx` contains “doing XYZ,” generic other-party delivery/waiting text, and unfinished sections. Obtain client-approved filing, signatures, service/notice, hearing, and follow-up instructions for the supported routes.
-4. **Supply or replace the missing logo asset.** `al_logo` points to `MNfavicon-96x96.png`, but the package's static directory contains only a README. Check branding and the first interview screen on the deployment server.
+4. **Verify branding on the target server.** Restored the referenced `MNfavicon-96x96.png` from Amanda’s HCD package; confirm its appearance in the deployed theme.
 
 ## P1 — functional and document QA
 
@@ -28,4 +28,3 @@ Reviewed 2026-10-04. Static source/template review only; no completed browser in
 - Long answers and overflow; review/edit/re-download; distinguish every person's PDF fields.
 - Print-ready output and client-approved next steps.
 
-Planning range: **14–20 hours**, assuming existing form reuse and one consolidated client review round.
