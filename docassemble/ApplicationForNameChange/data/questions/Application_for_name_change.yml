@@ -14,6 +14,20 @@ metadata:
   - https://www.mncourts.gov/GetForms.aspx?c=27
   help_page_url: https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information
   help_page_title: Name Change - Minnesota Court Forms and Information
+  can_I_use_this_form: |
+    This interview starts with an adult asking for a name or birth-record change.
+    An adult spouse and up to five children may be included for name changes.
+    Changes only for minors use a separate court packet.
+  before_you_start: |
+    Gather current and requested names, birth dates, family information, criminal history,
+    and any Minnesota property interests. If children are included, gather information
+    about their other parent. A fee-waiver request may require financial records.
+  LIST_topics:
+  - FA-11-01-00-00
+  form_numbers:
+  - NAM102
+  - NAM103
+  - NAM107
   allowed_courts: []
   typical_role: na
   al_weaver_version: 1.10.3
@@ -248,7 +262,12 @@ question: |
   Application for name change
 subquestion: |
   Prepare an Application for Name Change and Other Relief (NAM102).
-  You can include a spouse or minor children. Gather current names, dates of birth,
+  This interview starts with an adult. You can include a spouse or up to 5 minor children.
+  If only minors need a change, use the [court's minor packet](https://mncourts.gov/getforms/name-change).
+  More children, more than 5 felony offenses, or children with different other parents
+  need additional forms or help from court administration.
+
+  Gather current names, dates of birth,
   requested names, and any criminal history or Minnesota property interests.
 
   Prepare the application, criminal-history releases, and proposed order.
@@ -798,7 +817,9 @@ subquestion: |
   Hearing notices need the date, time, and location supplied by the court.
   Read the included checklist and court instructions before filing.
 
-  ${ "Keep the confidential fee-waiver affidavit separate from public forms when filing." if request_fee_waiver else "" }
+  % if request_fee_waiver:
+  Keep the confidential fee-waiver affidavit separate from public forms when filing.
+  % endif
 
   Learn more: [Name Change - Minnesota Court Forms and Information](https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information) on LawHelpMN.
 progress: 100

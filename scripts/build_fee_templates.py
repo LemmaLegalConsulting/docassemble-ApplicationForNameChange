@@ -1,8 +1,28 @@
 from pathlib import Path
 from docx import Document
 from docx.shared import Pt
+from docx.shared import RGBColor
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+from docx.opc.constants import RELATIONSHIP_TYPE as RT
+
+def styles(document):
+ document.styles['Normal'].font.name='Arial'
+ document.styles['Normal'].font.size=Pt(11)
+ document.styles['Normal'].paragraph_format.space_after=Pt(6)
+ heading=document.styles['Heading 1']
+ heading.font.name='Arial';heading.font.size=Pt(16);heading.font.color.rgb=RGBColor(0,0,0)
+
+def add_text(document,text,heading=False):
+ paragraph=document.add_paragraph(style='Heading 1' if heading else None)
+ if text.startswith('https://'):
+  link=OxmlElement('w:hyperlink');link.set(qn('r:id'),document.part.relate_to(text,RT.HYPERLINK,is_external=True))
+  run=OxmlElement('w:r');properties=OxmlElement('w:rPr');style=OxmlElement('w:rStyle');style.set(qn('w:val'),'Hyperlink');properties.append(style);run.append(properties)
+  value=OxmlElement('w:t');value.text=text;run.append(value);link.append(run);paragraph._p.append(link)
+ else:paragraph.add_run(text)
+ return paragraph
 p=Path(__file__).resolve().parents[1]/'docassemble/ApplicationForNameChange/data/templates'
-d=Document();d.styles['Normal'].font.name='Arial';d.styles['Normal'].font.size=Pt(11)
+d=Document();styles(d)
 paragraphs=[
 'CONFIDENTIAL',
 'State of Minnesota — District Court',
@@ -51,12 +71,12 @@ paragraphs=[
 'Phone: {{ users[0].phone_number }}    Email: {{ users[0].email }}',
 'File this confidential affidavit with your pleadings and proof of public assistance or financial need. A judicial officer will decide whether to grant a full or partial waiver.'
 ]
-for i,t in enumerate(paragraphs):d.add_paragraph(t, style='Title' if i == 5 else None)
+for i,t in enumerate(paragraphs):add_text(d,t,heading=i == 5)
 d.core_properties.title='Affidavit to request fee waiver'
 d.sections[0].footer.paragraphs[0].text='Adapted from Minnesota Judicial Branch FEE102, Rev. 07/24 — financial details expand as needed.'
 d.save(p/'fee_waiver_affidavit.docx')
 # Fresh packet checklist, rather than the old application-only instructions.
-d=Document();d.styles['Normal'].font.name='Arial';d.styles['Normal'].font.size=Pt(11)
+d=Document();styles(d)
 for t in [
 'Minnesota name change — your next steps',
 'For {{ users[0].name.full() }}',
@@ -101,6 +121,6 @@ for t in [
 'Name Change — Minnesota Court Forms and Information on LawHelpMN:',
 'https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information'
 ]:
- d.add_paragraph(t, style='Title' if t == 'Minnesota name change — your next steps' else None)
+ add_text(d,t,heading=t == 'Minnesota name change — your next steps')
 d.core_properties.title='Minnesota name change — your next steps'
 d.save(p/'Application_for_name_change_next_steps.docx')

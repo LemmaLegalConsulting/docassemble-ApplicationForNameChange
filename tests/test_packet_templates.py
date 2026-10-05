@@ -55,6 +55,11 @@ class PacketTemplates(unittest.TestCase):
   text,_=render('proposed_name_change_order.docx',c)
   self.assertEqual(text.count('IT IS ORDERED that:'),2)
   self.assertIn('Robin Newname',text);self.assertIn('Jamie Newname',text)
+ def test_parent_service_title_is_separate_from_children(self):
+  c=context();c.update(included_children_names='Avery Original; Casey Original',children_requested_names='Avery Newname; Casey Newname')
+  _,doc=render('parental_personal_service.docx',c)
+  self.assertTrue(any(p.text == 'Affidavit of Personal Service' for p in doc.paragraphs))
+  self.assertTrue(any(p.text == 'Avery Original; Casey Original' for p in doc.paragraphs))
  def test_source_judicial_order_section_is_unmodified(self):
   original=Document(ROOT/'docassemble/ApplicationForNameChange/data/sources/court-originals/NAM107.docx')
   labeled=Document(T/'proposed_name_change_order.docx')

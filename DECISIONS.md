@@ -66,3 +66,9 @@ The downloaded LHI adult packet contains NAM102, NAM103, NAM107, court instructi
 Missing a parent from a birth certificate does not alone establish a notice exception. Require confirmation of the supplemental guide's marriage/attempted-marriage, Recognition of Parentage, and parentage-order conditions before using the unidentified-parent route. This is a conservative development guard for all counties, not a determination that a court has waived notice.
 
 Include the current blank FEE201 for the inmate fee-waiver route, with eligibility/account-record guidance. It is intentionally a manual financial affidavit, not a filled FEE102 substitution. Visual review found a narrow table cell wrapping the state name and duplicate checkbox list bullets in NAM107. Put state/county text in the wide caption cells and remove duplicate list bullets only from replaced checkbox paragraphs. Preserve numbered findings and the court-only order section.
+
+## Style and scope presentation
+
+Display the adult/minor distinction, five-row limits, and single-other-parent boundary before asking for detailed information. Follow the published adult-name-change interview's pattern of explicit eligibility/preparation metadata. Keep Minnesota legal rules grounded in the Minnesota sources. Use semantic headings in the newly authored fee affidavit/checklist, smaller heading spacing to avoid an orphaned instruction page, and a live printable LawHelpMN hyperlink. Keep official form names and required declarations even when the style checker suggests simpler words.
+
+Separate NAM205's title from the children's current-name field: the original tabbed line does not accommodate several full names reliably. Add a regression asserting that title and names remain distinct. Render parental samples with actual synthetic children instead of a childless default context.

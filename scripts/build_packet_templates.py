@@ -8,6 +8,8 @@ from tempfile import TemporaryDirectory
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.oxml import OxmlElement
+from docx.enum.style import WD_STYLE_TYPE
+from docx.oxml.ns import qn
 ROOT=Path(__file__).resolve().parents[1]
 DATA=ROOT/'docassemble/ApplicationForNameChange/data'
 OUT=DATA/'templates'; ORIG=DATA/'sources/court-originals'
@@ -74,7 +76,14 @@ with TemporaryDirectory() as tmp:
  for index,text in {4:'{{ users[0].name.full() }}',9:'{{ applicant_requested_name }}',16:'I, {{ users[0].name.full() }}, the applicant in this matter, make the following statement:',17:'☒ I am currently an inmate confined in a correctional facility, as defined in section 241.021, subdivision 1(f).',19:'☒ I have not at any time during my confinement requested a name change under section 259.10, other than this request.',21:'☒ The reason I am seeking a name change is: {{ inmate_name_change_reason }}',27:'☒ I request the court to issue its Order Granting Name Change.',33:'Name: {{ users[0].name.full() }}',34:'Address: {{ users[0].address.address }}',35:'City/State/Zip: {{ users[0].address.line_two() }}',36:'Telephone: {{ users[0].phone_number }}',37:'E-mail address: {{ users[0].email }}'}.items():replace(d,index,text)
  d.save(OUT/'inmate_name_change_affidavit.docx')
  d=Document(Path(tmp)/'NAM205.docx');caption_table(d)
- for index,text in {4:'{{ users[0].name.full() }}',9:'{{ included_children_names }}     Affidavit of Personal Service',14:'{{ children_requested_names }}',24:'18 years of age having been born on ______________ and that on ______________, I served the Application for a Name Change of a Minor and a notice of hearing upon {{ nonapplicant_parent_name }} at ______________________________ (address where documents were served) by handing a true and correct copy of the documents to him/her.'}.items():replace(d,index,text)
+ for index,text in {4:'{{ users[0].name.full() }}',9:'{{ included_children_names }}',14:'{{ children_requested_names }}',24:'18 years of age having been born on ______________ and that on ______________, I served the Application for a Name Change of a Minor and a notice of hearing upon {{ nonapplicant_parent_name }} at ______________________________ (address where documents were served) by handing a true and correct copy of the documents to him/her.'}.items():replace(d,index,text)
+ # The court original shares the title line with a tabbed child-name blank.
+ # Long names need their own paragraph so the title cannot be mistaken for a name.
+ if 'Heading 1' not in d.styles:
+  heading=d.styles.add_style('Heading 1',WD_STYLE_TYPE.PARAGRAPH)
+  heading.font.name='Times New Roman';heading.font.size=Pt(14);heading.font.bold=True
+  level=OxmlElement('w:outlineLvl');level.set(qn('w:val'),'0');heading.element.get_or_add_pPr().append(level)
+ d.paragraphs[2].insert_paragraph_before('Affidavit of Personal Service',style='Heading 1')
  d.save(OUT/'parental_personal_service.docx')
  d=Document(Path(tmp)/'NAM207.docx');caption_table(d)
  for index,text in {2:'{{ users[0].name.full() }}',7:'On Behalf of: {{ included_children_names }} (Minor Name Change)',12:'{{ children_requested_names }}',22:'I have filed an Application for Name Change in {{ district_court_county }} County District Court for a change of name for the minor child (ren) from {{ included_children_names }} to {{ children_requested_names }}.',26:'2c. ☒ I do not know the address of the non-applicant parent.',28:'3. The last known location of the non-applicant parent was: {{ parent_last_location }}',31:'The last known location of the non-applicant parent’s employment was: {{ parent_last_employment }}',34:'5. The names and addresses of the non-applicant parent’s parents, brothers or sisters, children, and other close relatives are: {{ parent_relatives }}',37:'{{ parent_search_efforts }}'}.items():replace(d,index,text)

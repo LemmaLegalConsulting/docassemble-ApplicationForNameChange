@@ -9,8 +9,13 @@ out=ROOT.parent/'template-previews/ApplicationForNameChange/packet';out.mkdir(pa
 c=m.context()
 names=['criminal_history_releases','proposed_name_change_order','felony_name_change_notices','inmate_name_change_affidavit','parental_hearing_notice','parental_personal_service','parental_publication_request','fee_waiver_affidavit','Application_for_name_change_next_steps']
 for name in names:
+ c=m.context()
+ if name.startswith('parental_'):
+  c.update(included_children_names='Avery Original; Casey Original',children_requested_names='Avery Newname; Casey Newname')
  d=DocxTemplate(ROOT/'docassemble/ApplicationForNameChange/data/templates'/(name+'.docx'))
  d.render(c,jinja_env=Environment(undefined=StrictUndefined),autoescape=True);d.save(out/(name+'.docx'))
+ # Never let a previous PDF disguise a conversion failure on this run.
+ (out/(name+'.pdf')).unlink(missing_ok=True)
 subprocess.run(['libreoffice','--headless','-env:UserInstallation=file:///tmp/mn-packet-preview','--convert-to','pdf','--outdir',str(out),*[str(p) for p in out.glob('*.docx')]],check=True)
 for name in names:
  assert (out/(name+'.pdf')).exists(), 'PDF conversion failed: '+name
