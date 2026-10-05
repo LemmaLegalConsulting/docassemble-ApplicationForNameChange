@@ -118,6 +118,7 @@ code: |
   if not no_nonapplicant_parent:
     parents_nonapplicant_unknown
     if not parents_nonapplicant_unknown:
+      parents_nonapplicant_name_first
       parent_address_known
   parties_have_criminal_history
   no_parties_have_criminal_history = not parties_have_criminal_history
@@ -152,8 +153,7 @@ code: |
   included_children_names = "; ".join(child.name.full() for child in included_children)
   children_requested_names = "; ".join(pair[1] for pair in child_requested_pairs)
   children_requested_summary = "; ".join(old + " → " + new for old, new in child_requested_pairs)
-  if included_children:
-    minor_children_included_names = included_children_names
+  minor_children_included_names = included_children_names
   listed_children_summary = "; ".join(child.name.full() + "; " + child.birthdate.format() for child in children) if not no_minor_children else "None"
   listed_spouse_summary = spouses[0].name.full() + "; " + spouses[0].birthdate.format() if not not_married else "None"
   packet_people = [users[0]] + ([spouses[0]] if spouse_included else []) + included_children
@@ -259,107 +259,116 @@ comment: |
 id: Application_for_name_change
 continue button field: Application_for_name_change_intro
 question: |
-  Application for name change
+  Apply for a Minnesota name change
 subquestion: |
-  Prepare an Application for Name Change and Other Relief (NAM102).
-  This interview starts with an adult. You can include a spouse or up to 5 minor children.
-  If only minors need a change, use the [court's minor packet](https://mncourts.gov/getforms/name-change).
-  More children, more than 5 felony offenses, or children with different other parents
-  need additional forms or help from court administration.
+  This interview prepares the forms an adult needs to ask the court for a name change.
+  You can also include your spouse and up to 5 children under 18.
 
-  Gather current names, dates of birth,
-  requested names, and any criminal history or Minnesota property interests.
+  We will prepare the Application for Name Change (NAM102), criminal history releases,
+  and a proposed order. We will add other forms if your answers show you need them.
 
-  Prepare the application, criminal-history releases, and proposed order.
-  We will add notices, affidavits, and a fee-waiver request when they apply to your answers.
-  Read the [court instructions](https://mncourts.gov/help-topics/name-change)
-  for filing, notice requirements, and the hearing.
+  Have this information ready:
 
-  The application states that everyone requesting a name change has lived in Minnesota
-  for at least six months. Get help before signing if that statement is not true.
+  * Current names, new names, and birth dates for everyone applying
+  * Any criminal history
+  * Any land in Minnesota that someone applying owns or has a claim to
+
+  ${ collapse_template(name_change_limits_template) }
 
   Read [Name Change - Minnesota Court Forms and Information](https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information) on LawHelpMN for more information.
 ---
+template: name_change_limits_template
+subject: |
+  What this interview cannot do
+content: |
+  * If only children under 18 need a name change, use the [court’s minor packet](https://mncourts.gov/getforms/name-change).
+  * If you have more than 5 children, more than 5 felony offenses, or children with different
+    other parents, you will need extra forms or help from court administration.
+
+  Read the [court instructions](https://mncourts.gov/help-topics/name-change)
+  to learn about filing, giving notice, and the hearing.
+---
 id: Interpreter
-question: Do you need an interpreter?
+question: Interpreter
 fields:
-- Request an interpreter: interpreter_request
+- Do you need an interpreter at the hearing?: interpreter_request
   datatype: yesnoradio
-- Language for the requested interpreter: interpreter_language
+- Language: interpreter_language
   show if: interpreter_request
 ---
 id: Court Information
-question: Where will you file?
+question: Which county will you file in?
+subquestion: |
+  Most people file in the county where they live.
 fields:
-- District court county where you will file this application: district_court_county
-- Judicial district where you will file this application: judicial_district
-- Court file number, if you have one: docket_number
+- County: district_court_county
+  datatype: dropdown
+  code: minnesota_counties
+  default: ${ users[0].address.county }
+- Court file number (optional): docket_number
   required: false
+  help: You only have a court file number if you already have a case. Most people leave this blank.
 ---
 id: Requesting your name change
-question: What name are you requesting?
-subquestion: Enter the full name you want, including any parts that will stay the same.
+question: Your new name
+subquestion: If yes, type your full new name. Include any parts that will stay the same.
 fields:
-- Are you asking to change your name?: request_for_applicant_name_change
+- Do you want to change your name?: request_for_applicant_name_change
   datatype: yesnoradio
-- 'Change your first name to:': users1_name_first_change
+- New first name: users1_name_first_change
   show if: request_for_applicant_name_change
-- 'Change your middle name to:': users1_name_middle_change
+- New middle name (optional): users1_name_middle_change
   required: false
   show if: request_for_applicant_name_change
-- 'Change your last name to:': users1_name_last_change
+- New last name: users1_name_last_change
   show if: request_for_applicant_name_change
 ---
 id: Birth Record
-question: Do you want to change your name on your birth record?
-subquestion: The requested name must match your current name or the new name you are requesting.
+question: Name on your birth record
+subquestion: If yes, use either your current name or the new name you asked for.
 fields:
-- You are requesting your own name be changed on your official birth record: request_for_applicant_name_change_on_birth_record
+- Do you want to change the name on your birth record?: request_for_applicant_name_change_on_birth_record
   datatype: yesnoradio
-- 'Change your birth record first name to:': users1_name_first_change_birth_record
+- First name for birth record: users1_name_first_change_birth_record
   show if: request_for_applicant_name_change_on_birth_record
-- 'Change your birth record middle name to:': users1_name_middle_change_birth_record
+- Middle name for birth record (optional): users1_name_middle_change_birth_record
   required: false
   show if: request_for_applicant_name_change_on_birth_record
-- 'Change your birth record last name to:': users1_name_last_change_birth_record
+- Last name for birth record: users1_name_last_change_birth_record
   show if: request_for_applicant_name_change_on_birth_record
 ---
 id: birth record sex
-question: Do you want to change the sex listed on your birth record?
+question: Sex on your birth record
 fields:
-- Request sex change on your birth record: request_sex_change_on_birth_record
+- Do you want to change the sex listed on your birth record?: request_sex_change_on_birth_record
   datatype: yesnoradio
-- You current sex: sex_current
+- Sex now listed on your birth record: sex_current
   show if: request_sex_change_on_birth_record
-- Change your sex to: sex_change
+- New sex for your birth record: sex_change
   show if: request_sex_change_on_birth_record
 ---
 id: replacement birth record
-question: Do you want a replacement birth record?
+question: Replacement birth record
 fields:
-- Ask for a replacement birth record: replacement_birth_record
+- Do you want a replacement birth record?: replacement_birth_record
   datatype: yesnoradio
-  help: Ask the Minnesota Department of Health to issue and register a replacement birth record.
-- ? Request the prior birth record be kept confidential and the replacement birth record not to include
-    any reference to your name
-  : keep_former_name_confidential
+  help: The Minnesota Department of Health can issue a new birth record to replace your old one.
+- Leave your former name off the new record and keep the old record private?: keep_former_name_confidential
   datatype: yesnoradio
   show if: replacement_birth_record
-- ? Request the prior birth record be kept confidential and the replacement birth record not to include
-    any reference to your sex
-  : keep_former_sex_confidential
+- Leave your former sex off the new record and keep the old record private?: keep_former_sex_confidential
   datatype: yesnoradio
   show if: replacement_birth_record
 ---
 id: Spouse Information
-question: Are you married?
+question: Your spouse
 fields:
 - Are you married?: not_married
   datatype: radio
   choices:
   - 'Yes': false
   - 'No': true
-- Include your spouse in this application?: application_includes_spouse
+- Is your spouse applying for a name change with you?: application_includes_spouse
   input type: radio
   choices:
   - 'Yes': yes_includes_spouse
@@ -369,158 +378,167 @@ fields:
     is: false
 ---
 id: spouse requested name
-question: What name is your spouse requesting?
+question: Your spouse's new name
+subquestion: If yes, type your spouse's full new name. Include any parts that will stay the same.
 fields:
-- Request your spouse's name be changed: request_applicant_spouse_name_change
+- Does your spouse want to change their name?: request_applicant_spouse_name_change
   datatype: yesnoradio
-- 'Change your spouse''s first name to:': spouses_name_first_change
+- Spouse's new first name: spouses_name_first_change
   show if: request_applicant_spouse_name_change
-- 'Change your Spouse''s middle name to:': spouses_name_middle_change
+- Spouse's new middle name (optional): spouses_name_middle_change
   required: false
   show if: request_applicant_spouse_name_change
-- 'Change your Spouse''s last name to:': spouses_name_last_change
+- Spouse's new last name: spouses_name_last_change
   show if: request_applicant_spouse_name_change
 ---
 id: Children Information
-question: Do you have minor children?
+question: Do you have any children under 18?
 fields:
-- Do you have any minor children?: no_minor_children
+- no label: no_minor_children
   datatype: radio
   choices:
   - 'Yes': false
   - 'No': true
 ---
 id: children extra sheet reminder
-question: Add an extra sheet for additional children
-subquestion: This application has five rows. List additional children and any requested name changes on
-  an extra sheet.
+question: List your other children on an extra sheet
+subquestion: The application only has room for 5 children. On a separate sheet of paper, list your other
+  children and any new names they want. Attach it to your application.
 continue button field: children_extra_sheet
 ---
 id: children included
-question: Are any of your children applying with you?
+question: Are any of your children applying for a name change with you?
 fields:
-- Include any minor children in this application?: minor_children_listed_not_included_in_application
+- no label: minor_children_listed_not_included_in_application
   input type: radio
   choices:
   - 'Yes': minor_children_included_yes
   - 'No': minor_children_included_no
-- Names of the children included in this application: minor_children_included_names
-  input type: area
+- Are you asking to change your children’s names?: request_childrens_name_change
+  datatype: yesnoradio
   show if:
     variable: minor_children_listed_not_included_in_application
     is: minor_children_included_yes
 ---
-id: children request
-question: Are you asking to change your children’s names?
-fields:
-- Request your children's names be changed: request_childrens_name_change
-  datatype: yesnoradio
----
 id: child 1 requested name
 question: What name are you requesting for ${ children[0] }?
-subquestion: Leave all three fields blank if this child is not requesting a name change.
+subquestion: |
+  Type ${ children[0].name.first }'s full new name. If this child is not changing their name, leave all 3 boxes blank.
 fields:
-- 'Change the first name of your first listed child to:': children1_name_first_change
+- New first name: children1_name_first_change
   required: false
-- 'Change the middle name of your first listed child to:': children1_name_middle_change
+- New middle name: children1_name_middle_change
   required: false
-- 'Change the last name of your first listed child to:': children1_name_last_change
+- New last name: children1_name_last_change
   required: false
 ---
 id: child 2 requested name
 question: What name are you requesting for ${ children[1] }?
-subquestion: Leave all three fields blank if this child is not requesting a name change.
+subquestion: |
+  Type ${ children[1].name.first }'s full new name. If this child is not changing their name, leave all 3 boxes blank.
 fields:
-- 'Change the first name of your second listed child to:': children2_name_first_change
+- New first name: children2_name_first_change
   required: false
-- 'Change the middle name of your second listed child to:': children2_name_middle_change
+- New middle name: children2_name_middle_change
   required: false
-- 'Change the last name of your second listed child to:': children2_name_last_change
+- New last name: children2_name_last_change
   required: false
 ---
 id: child 3 requested name
 question: What name are you requesting for ${ children[2] }?
-subquestion: Leave all three fields blank if this child is not requesting a name change.
+subquestion: |
+  Type ${ children[2].name.first }'s full new name. If this child is not changing their name, leave all 3 boxes blank.
 fields:
-- 'Change the first name of your third listed child to:': children3_name_first_change
+- New first name: children3_name_first_change
   required: false
-- 'Change the middle name of your third listed child to:': children3_name_middle_change
+- New middle name: children3_name_middle_change
   required: false
-- 'Change the last name of your third listed child to:': children3_name_last_change
+- New last name: children3_name_last_change
   required: false
 ---
 id: child 4 requested name
 question: What name are you requesting for ${ children[3] }?
-subquestion: Leave all three fields blank if this child is not requesting a name change.
+subquestion: |
+  Type ${ children[3].name.first }'s full new name. If this child is not changing their name, leave all 3 boxes blank.
 fields:
-- 'Change the first name of your fourth listed child to:': children4_name_first_change
+- New first name: children4_name_first_change
   required: false
-- 'Change the middle name of your fourth listed child to:': children4_name_middle_change
+- New middle name: children4_name_middle_change
   required: false
-- 'Change the last name of your fourth listed child to:': children4_name_last_change
+- New last name: children4_name_last_change
   required: false
 ---
 id: child 5 requested name
 question: What name are you requesting for ${ children[4] }?
-subquestion: Leave all three fields blank if this child is not requesting a name change.
+subquestion: |
+  Type ${ children[4].name.first }'s full new name. If this child is not changing their name, leave all 3 boxes blank.
 fields:
-- 'Change the first name of your fifth listed child to:': children5_name_first_change
+- New first name: children5_name_first_change
   required: false
-- 'Change the middle name of your fifth listed child to:': children5_name_middle_change
+- New middle name: children5_name_middle_change
   required: false
-- 'Change the last name of your fifth listed child to:': children5_name_last_change
+- New last name: children5_name_last_change
   required: false
 ---
 id: Non Applicant Parent Information
-question: Tell us about the parent who is not applying
-subquestion: Use an extra sheet if children have different non-applicant parents.
+question: Tell us about your children’s other parent
+subquestion: |
+  The court must tell the other parent about your application.
+  This interview works for one other parent shared by all the children applying.
 fields:
-- Is the other parent unknown and absent from the birth certificate?: parents_nonapplicant_unknown
+- Which is true?: parents_nonapplicant_unknown
+  datatype: radio
+  choices:
+  - I know who the other parent is, or their name is on the birth certificate: false
+  - The other parent is unknown, and no other parent is named on the birth certificate: true
+- First name: parents_nonapplicant_name_first
+  show if:
+    variable: parents_nonapplicant_unknown
+    is: false
+- Middle name (optional): parents_nonapplicant_name_middle
+  required: false
+  show if:
+    variable: parents_nonapplicant_unknown
+    is: false
+- Last name: parents_nonapplicant_name_last
+  show if:
+    variable: parents_nonapplicant_unknown
+    is: false
+- Do you know the other parent’s address?: parent_address_known
   datatype: yesnoradio
-  help: Choose Yes only if the parent is unknown and their name is not on the child’s birth certificate.
-- First name of the non-applicant parent: parents_nonapplicant_name_first
   show if:
     variable: parents_nonapplicant_unknown
     is: false
-- Middle name of the non-applicant parent: parents_nonapplicant_name_middle
-  required: false
-  show if:
-    variable: parents_nonapplicant_unknown
-    is: false
-- Last name of the non-applicant parent: parents_nonapplicant_name_last
-  show if:
-    variable: parents_nonapplicant_unknown
-    is: false
-- Street address of the non-applicant parent: parents_nonapplicant_address_address
-  show if:
-    variable: parents_nonapplicant_unknown
-    is: false
-  required: false
-- City, state, and zipcode of the non-applicant parent: parents_nonapplicant_city_state_zip
-  show if:
-    variable: parents_nonapplicant_unknown
-    is: false
-  required: false
+  help: |
+    If you do not know the address, you can ask the court for permission to publish a notice.
+    The notice goes in a newspaper. You will need to explain how you tried to find the parent.
+- Street address: parents_nonapplicant_address_address
+  show if: parent_address_known
+- City, state, and ZIP code: parents_nonapplicant_city_state_zip
+  show if: parent_address_known
 ---
 id: Criminal History
-question: Does anyone applying have a criminal history?
+question: Does anyone applying have a criminal record?
+subquestion: Include yourself and anyone else applying with you.
 fields:
-- One or more parties applying for a name change in this application have a criminal history: parties_have_criminal_history
+- no label: parties_have_criminal_history
   datatype: yesnoradio
 ---
 id: criminal history details
-question: Tell us about the criminal history
+question: Tell us about the criminal record
 fields:
-- 'The parties in this application with a criminal history include:': criminal_history
+- Who has a criminal record?: criminal_history
   input type: area
-- One or more parties included in this application have been convicted of a felony: parties_with_criminal_history
+  help: List the name of each person applying who has a criminal record.
+- Has anyone applying been convicted of a felony?: parties_with_criminal_history
   datatype: yesnoradio
 ---
 id: felony count
 question: How many felony offenses do you need to list?
-subquestion: This form has five rows. If you need more, list the remaining offenses on an extra sheet.
+subquestion: The application only has room for 5. If there are more than 5, enter 5 here. List the
+  others on a separate sheet of paper and attach it to your application.
 fields:
-- Number of rows to fill: felony_count
+- Number of felony offenses: felony_count
   datatype: integer
   min: 1
   max: 5
@@ -528,95 +546,88 @@ fields:
 id: felony 1
 question: Tell us about felony offense 1
 fields:
-- Name of the first party with an offense: party1_with_offense
-- Name of the offense which the first party committed: party1_name_of_offense
-- Date of the offense which the first party committed: party1_date_of_offense
-- State where the first party committed the offense: party1_state_of_offense
+- Person convicted: party1_with_offense
+- Offense: party1_name_of_offense
+- Date of offense: party1_date_of_offense
+- State where the offense happened: party1_state_of_offense
 ---
 id: felony 2
 question: Tell us about felony offense 2
 fields:
-- Name of the second party with an offense: party2_with_offense
-- Name of the offense which the second party committed: party2_name_of_offense
-- Date of the offense which the second party committed: party2_date_of_offense
-- State in which the second party committed the offense: party2_state_of_offense
+- Person convicted: party2_with_offense
+- Offense: party2_name_of_offense
+- Date of offense: party2_date_of_offense
+- State where the offense happened: party2_state_of_offense
 ---
 id: felony 3
 question: Tell us about felony offense 3
 fields:
-- Name of the third party with an offense: party3_with_offense
-- Name of the offense which the third party committed: party3_name_of_offense
-- Date of the offense which the third party committed: party3_date_of_offense
-- State in which the third party committed the offense: party3_state_of_offense
+- Person convicted: party3_with_offense
+- Offense: party3_name_of_offense
+- Date of offense: party3_date_of_offense
+- State where the offense happened: party3_state_of_offense
 ---
 id: felony 4
 question: Tell us about felony offense 4
 fields:
-- Name of the fourth party with an offense: party4_with_offense
-- Name of the offense which the fourth party committed: party4_name_of_offense
-- Date of the offense which the fourth party committed: party4_date_of_offense
-- State in which the fourth party committed the offense: party4_state_of_offense
+- Person convicted: party4_with_offense
+- Offense: party4_name_of_offense
+- Date of offense: party4_date_of_offense
+- State where the offense happened: party4_state_of_offense
 ---
 id: felony 5
 question: Tell us about felony offense 5
 fields:
-- Name of the fifth party with an offense: party5_with_offense
-- Name of the offense which the fifth party committed: party5_name_of_offense
-- Date of the offense which the fifth party committed: party5_date_of_offense
-- State in which the fifth party committed the offense: party5_state_of_offense
+- Person convicted: party5_with_offense
+- Offense: party5_name_of_offense
+- Date of offense: party5_date_of_offense
+- State where the offense happened: party5_state_of_offense
 ---
 id: Other Relevant Information
-question: Does anyone applying have an interest in Minnesota land?
+question: Does anyone applying own or have a claim to land in Minnesota?
+subquestion: |
+  For example, they own a house or land, or have a lien or mortgage on someone else’s property.
 fields:
-- Does anyone applying have a claim, interest, or lien in Minnesota land?: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
+- no label: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
   input type: radio
   choices:
   - 'Yes': parties_have_claim_interest_or_lien
   - 'No': parties_do_not_have_claim_interest_or_lien
-- Give the name of the person with the claim, interest, or lien, and a legal description: name_of_person_and_description_of_person_with_claim_interest_or_lien
+- Name of each person and the legal description of the land: name_of_person_and_description_of_person_with_claim_interest_or_lien
   input type: area
+  help: The legal description is on the deed or the property tax statement.
   show if:
     variable: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
     is: parties_have_claim_interest_or_lien
 ---
 id: additional circumstances
-question: Do any of these statements apply to you?
+question: Do any of these apply to you?
 fields:
-- You are currently involved in a victim or witness protection program: users1_involved_in_victim_or_witness_protection
+- Are you in a victim or witness protection program?: users1_involved_in_victim_or_witness_protection
   datatype: yesnoradio
-- Are you in a correctional facility and submitting an Inmate Affidavit for Name Change?: users1_inmate_in_correctional_facility_and_submitting_inmate_aff
+- Are you in a prison, jail, or other correctional facility now?: users1_inmate_in_correctional_facility_and_submitting_inmate_aff
   datatype: yesnoradio
-- Are you using the divorce exception described below?: users1_divorced_seeking_change_to_legal_name_on_birth_certificate
+  help: If yes, we will also prepare the Inmate Affidavit for Name Change (NAM105).
+- Are you divorced and only changing back to the name on your birth certificate?: users1_divorced_seeking_change_to_legal_name_on_birth_certificate
   datatype: yesnoradio
-  help: Choose Yes only if you are divorced and want the legal name on your birth certificate. You must
-    submit certified copies of your dissolution document and birth certificate. Review NAM101 for the
-    exception under Minn. Stat. § 259.11.
+  help: This is called the divorce exception. You must file certified copies of your divorce
+    decree and your birth certificate. Read NAM101 to learn more.
 ---
 id: other statements
 question: Is there anything else you want the court to know?
 fields:
-- 'Other information which you think should be given to the court:': users1_other_statements
+- Other information for the court (optional): users1_other_statements
   input type: area
   required: false
 ---
 id: Signatures
-question: Information for signing
-subquestion: You may leave these fields blank to fill in when signing. Review the court instructions about
-  who must sign.
+question: Where will you sign the application?
+subquestion: You can leave these blank and fill them in by hand when you sign.
 fields:
-- County and state where signed: county_and_state_where_signed
+- County and state where you will sign (optional): county_and_state_where_signed
   required: false
-- 'Name of any minor (if fourteen years or older) who will sign this form:': minor_fourteen_years_old_name_full
+- Name of each child age 14 or older who will sign (optional): minor_fourteen_years_old_name_full
   required: false
----
-id: preview Application_for_name_change
-question: |
-  Preview your form before you sign it
-subquestion: "Here is a preview of the form you will sign on the next page.   \n\n${ al_court_bundle.as_pdf(key='preview')\
-  \ }\n\nClick the image to open it in a new tab. Click the \"Edit answers\" button\nto edit your answers.\n\
-  \n${ action_button_html(url_action('review_Application_for_name_change'), label='Edit answers', color='info')\
-  \ }\n\nRemember to come back to this window to continue and sign your form.\n"
-continue button field: Application_for_name_change_preview_question
 ---
 code: |
   signature_fields = []
@@ -631,100 +642,129 @@ question: |
   Review your answers
 review:
 - Edit: users[0].name.first
-  button: Your name
+  button: |
+    **Your name:** ${ users[0] }
 - Edit: users[0].birthdate
-  button: Your birthdate
+  button: |
+    **Your birth date:** ${ users[0].birthdate.format() }
 - Edit: users[0].address.address
-  button: Your address
+  button: |
+    **Your address:** ${ users[0].address.on_one_line() }
 - Edit: users[0].address.county
-  button: Your county
-- Edit: district_court_county
-  button: Court information
+  button: |
+    **Your county:** ${ users[0].address.county }
 - Edit: interpreter_request
-  button: Interpreter
+  button: |
+    **Interpreter:** ${ interpreter_language if interpreter_request else "Not needed" }
+- Edit: district_court_county
+  button: |
+    **County where you will file:** ${ district_court_county }
 - Edit: request_for_applicant_name_change
-  button: Requested name
+  button: |
+    **Your new name:** ${ applicant_requested_name if request_for_applicant_name_change else "No change" }
 - Edit: request_for_applicant_name_change_on_birth_record
-  button: Name on birth record
+  button: |
+    **Name on birth record:** ${ birth_requested_name if request_for_applicant_name_change_on_birth_record else "No change" }
 - Edit: request_sex_change_on_birth_record
-  button: Sex on birth record
+  button: |
+    **Sex on birth record:** ${ sex_change if request_sex_change_on_birth_record else "No change" }
 - Edit: replacement_birth_record
-  button: Replacement birth record
+  button: |
+    **Replacement birth record:** ${ yesno(replacement_birth_record) }
 - Edit: not_married
-  button: Marriage and spouse
+  button: |
+    **Married:** ${ "No" if not_married else "Yes" }
 - Edit: spouses.revisit
-  button: Spouse details
+  button: |
+    **Spouse:** ${ spouses[0] }
   show if: not not_married
 - Edit: request_applicant_spouse_name_change
-  button: Spouse requested name
+  button: |
+    **Spouse's new name:** ${ spouse_requested_name or "No change" }
   show if: not not_married and application_includes_spouse == "yes_includes_spouse"
 - Edit: no_minor_children
-  button: Minor children
+  button: |
+    **Children under 18:** ${ "None" if no_minor_children else comma_and_list(children) }
 - Edit: children.revisit
-  button: Children’s details
+  button: |
+    Edit your children's names and birth dates
   show if: not no_minor_children
 - Edit: minor_children_listed_not_included_in_application
-  button: Children applying
+  button: |
+    **Children applying with you:** ${ "Yes" if minor_children_listed_not_included_in_application == "minor_children_included_yes" else "No" }
   show if: not no_minor_children
+- Edit: children1_name_first_change
+  show if: not no_minor_children and children.number_gathered() > 0 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and request_childrens_name_change
+  button: |
+    **New name for child 1:** ${ " ".join(value("children1_name_" + part + "_change") for part in ["first", "middle", "last"]).strip() or "No change" }
+- Edit: children2_name_first_change
+  show if: not no_minor_children and children.number_gathered() > 1 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and request_childrens_name_change
+  button: |
+    **New name for child 2:** ${ " ".join(value("children2_name_" + part + "_change") for part in ["first", "middle", "last"]).strip() or "No change" }
+- Edit: children3_name_first_change
+  show if: not no_minor_children and children.number_gathered() > 2 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and request_childrens_name_change
+  button: |
+    **New name for child 3:** ${ " ".join(value("children3_name_" + part + "_change") for part in ["first", "middle", "last"]).strip() or "No change" }
+- Edit: children4_name_first_change
+  show if: not no_minor_children and children.number_gathered() > 3 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and request_childrens_name_change
+  button: |
+    **New name for child 4:** ${ " ".join(value("children4_name_" + part + "_change") for part in ["first", "middle", "last"]).strip() or "No change" }
+- Edit: children5_name_first_change
+  show if: not no_minor_children and children.number_gathered() > 4 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and request_childrens_name_change
+  button: |
+    **New name for child 5:** ${ " ".join(value("children5_name_" + part + "_change") for part in ["first", "middle", "last"]).strip() or "No change" }
 - Edit: parents_nonapplicant_unknown
-  button: Non-applicant parent
+  button: |
+    **Children's other parent:** ${ "Unknown" if parents_nonapplicant_unknown else parents_nonapplicant_name_first + " " + parents_nonapplicant_name_last }
   show if: not no_nonapplicant_parent
 - Edit: parties_have_criminal_history
-  button: Criminal history
+  button: |
+    **Criminal record:** ${ yesno(parties_have_criminal_history) }
 - Edit: criminal_history
-  button: Criminal history details
+  button: |
+    **Felony conviction:** ${ yesno(parties_with_criminal_history) }
   show if: parties_have_criminal_history
-- Edit: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
-  button: Minnesota land interests
-- Edit: users1_involved_in_victim_or_witness_protection
-  button: Other circumstances
-- Edit: users1_other_statements
-  button: Other statements
-- Edit: county_and_state_where_signed
-  button: Signing information
-- Edit: children1_name_first_change
-  show if: not no_minor_children and children.number_gathered() > 0 and minor_children_listed_not_included_in_application
-    == "minor_children_included_yes" and request_childrens_name_change
-  button: Child 1 requested name
-- Edit: party1_with_offense
-  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 0
-  button: Felony offense 1
-- Edit: children2_name_first_change
-  show if: not no_minor_children and children.number_gathered() > 1 and minor_children_listed_not_included_in_application
-    == "minor_children_included_yes" and request_childrens_name_change
-  button: Child 2 requested name
-- Edit: party2_with_offense
-  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 1
-  button: Felony offense 2
-- Edit: children3_name_first_change
-  show if: not no_minor_children and children.number_gathered() > 2 and minor_children_listed_not_included_in_application
-    == "minor_children_included_yes" and request_childrens_name_change
-  button: Child 3 requested name
-- Edit: party3_with_offense
-  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 2
-  button: Felony offense 3
-- Edit: children4_name_first_change
-  show if: not no_minor_children and children.number_gathered() > 3 and minor_children_listed_not_included_in_application
-    == "minor_children_included_yes" and request_childrens_name_change
-  button: Child 4 requested name
-- Edit: party4_with_offense
-  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 3
-  button: Felony offense 4
-- Edit: children5_name_first_change
-  show if: not no_minor_children and children.number_gathered() > 4 and minor_children_listed_not_included_in_application
-    == "minor_children_included_yes" and request_childrens_name_change
-  button: Child 5 requested name
-- Edit: party5_with_offense
-  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 4
-  button: Felony offense 5
 - Edit: felony_count
   show if: parties_have_criminal_history and parties_with_criminal_history
-  button: Number of felony offenses
+  button: |
+    **Number of felony offenses:** ${ felony_count }
+- Edit: party1_with_offense
+  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 0
+  button: |
+    **Felony offense 1:** ${ party1_with_offense }, ${ party1_name_of_offense }
+- Edit: party2_with_offense
+  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 1
+  button: |
+    **Felony offense 2:** ${ party2_with_offense }, ${ party2_name_of_offense }
+- Edit: party3_with_offense
+  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 2
+  button: |
+    **Felony offense 3:** ${ party3_with_offense }, ${ party3_name_of_offense }
+- Edit: party4_with_offense
+  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 3
+  button: |
+    **Felony offense 4:** ${ party4_with_offense }, ${ party4_name_of_offense }
+- Edit: party5_with_offense
+  show if: parties_have_criminal_history and parties_with_criminal_history and felony_count > 4
+  button: |
+    **Felony offense 5:** ${ party5_with_offense }, ${ party5_name_of_offense }
+- Edit: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
+  button: |
+    **Land in Minnesota:** ${ "Yes" if applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota == "parties_have_claim_interest_or_lien" else "No" }
+- Edit: users1_involved_in_victim_or_witness_protection
+  button: |
+    Victim or witness protection, correctional facility, and divorce exception
+- Edit: users1_other_statements
+  button: |
+    **Other information for the court:** ${ users1_other_statements or "None" }
+- Edit: county_and_state_where_signed
+  button: |
+    **Where you will sign:** ${ county_and_state_where_signed or "Fill in by hand" }
 ---
 id: edit users
 continue button field: users.revisit
 question: |
-  Edit users
+  Edit your information
 subquestion: |
   ${ users.table }
 
@@ -754,7 +794,7 @@ confirm: true
 id: edit spouses
 continue button field: spouses.revisit
 question: |
-  Edit spouses
+  Edit your spouse's information
 subquestion: |
   ${ spouses.table }
 
@@ -784,7 +824,7 @@ confirm: true
 id: edit children
 continue button field: children.revisit
 question: |
-  Edit children
+  Edit your children's information
 subquestion: |
   ${ children.table }
 
@@ -806,20 +846,22 @@ id: download Application_for_name_change
 event: Application_for_name_change_download
 question: Review and print your name change packet
 subquestion: |
-  Review every page before signing. Nothing has been filed with the court.
+  Your forms are ready. **Nothing has been filed with the court yet.** Read every page before you sign.
 
   ${ action_button_html(url_action('review_Application_for_name_change'), label='Edit answers', color='info') }
   ${ action_button_html(url_action('review_name_change_packet'), label='Edit packet information', color='info') }
   ${ al_user_bundle.download_list_html() }
 
-  Sign the application and each release where indicated. Leave the judge’s order fields blank.
-  Service forms must be completed by the person who actually delivers the documents.
-  Hearing notices need the date, time, and location supplied by the court.
-  Read the included checklist and court instructions before filing.
+  Before you file:
 
+  * Sign the application and each criminal history release.
+  * Leave the parts of the order for the judge blank.
+  * The court will give you the hearing date, time, and place. Write them on any hearing notice.
+  * The person who delivers papers to the other parent must fill out the service form.
   % if request_fee_waiver:
-  Keep the confidential fee-waiver affidavit separate from public forms when filing.
+  * Keep the fee waiver affidavit separate from your other forms. It is confidential.
   % endif
+  * Read the next steps and the court instructions in your packet.
 
   Learn more: [Name Change - Minnesota Court Forms and Information](https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information) on LawHelpMN.
 progress: 100
@@ -969,9 +1011,9 @@ attachment:
   - parents_nonapplicant_name_last: ${ (parents_nonapplicant_name_last) if not no_nonapplicant_parent
       and not parents_nonapplicant_unknown else "" }
   - parents_nonapplicant_address_address: ${ (parents_nonapplicant_address_address) if not no_nonapplicant_parent
-      and not parents_nonapplicant_unknown else "" }
+      and not parents_nonapplicant_unknown and parent_address_known else "" }
   - parents_nonapplicant_city_state_zip: ${ (parents_nonapplicant_city_state_zip) if not no_nonapplicant_parent
-      and not parents_nonapplicant_unknown else "" }
+      and not parents_nonapplicant_unknown and parent_address_known else "" }
   - parents_nonapplicant_unknown: ${ (parents_nonapplicant_unknown) if not no_nonapplicant_parent else
       "" }
   - request_for_applicant_name_change: ${ request_for_applicant_name_change }
@@ -1142,3 +1184,5 @@ question: |
   Which county do you live in?
 fields:
   - County: users[0].address.county
+    datatype: dropdown
+    code: minnesota_counties

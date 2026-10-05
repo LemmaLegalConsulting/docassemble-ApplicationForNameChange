@@ -74,3 +74,11 @@ Display the adult/minor distinction, five-row limits, and single-other-parent bo
 Separate NAM205's title from the children's current-name field: the original tabbed line does not accommodate several full names reliably. Add a regression asserting that title and names remain distinct. Render parental samples with actual synthetic children instead of a childless default context.
 
 The preview renderer deletes each previous PDF before conversion and requires a new output for every template. A stale preview must never make a failed LibreOffice conversion appear successful. The independent workspace verifier also uses fresh temporary outputs. New packet tests and provenance records distinguish the full browser run from focused verification after final presentation changes.
+
+## Plain-language and question-style review — 2026-10-04
+
+Reviewed screens against plain-language guidance and the Assembly Line "Writing good questions" guide. Weaver-generated labels ("Change the first name of your first listed child to:", "One or more parties…") became short field labels. Statement-style yes/no labels became questions. The intro screen is shorter, and the interview's limits moved into a collapsible section.
+
+Answer for the user where possible. The judicial district is derived from the filing county using the courts table, and the filing county defaults to the user's county (both are dropdowns). The names of included children are computed from the children who request new names, so the user does not retype them. The other parent's address question is on the same screen as the parent's name. This removes the earlier validation that told users to "go back" and enter an address.
+
+Every referral screen now offers a button to edit the answer that triggered it. The divorce-exception screen used to say "go back and turn off the exception" but offered only Restart. The review screen shows answers and follows the interview order. The unused e-signature preview screen, which said the form would be signed "on the next page", was removed. The fee-waiver screens use bulleted lists instead of long sentences.

@@ -44,7 +44,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -110,7 +109,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -180,7 +178,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -196,7 +193,6 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
-      | minor_children_included_names | First Child, Second SurnameTwo, Third SurnameThree | |
       | request_childrens_name_change | True | |
       | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
@@ -270,7 +266,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -349,7 +344,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Alexandria-Cassandra | |
       | users1_name_last_change | Rivera-Montgomery-Washington | |
@@ -416,7 +410,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -432,7 +425,6 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
-      | minor_children_included_names | First Child, Second SurnameTwo, Third SurnameThree | |
       | request_childrens_name_change | True | |
       | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
@@ -451,7 +443,7 @@ Feature: Narrative regression scenarios
       | children3_name_first_change | Third | |
       | children3_name_last_change | Newname | |
     When I follow the review link containing "Edit answers"
-    And I follow the review link containing "Minor children"
+    And I follow the review link containing "Children under 18"
     And I get to "Application for name change review screen" with this data:
       | var | value | trigger |
       | no_minor_children | True | |
@@ -510,7 +502,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -591,7 +582,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -663,7 +653,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | True | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -731,7 +720,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -802,7 +790,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -873,7 +860,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -958,7 +944,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1028,7 +1013,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1044,7 +1028,6 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
-      | minor_children_included_names | First Child, Second SurnameTwo, Third SurnameThree | |
       | request_childrens_name_change | True | |
       | parents_nonapplicant_unknown | False | |
       | children[0].name.first | First | |
@@ -1125,7 +1108,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1141,7 +1123,6 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
-      | minor_children_included_names | First Child, Second SurnameTwo, Third SurnameThree | |
       | request_childrens_name_change | True | |
       | parents_nonapplicant_unknown | False | |
       | children[0].name.first | First | |
@@ -1223,7 +1204,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1305,7 +1285,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1372,7 +1351,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1432,7 +1410,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1492,7 +1469,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | False | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1552,7 +1528,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1613,7 +1588,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | False | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1629,7 +1603,6 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
-      | minor_children_included_names | First Child, Second SurnameTwo, Third SurnameThree | |
       | request_childrens_name_change | True | |
       | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
@@ -1693,7 +1666,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1709,7 +1681,6 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
-      | minor_children_included_names | First Child, Second SurnameTwo, Third SurnameThree | |
       | request_childrens_name_change | True | |
       | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
@@ -1773,7 +1744,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1789,7 +1759,6 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
-      | minor_children_included_names | First Child, Second SurnameTwo, Third SurnameThree | |
       | request_childrens_name_change | True | |
       | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
@@ -1856,7 +1825,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Hennepin | |
-      | judicial_district | Fourth | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -1933,7 +1901,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
@@ -2011,7 +1978,6 @@ Feature: Narrative regression scenarios
       | users[0].email | robin@example.com | |
       | interpreter_request | False | |
       | district_court_county | Ramsey | |
-      | judicial_district | Second | |
       | request_for_applicant_name_change | True | |
       | users1_name_first_change | Robin | |
       | users1_name_last_change | Newname | |
