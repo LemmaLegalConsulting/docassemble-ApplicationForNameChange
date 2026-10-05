@@ -1,0 +1,51 @@
+# Development setup
+
+Working repo: https://github.com/LemmaLegalConsulting/docassemble-ApplicationForNameChange
+Original (`upstream`): https://github.com/AmandaSauber/docassemble-ApplicationForNameChange
+Branch: `setup/validation-and-review`. The local test installation is on `http://localhost`; no apps-dev or public deployment was performed.
+
+## Static and template checks
+
+```sh
+uv venv .venv
+uv pip install --python .venv/bin/python -r requirements-dev.txt
+.venv/bin/dayamlchecker --style .
+.venv/bin/python -m unittest discover -s tests -p 'test_*.py'
+```
+
+DAYamlChecker is pinned to source commit `5676a949ebca269325eb0d8bf0abad52eda4aa61` (source version 1.7.0). URL and accessibility checks stay enabled. Errors fail CI; warnings remain review work. GitHub Actions also runs template regression tests. Use `uv run --no-project --with-requirements requirements-dev.txt ...` if running tools without installing this interview's runtime dependencies.
+
+## Run the interview locally
+
+```sh
+/home/quinten/venv/bin/dainstall --server localhost .
+```
+
+Open `http://localhost/interview?i=docassemble.ApplicationForNameChange:data/questions/Application_for_name_change.yml&new_session=1`.
+Installing a package may restart the server; finish installations before starting browser suites. Use only synthetic test data.
+
+## ALKiln story tables
+
+Fixtures: `docassemble/ApplicationForNameChange/data/sources/scenarios.feature`.
+Narratives and expected behavior: [TEST_SCENARIOS.md](TEST_SCENARIOS.md).
+
+```sh
+# Requires a checkout of ALKiln with its npm dependencies and Chromium installed.
+# Defaults to ~/ALKiln; override ALKILN_PATH if needed.
+.venv/bin/python tests/run_alkiln.py .
+# Optional second argument is a Cucumber tag expression.
+```
+
+The runner uses the `localhost` entry in `~/.docassemblecli`, without printing or storing its key in tracked files. Install the package first. It tests the installed package rather than uploading a Playground. Reports, screenshots, and synthetic downloads go to ignored `.alkiln-artifacts/`. It requires Node, Chromium/Puppeteer, PyYAML, and `pdftotext` (Poppler).
+
+Tested ALKiln checkout: `d7e4f42aa8a828013a8a229067697decf1322e5f`. `tests/steps.cjs` contains PDF assertions and narrow compatibility fixes for current Docassemble: button containers are divs, checkbox state is read from the native input, and Resume may change the question without changing the URL. Read-only error queries retry briefly if navigation replaces the DOM; input actions and assertion failures are never ignored. It also stops promptly on AssemblyLine's custom error screen. These are test-harness changes, not suppressed application failures. Reassess them when upgrading ALKiln.
+
+## Template audit and decisions
+
+`validation/template-labels.json` records the current labels and control tags. `validation/template-verification.json` records strict synthetic rendering and PDF checks. The workspace `scripts/audit_current_templates.py` refreshes the label inventory. The package `scripts/render_packet_examples.py` renders all current companion DOCX templates with strict synthetic data and checks LibreOffice PDF conversion. Unit tests check the NAM102 PDF mappings. The workspace `scripts/verify_templates.py ApplicationForNameChange` also checks the original PDF appearance and all DOCX templates using the expanded packet context. Early one-time migration scripts are historical and should not be rerun against the edited templates.
+
+Keep wet signatures, initials, execution dates, and witness/notarial attestations manual. Record substantive choices and sources in [DECISIONS.md](DECISIONS.md); keep the remaining release decisions in [IMPROVEMENTS.md](IMPROVEMENTS.md).
+
+Build the labeled court templates with `scripts/build_packet_templates.py` (LibreOffice required for archived legacy Word sources) and the fee/checklist adaptations with `scripts/build_fee_templates.py`. Originals and retrieval hashes are archived under `data/sources/court-originals/`. Run template regressions after rebuilding.
+
+Use `scripts/summarize_alkiln.py ARTIFACT_DIR APPLICATION_COMMIT [ARTIFACT_DIR APPLICATION_COMMIT ...]` to save a sanitized report across a full run and later focused verification. It requires coverage of the current scenario set, uses the newest result for each scenario, preserves each run's totals, and omits session URLs and step arguments.

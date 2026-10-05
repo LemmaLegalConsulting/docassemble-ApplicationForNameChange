@@ -1,0 +1,66 @@
+Found 22 issues (0 errors, 13 warnings, 9 infos):
+WARN  [WA549] docassemble/ApplicationForNameChange/data/templates/Application_for_name_change_next_steps.docx
+  link text in word/document.xml is a raw URL: "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
+
+INFO  [IA566] docassemble/ApplicationForNameChange/data/templates/Application_for_name_change_next_steps.docx
+  text looks like manual list numbering instead of Word lists (first is "1. Review and sign the application (NAM102). Any included spouse must sign…")
+
+WARN  [WA556] docassemble/ApplicationForNameChange/data/templates/criminal_history_releases.docx
+  no built-in heading styles were detected
+
+INFO  [IA566] docassemble/ApplicationForNameChange/data/templates/fee_waiver_affidavit.docx
+  text looks like manual list numbering instead of Word lists (first is "1. I am a party in this action. I am not filing on behalf of a business. In…")
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/felony_name_change_notices.docx
+  9 empty paragraphs are used for spacing, the longest run being 2
+
+WARN  [WA552] docassemble/ApplicationForNameChange/data/templates/inmate_name_change_affidavit.docx
+  a table in word/document.xml has no obvious header row marker (table begins "State of Minnesota")
+
+WARN  [WA557] docassemble/ApplicationForNameChange/data/templates/inmate_name_change_affidavit.docx
+  heading structure starts at level 4 instead of level 1
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/inmate_name_change_affidavit.docx
+  7 empty paragraphs are used for spacing, the longest run being 2 (longest run is near "State of Minnesota")
+
+INFO  [IA561] docassemble/ApplicationForNameChange/data/templates/parental_hearing_notice.docx
+  the document title metadata is missing
+
+WARN  [WA552] docassemble/ApplicationForNameChange/data/templates/parental_personal_service.docx
+  a table in word/document.xml has no obvious header row marker (table begins "State of Minnesota")
+
+WARN  [WA555] docassemble/ApplicationForNameChange/data/templates/parental_personal_service.docx
+  an empty paragraph in word/document.xml uses a heading style (near "Name Change")
+
+INFO  [IA563] docassemble/ApplicationForNameChange/data/templates/parental_personal_service.docx
+  a heading in word/document.xml is all caps; review readability (the heading is "STATE OF MINNESOTA)")
+
+WARN  [WA557] docassemble/ApplicationForNameChange/data/templates/parental_personal_service.docx
+  heading structure starts at level 4 instead of level 1
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/parental_personal_service.docx
+  17 empty paragraphs are used for spacing, the longest run being 2 (longest run is near "State of Minnesota")
+
+WARN  [WA552] docassemble/ApplicationForNameChange/data/templates/parental_publication_request.docx
+  a table in word/document.xml has no obvious header row marker (table begins "State of Minnesota")
+
+WARN  [WA555] docassemble/ApplicationForNameChange/data/templates/parental_publication_request.docx
+  an empty paragraph in word/document.xml uses a heading style (near "Applicant")
+
+WARN  [WA557] docassemble/ApplicationForNameChange/data/templates/parental_publication_request.docx
+  heading structure starts at level 4 instead of level 1
+
+WARN  [WA558] docassemble/ApplicationForNameChange/data/templates/parental_publication_request.docx
+  heading levels skip from H2 to H4:
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/parental_publication_request.docx
+  32 empty paragraphs are used for spacing, the longest run being 3 (longest run is near "Applicant")
+
+WARN  [WA552] docassemble/ApplicationForNameChange/data/templates/proposed_name_change_order.docx
+  a table in word/document.xml has no obvious header row marker (table begins "State of Minnesota")
+
+WARN  [WA557] docassemble/ApplicationForNameChange/data/templates/proposed_name_change_order.docx
+  heading structure starts at level 4 instead of level 1
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/proposed_name_change_order.docx
+  53 empty paragraphs are used for spacing, the longest run being 4 (longest run is near "{{ order['requested_caption'] }}")

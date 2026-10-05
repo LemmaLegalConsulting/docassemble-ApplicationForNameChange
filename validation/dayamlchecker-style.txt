@@ -1,0 +1,231 @@
+Found 77 issues (0 errors, 24 warnings, 53 infos):
+WARN  [WT702] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:1129
+  move user-facing text out of `code:` blocks and into a translatable template: List the names of the minor children you listed who are included in this application
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:263
+  consider replacing 'additional' in subquestion with simpler language, such as 'extra, more, other'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:263
+  review 'request' in subquestion for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:263
+  consider replacing 'requirements' in subquestion with simpler language, such as 'needs, rules'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:286
+  review 'Request' in fields[0].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:330
+  review 'Request' in fields[0].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:340
+  consider replacing 'issue' in fields[0].help with simpler language, such as 'give, send, problem'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:343
+  review 'Request' in fields[1].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:348
+  review 'Request' in fields[2].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:374
+  review 'Request' in fields[0].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:394
+  consider replacing 'additional' in question with simpler language, such as 'extra, more, other'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:395
+  consider replacing 'additional' in subquestion with simpler language, such as 'extra, more, other'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:416
+  review 'Request' in fields[0].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:476
+  consider replacing 'applicant' in subquestion with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:481
+  consider replacing 'applicant' in fields[1].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:485
+  consider replacing 'applicant' in fields[2].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:490
+  consider replacing 'applicant' in fields[3].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:494
+  consider replacing 'applicant' in fields[4].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:499
+  consider replacing 'applicant' in fields[5].first_key with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:585
+  consider replacing 'currently' in fields[0].first_key with simpler language, such as '(omit), now'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:589
+  consider replacing 'submit' in fields[2].help with simpler language, such as 'send, give'
+
+WARN  [WS713] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:571
+  variable roots should use snake_case: applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
+
+WARN  [WS714] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:263
+  sentence in subquestion exceeds 20 words: More children, more than 5 felony offenses, or children with different other parents need additional forms or help from court administration .
+
+WARN  [WS717] docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml:343
+  field label exceeds 90 characters: Request the prior birth record be kept confidential and the replacement birth record not to include any reference to your name
+
+WARN  [WT701] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:66
+  field choices includes labels without explicit invariant values; translated labels should not be stored as answers: ['Female', 'Male', {'I need to ask the court': 'ask_court', '__line__': 19}]
+
+WARN  [WT701] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:247
+  field choices includes labels without explicit invariant values; translated labels should not be stored as answers: ['SSI', 'MSA or Emergency MSA', 'GA or Emergency GA', 'SNAP', 'MFIP, DWP, or Work Participation Cash Benefit', 'MinnesotaCare or Medical Assistance', 'Medicare part D extra help...
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:23
+  consider replacing 'requirement' in fields[0].first_key with simpler language, such as 'need'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:29
+  consider replacing 'applicant' in subquestion with simpler language, such as 'you'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:37
+  consider replacing 'requirement' in question with simpler language, such as 'need'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:38
+  consider replacing 'residence' in subquestion with simpler language, such as 'home, where you live'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:38
+  consider replacing 'requirement' in subquestion with simpler language, such as 'need'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:47
+  review 'request' in question for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:48
+  consider replacing 'select' in subquestion with simpler language, such as 'choose'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:85
+  consider replacing 'authority' in subquestion with simpler language, such as 'right, power'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:104
+  consider replacing 'authority' in fields[2].first_key with simpler language, such as 'right, power'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:108
+  consider replacing 'provide' in subquestion with simpler language, such as 'give'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:114
+  consider replacing 'requirements' in fields[0].first_key with simpler language, such as 'needs, rules'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:129
+  review 'request' in fields[0].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:134
+  consider replacing 'additional' in question with simpler language, such as 'extra, more, other'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:134
+  review 'request' in question for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:135
+  review 'request' in subquestion for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:181
+  consider replacing 'grant' in subquestion with simpler language, such as 'give'
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:181
+  review 'request' in subquestion for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS746] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:186
+  review 'request' in fields[0].first_key for simpler wording if the meaning permits: ask for (verb); preserve official form names
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:192
+  consider replacing 'Complete' in subquestion with simpler language, such as 'fill in, finish'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:200
+  consider replacing 'requirements' in subquestion with simpler language, such as 'needs, rules'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:239
+  consider replacing 'assistance' in question with simpler language, such as 'aid, help'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:241
+  consider replacing 'assistance' in fields[0].first_key with simpler language, such as 'aid, help'
+
+INFO  [IS712] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:354
+  consider replacing 'excluding' in fields[0].first_key with simpler language, such as 'apart from, except'
+
+WARN  [WT705] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:315
+  write out 'don’t' as 'do not' in question to avoid misinterpretation by non-native readers or translation tools
+
+WARN  [WS714] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:200
+  sentence in subquestion exceeds 20 words: You were not married to the other parent at the child's birth or within 280 days of the birth, including an attempted marriage .
+
+WARN  [WS714] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:274
+  sentence in subquestion exceeds 20 words: Count yourself, your spouse or significant other, minor children (and older children still in high school), and other people who rely on you for most of their support .
+
+WARN  [WS714] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:343
+  sentence in subquestion exceeds 20 words: Include rent or mortgage, utilities, food, car payments, car insurance, spousal support, child support, childcare, medical insurance, cell phone, and other expenses .
+
+WARN  [WS714] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:366
+  sentence in subquestion exceeds 20 words: Include each vehicle’s year and make, your home, other real estate, and personal property such as jewelry, stocks, and bonds .
+
+INFO  [IS721] docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml:2
+  interview appears to screen for eligibility but no clear ineligible or exit screen was detected
+
+WARN  [WA549] docassemble/ApplicationForNameChange/data/templates/Application_for_name_change_next_steps.docx
+  link text in word/document.xml is a raw URL: "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
+
+INFO  [IA566] docassemble/ApplicationForNameChange/data/templates/Application_for_name_change_next_steps.docx
+  text looks like manual list numbering instead of Word lists (first is "1. Review and sign the application (NAM102). Any included spouse must sign…")
+
+WARN  [WA556] docassemble/ApplicationForNameChange/data/templates/criminal_history_releases.docx
+  no built-in heading styles were detected
+
+INFO  [IA566] docassemble/ApplicationForNameChange/data/templates/fee_waiver_affidavit.docx
+  text looks like manual list numbering instead of Word lists (first is "1. I am a party in this action. I am not filing on behalf of a business. In…")
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/felony_name_change_notices.docx
+  9 empty paragraphs are used for spacing, the longest run being 2
+
+WARN  [WA552] docassemble/ApplicationForNameChange/data/templates/inmate_name_change_affidavit.docx
+  a table in word/document.xml has no obvious header row marker (table begins "State of Minnesota")
+
+WARN  [WA557] docassemble/ApplicationForNameChange/data/templates/inmate_name_change_affidavit.docx
+  heading structure starts at level 4 instead of level 1
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/inmate_name_change_affidavit.docx
+  7 empty paragraphs are used for spacing, the longest run being 2 (longest run is near "State of Minnesota")
+
+INFO  [IA561] docassemble/ApplicationForNameChange/data/templates/parental_hearing_notice.docx
+  the document title metadata is missing
+
+WARN  [WA552] docassemble/ApplicationForNameChange/data/templates/parental_personal_service.docx
+  a table in word/document.xml has no obvious header row marker (table begins "State of Minnesota")
+
+WARN  [WA555] docassemble/ApplicationForNameChange/data/templates/parental_personal_service.docx
+  an empty paragraph in word/document.xml uses a heading style (near "Name Change")
+
+INFO  [IA563] docassemble/ApplicationForNameChange/data/templates/parental_personal_service.docx
+  a heading in word/document.xml is all caps; review readability (the heading is "STATE OF MINNESOTA)")
+
+WARN  [WA557] docassemble/ApplicationForNameChange/data/templates/parental_personal_service.docx
+  heading structure starts at level 4 instead of level 1
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/parental_personal_service.docx
+  17 empty paragraphs are used for spacing, the longest run being 2 (longest run is near "State of Minnesota")
+
+WARN  [WA552] docassemble/ApplicationForNameChange/data/templates/parental_publication_request.docx
+  a table in word/document.xml has no obvious header row marker (table begins "State of Minnesota")
+
+WARN  [WA555] docassemble/ApplicationForNameChange/data/templates/parental_publication_request.docx
+  an empty paragraph in word/document.xml uses a heading style (near "Applicant")
+
+WARN  [WA557] docassemble/ApplicationForNameChange/data/templates/parental_publication_request.docx
+  heading structure starts at level 4 instead of level 1
+
+WARN  [WA558] docassemble/ApplicationForNameChange/data/templates/parental_publication_request.docx
+  heading levels skip from H2 to H4:
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/parental_publication_request.docx
+  32 empty paragraphs are used for spacing, the longest run being 3 (longest run is near "Applicant")
+
+WARN  [WA552] docassemble/ApplicationForNameChange/data/templates/proposed_name_change_order.docx
+  a table in word/document.xml has no obvious header row marker (table begins "State of Minnesota")
+
+WARN  [WA557] docassemble/ApplicationForNameChange/data/templates/proposed_name_change_order.docx
+  heading structure starts at level 4 instead of level 1
+
+INFO  [IA565] docassemble/ApplicationForNameChange/data/templates/proposed_name_change_order.docx
+  53 empty paragraphs are used for spacing, the longest run being 4 (longest run is near "{{ order['requested_caption'] }}")

@@ -1,0 +1,333 @@
+{
+  "date": "2026-10-04",
+  "server": "localhost",
+  "package": "ApplicationForNameChange",
+  "alkiln_commit": "d7e4f42aa8a828013a8a229067697decf1322e5f",
+  "fixture_and_harness_sha256": {
+    "tests/steps.cjs": "a9440a238aadc303501b0dde8d4b05bfb53b19db19ec5f5e34c211bc10153447",
+    "tests/run_alkiln.py": "40805dd9ebe460ae3f36c394891dae778445edba719867abdbac4b7a1aa63cb2",
+    "docassemble/ApplicationForNameChange/data/sources/scenarios.feature": "53f38e09bb9073f17a28435cb637a93f4334fd9b87d50b8064006aa31c36ccd0"
+  },
+  "aggregation": "Latest execution of each scenario; full run and focused post-presentation verification are listed separately.",
+  "scenario_count": 27,
+  "passed": 27,
+  "step_count": 265,
+  "runs": [
+    {
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529",
+      "scenario_count": 27,
+      "passed": 26,
+      "failed": 1,
+      "step_count": 265
+    },
+    {
+      "application_commit": "714fd2ffe1d9d17c008da2cb0cdec68fc537ca37",
+      "local_artifacts": ".alkiln-artifacts/20261004-201755",
+      "scenario_count": 5,
+      "passed": 5,
+      "failed": 0,
+      "step_count": 60
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Robin applies alone with no criminal history",
+      "tags": [
+        "@adult_no_family"
+      ],
+      "status": "passed",
+      "steps": 10,
+      "duration_seconds": 29.025,
+      "application_commit": "714fd2ffe1d9d17c008da2cb0cdec68fc537ca37",
+      "local_artifacts": ".alkiln-artifacts/20261004-201755"
+    },
+    {
+      "name": "Robin lists a spouse who is not applying",
+      "tags": [
+        "@spouse_not_applying"
+      ],
+      "status": "passed",
+      "steps": 10,
+      "duration_seconds": 23.723,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin includes three children with distinct surnames",
+      "tags": [
+        "@three_children"
+      ],
+      "status": "passed",
+      "steps": 14,
+      "duration_seconds": 39.286,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin requests birth-record relief and discloses a felony",
+      "tags": [
+        "@birth_record_and_history"
+      ],
+      "status": "passed",
+      "steps": 10,
+      "duration_seconds": 31.11,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Alexandria has long names and a lengthy property description",
+      "tags": [
+        "@land_and_long_names"
+      ],
+      "status": "passed",
+      "steps": 10,
+      "duration_seconds": 21.725,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin removes children after completing the application",
+      "tags": [
+        "@remove_children"
+      ],
+      "status": "passed",
+      "steps": 16,
+      "duration_seconds": 36.162,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin and Jamie both request new names",
+      "tags": [
+        "@spouse_applying"
+      ],
+      "status": "passed",
+      "steps": 12,
+      "duration_seconds": 28.265,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin lists a child who is not applying",
+      "tags": [
+        "@children_not_applying"
+      ],
+      "status": "passed",
+      "steps": 11,
+      "duration_seconds": 23.451,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin requests a Hmong interpreter",
+      "tags": [
+        "@interpreter_needed"
+      ],
+      "status": "passed",
+      "steps": 11,
+      "duration_seconds": 22.956,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin receives SNAP and requests a fee waiver",
+      "tags": [
+        "@fee_benefits"
+      ],
+      "status": "passed",
+      "steps": 12,
+      "duration_seconds": 27.197,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin has a legal aid lawyer",
+      "tags": [
+        "@fee_legal_aid"
+      ],
+      "status": "passed",
+      "steps": 12,
+      "duration_seconds": 25.023,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin explains expenses and assets for a fee waiver",
+      "tags": [
+        "@fee_full_financial"
+      ],
+      "status": "passed",
+      "steps": 13,
+      "duration_seconds": 31.653,
+      "application_commit": "714fd2ffe1d9d17c008da2cb0cdec68fc537ca37",
+      "local_artifacts": ".alkiln-artifacts/20261004-201755"
+    },
+    {
+      "name": "Robin requests a first name change during confinement",
+      "tags": [
+        "@inmate_packet"
+      ],
+      "status": "passed",
+      "steps": 12,
+      "duration_seconds": 25.376,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin prepares notice for the children\u2019s other parent",
+      "tags": [
+        "@parent_known_address"
+      ],
+      "status": "passed",
+      "steps": 18,
+      "duration_seconds": 38.76,
+      "application_commit": "714fd2ffe1d9d17c008da2cb0cdec68fc537ca37",
+      "local_artifacts": ".alkiln-artifacts/20261004-201755"
+    },
+    {
+      "name": "Robin cannot find the children\u2019s other parent",
+      "tags": [
+        "@parent_unknown_address"
+      ],
+      "status": "passed",
+      "steps": 16,
+      "duration_seconds": 36.893,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin needs notice for a federal conviction",
+      "tags": [
+        "@federal_felony_notice"
+      ],
+      "status": "passed",
+      "steps": 13,
+      "duration_seconds": 30.668,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin returns to a birth name after divorce",
+      "tags": [
+        "@divorce_exception"
+      ],
+      "status": "passed",
+      "steps": 9,
+      "duration_seconds": 19.49,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Seventeen-year-old Robin gets the minor-packet referral",
+      "tags": [
+        "@primary_minor"
+      ],
+      "status": "passed",
+      "steps": 4,
+      "duration_seconds": 3.049,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Recent arrival Robin checks the residency requirement",
+      "tags": [
+        "@residency_failure"
+      ],
+      "status": "passed",
+      "steps": 4,
+      "duration_seconds": 3.382,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin selects no changes and gets an explanation",
+      "tags": [
+        "@no_relief"
+      ],
+      "status": "passed",
+      "steps": 4,
+      "duration_seconds": 15.521,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin made a previous request during this confinement",
+      "tags": [
+        "@inmate_repeat"
+      ],
+      "status": "passed",
+      "steps": 4,
+      "duration_seconds": 16.892,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin only wants changes for children",
+      "tags": [
+        "@minor_only"
+      ],
+      "status": "passed",
+      "steps": 4,
+      "duration_seconds": 24.113,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin cannot confirm the unknown-parent exception",
+      "tags": [
+        "@parent_not_exempt"
+      ],
+      "status": "passed",
+      "steps": 4,
+      "duration_seconds": 27.486,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Children just below and at age ten get the correct release coverage",
+      "tags": [
+        "@release_age_boundary"
+      ],
+      "status": "passed",
+      "steps": 7,
+      "duration_seconds": 33.381,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin and Jamie prepare separate Hennepin orders",
+      "tags": [
+        "@hennepin_joint"
+      ],
+      "status": "passed",
+      "steps": 8,
+      "duration_seconds": 28.847,
+      "application_commit": "714fd2ffe1d9d17c008da2cb0cdec68fc537ca37",
+      "local_artifacts": ".alkiln-artifacts/20261004-201755"
+    },
+    {
+      "name": "Robin uses the below-guideline financial route",
+      "tags": [
+        "@fee_below_guideline"
+      ],
+      "status": "passed",
+      "steps": 6,
+      "duration_seconds": 27.29,
+      "application_commit": "3147bc536d18dfc178ea8e9471235b676dec233c",
+      "local_artifacts": ".alkiln-artifacts/20261004-200529"
+    },
+    {
+      "name": "Robin removes the fee waiver after entering financial details",
+      "tags": [
+        "@fee_remove"
+      ],
+      "status": "passed",
+      "steps": 11,
+      "duration_seconds": 29.875,
+      "application_commit": "714fd2ffe1d9d17c008da2cb0cdec68fc537ca37",
+      "local_artifacts": ".alkiln-artifacts/20261004-201755"
+    }
+  ],
+  "retained_failure": "Full run: known-parent story received an intermittent localhost page-expired response. Raw failed artifacts remain local; no error was ignored or input automatically retried."
+}

@@ -1,0 +1,1135 @@
+{
+  "review_date": "2026-10-04",
+  "method": "Read DOCX body/table/header/footer XML; parse docxtpl variables; compare all PDF logical fields to YAML mappings and check tooltips.",
+  "templates": [
+    {
+      "file": "Application_for_name_change.pdf",
+      "logical_fields": [
+        {
+          "name": "district_court_county",
+          "label": "County where application is filed",
+          "type": "/Tx"
+        },
+        {
+          "name": "docket_number",
+          "label": "Court file number",
+          "type": "/Tx"
+        },
+        {
+          "name": "judicial_district",
+          "label": "Judicial district",
+          "type": "/Tx"
+        },
+        {
+          "name": "interpreter_request",
+          "label": "Interpreter requested",
+          "type": "/Btn"
+        },
+        {
+          "name": "interpreter_language",
+          "label": "Interpreter language",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_first",
+          "label": "Applicant: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_middle",
+          "label": "Applicant: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_last",
+          "label": "Applicant: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_first_change",
+          "label": "Applicant: requested first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_middle_change",
+          "label": "Applicant: requested middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_last_change",
+          "label": "Applicant: requested last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_birthdate",
+          "label": "Applicant: date of birth",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_address_city",
+          "label": "Applicant: city, state, and ZIP code",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_address_county",
+          "label": "Applicant: county",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_first__1",
+          "label": "Applicant: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_middle__1",
+          "label": "Applicant: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_last__1",
+          "label": "Applicant: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_name_first",
+          "label": "Spouse: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_name_middle",
+          "label": "Spouse: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_name_last",
+          "label": "Spouse: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_birthdate",
+          "label": "Spouse: date of birth",
+          "type": "/Tx"
+        },
+        {
+          "name": "not_married",
+          "label": "Applicant is not married",
+          "type": "/Btn"
+        },
+        {
+          "name": "children1_name_first",
+          "label": "Child 1: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children1_name_middle",
+          "label": "Child 1: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children1_name_last",
+          "label": "Child 1: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children1_birthdate",
+          "label": "Child 1: date of birth",
+          "type": "/Tx"
+        },
+        {
+          "name": "children2_name_first",
+          "label": "Child 2: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children2_name_middle",
+          "label": "Child 2: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children2_birthdate",
+          "label": "Child 2: date of birth",
+          "type": "/Tx"
+        },
+        {
+          "name": "children3_name_first",
+          "label": "Child 3: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children3_name_middle",
+          "label": "Child 3: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children3_name_last",
+          "label": "Child 3: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children3_birthdate",
+          "label": "Child 3: date of birth",
+          "type": "/Tx"
+        },
+        {
+          "name": "no_minor_children",
+          "label": "Applicant has no minor children",
+          "type": "/Btn"
+        },
+        {
+          "name": "children4_name_first",
+          "label": "Child 4: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children4_name_middle",
+          "label": "Child 4: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children4_name_last",
+          "label": "Child 4: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children4_birthdate",
+          "label": "Child 4: date of birth",
+          "type": "/Tx"
+        },
+        {
+          "name": "children5_name_first",
+          "label": "Child 5: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children5_name_middle",
+          "label": "Child 5: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children5_name_last",
+          "label": "Child 5: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children5_birthdate",
+          "label": "Child 5: date of birth",
+          "type": "/Tx"
+        },
+        {
+          "name": "no_nonapplicant_parent",
+          "label": "Non-applicant parent information is not applicable",
+          "type": "/Btn"
+        },
+        {
+          "name": "parents_nonapplicant_name_first",
+          "label": "Non-applicant parent: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "parents_nonapplicant_name_middle",
+          "label": "Non-applicant parent: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "parents_nonapplicant_name_last",
+          "label": "Non-applicant parent: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "parents_nonapplicant_address_address",
+          "label": "Non-applicant parent: street address",
+          "type": "/Tx"
+        },
+        {
+          "name": "parents_nonapplicant_city_state_zip",
+          "label": "Non-applicant parent: city, state, and ZIP code",
+          "type": "/Tx"
+        },
+        {
+          "name": "parents_nonapplicant_unknown",
+          "label": "Non-applicant parent is unknown and is not on the birth certificate",
+          "type": "/Btn"
+        },
+        {
+          "name": "request_for_applicant_name_change",
+          "label": "Change applicant\u2019s name",
+          "type": "/Btn"
+        },
+        {
+          "name": "request_for_applicant_name_change_on_birth_record",
+          "label": "Change applicant\u2019s name on birth record",
+          "type": "/Btn"
+        },
+        {
+          "name": "children1_name_first__1",
+          "label": "Child 1: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children1_name_first_change",
+          "label": "Child 1: requested first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "request_sex_change_on_birth_record",
+          "label": "Change applicant\u2019s sex on birth record",
+          "type": "/Btn"
+        },
+        {
+          "name": "sex_current",
+          "label": "Sex currently shown on birth record",
+          "type": "/Tx"
+        },
+        {
+          "name": "sex_change",
+          "label": "Requested sex on birth record",
+          "type": "/Tx"
+        },
+        {
+          "name": "replacement_birth_record",
+          "label": "Issue a replacement birth record",
+          "type": "/Btn"
+        },
+        {
+          "name": "keep_former_name_confidential",
+          "label": "Keep former name confidential",
+          "type": "/Btn"
+        },
+        {
+          "name": "keep_former_sex_confidential",
+          "label": "Keep former sex confidential",
+          "type": "/Btn"
+        },
+        {
+          "name": "request_applicant_spouse_name_change",
+          "label": "Change spouse\u2019s name",
+          "type": "/Btn"
+        },
+        {
+          "name": "spouses_name_first__1",
+          "label": "Spouse: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_name_middle__1",
+          "label": "Spouse: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_name_last__1",
+          "label": "Spouse: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_name_first_change",
+          "label": "Spouse: requested first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_name_middle_change",
+          "label": "Spouse: requested middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_name_last_change",
+          "label": "Spouse: requested last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "request_childrens_name_change",
+          "label": "Change minor children\u2019s names",
+          "type": "/Btn"
+        },
+        {
+          "name": "children1_name_middle__1",
+          "label": "Child 1: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children1_name_last__1",
+          "label": "Child 1: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children1_name_middle_change",
+          "label": "Child 1: requested middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children1_name_last_change",
+          "label": "Child 1: requested last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children2_name_first__1",
+          "label": "Child 2: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children2_name_middle__1",
+          "label": "Child 2: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children2_name_last__1",
+          "label": "Child 2: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children2_name_first_change",
+          "label": "Child 2: requested first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children2_name_middle_change",
+          "label": "Child 2: requested middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children2_name_last_change",
+          "label": "Child 2: requested last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children3_name_first__1",
+          "label": "Child 3: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children3_name_middle__1",
+          "label": "Child 3: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children3_name_last__1",
+          "label": "Child 3: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children3_name_first_change",
+          "label": "Child 3: requested first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children3_name_middle_change",
+          "label": "Child 3: requested middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children3_name_last_change",
+          "label": "Child 3: requested last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children4_name_middle__1",
+          "label": "Child 4: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children4_name_first__1",
+          "label": "Child 4: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children4_name_first_change",
+          "label": "Child 4: requested first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children4_name_last__1",
+          "label": "Child 4: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children4_name_middle_change",
+          "label": "Child 4: requested middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children4_name_last_change",
+          "label": "Child 4: requested last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children5_name_first__1",
+          "label": "Child 5: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children5_name_middle__1",
+          "label": "Child 5: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children5_name_last__1",
+          "label": "Child 5: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children5_name_first_change",
+          "label": "Child 5: requested first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children5_name_middle_change",
+          "label": "Child 5: requested middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "children5_name_last_change",
+          "label": "Child 5: requested last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "criminal_history",
+          "label": "Criminal history description",
+          "type": "/Tx"
+        },
+        {
+          "name": "parties_with_criminal_history",
+          "label": "Names of applicants convicted of a felony",
+          "type": "/Btn"
+        },
+        {
+          "name": "parties_have_criminal_history",
+          "label": "One or more applicants have criminal history",
+          "type": "/Btn"
+        },
+        {
+          "name": "no_parties_have_criminal_history",
+          "label": "No applicant has criminal history",
+          "type": "/Btn"
+        },
+        {
+          "name": "party1_with_offense",
+          "label": "Offense 1: person\u2019s name",
+          "type": "/Tx"
+        },
+        {
+          "name": "party1_name_of_offense",
+          "label": "Offense 1: offense name",
+          "type": "/Tx"
+        },
+        {
+          "name": "party1_date_of_offense",
+          "label": "Offense 1: offense date",
+          "type": "/Tx"
+        },
+        {
+          "name": "party1_state_of_offense",
+          "label": "Offense 1: state",
+          "type": "/Tx"
+        },
+        {
+          "name": "party2_with_offense",
+          "label": "Offense 2: person\u2019s name",
+          "type": "/Tx"
+        },
+        {
+          "name": "party2_name_of_offense",
+          "label": "Offense 2: offense name",
+          "type": "/Tx"
+        },
+        {
+          "name": "party2_date_of_offense",
+          "label": "Offense 2: offense date",
+          "type": "/Tx"
+        },
+        {
+          "name": "party2_state_of_offense",
+          "label": "Offense 2: state",
+          "type": "/Tx"
+        },
+        {
+          "name": "party3_with_offense",
+          "label": "Offense 3: person\u2019s name",
+          "type": "/Tx"
+        },
+        {
+          "name": "party3_name_of_offense",
+          "label": "Offense 3: offense name",
+          "type": "/Tx"
+        },
+        {
+          "name": "party3_date_of_offense",
+          "label": "Offense 3: offense date",
+          "type": "/Tx"
+        },
+        {
+          "name": "party3_state_of_offense",
+          "label": "Offense 3: state",
+          "type": "/Tx"
+        },
+        {
+          "name": "party4_with_offense",
+          "label": "Offense 4: person\u2019s name",
+          "type": "/Tx"
+        },
+        {
+          "name": "party4_name_of_offense",
+          "label": "Offense 4: offense name",
+          "type": "/Tx"
+        },
+        {
+          "name": "party4_date_of_offense",
+          "label": "Offense 4: offense date",
+          "type": "/Tx"
+        },
+        {
+          "name": "party4_state_of_offense",
+          "label": "Offense 4: state",
+          "type": "/Tx"
+        },
+        {
+          "name": "party5_with_offense",
+          "label": "Offense 5: person\u2019s name",
+          "type": "/Tx"
+        },
+        {
+          "name": "party5_name_of_offense",
+          "label": "Offense 5: offense name",
+          "type": "/Tx"
+        },
+        {
+          "name": "party5_date_of_offense",
+          "label": "Offense 5: offense date",
+          "type": "/Tx"
+        },
+        {
+          "name": "party5_state_of_offense",
+          "label": "Offense 5: state",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_involved_in_victim_or_witness_protection",
+          "label": "Applicant is in a victim or witness protection program",
+          "type": "/Btn"
+        },
+        {
+          "name": "users1_name_first__2",
+          "label": "Applicant: current first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_middle__2",
+          "label": "Applicant: current middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_last__2",
+          "label": "Applicant: current last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_first_change__1",
+          "label": "Applicant: requested first name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_middle_change__1",
+          "label": "Applicant: requested middle name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_first_change_birth_record",
+          "label": "Applicant: requested first name on birth record",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_middle_change_birth_record",
+          "label": "Applicant: requested middle name on birth record",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_last_change_birth_record",
+          "label": "Applicant: requested last name on birth record",
+          "type": "/Tx"
+        },
+        {
+          "name": "application_includes_spouse",
+          "label": "Application includes spouse",
+          "type": "/Btn"
+        },
+        {
+          "name": "minor_children_listed_not_included_in_application",
+          "label": "Application includes one or more listed minor children",
+          "type": "/Btn"
+        },
+        {
+          "name": "users1_inmate_in_correctional_facility_and_submitting_inmate_aff",
+          "label": "Applicant is incarcerated and submits an Inmate Affidavit",
+          "type": "/Btn"
+        },
+        {
+          "name": "users1_divorced_seeking_change_to_legal_name_on_birth_certificate",
+          "label": "Divorced applicant seeks birth-certificate name and submits supporting certificates",
+          "type": "/Btn"
+        },
+        {
+          "name": "county_and_state_where_signed",
+          "label": "County and state where signed",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_full",
+          "label": "Applicant: full name",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_address_address",
+          "label": "Applicant: street address",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_address_line_one",
+          "label": "Applicant: street address",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_address_line_two",
+          "label": "Applicant: city, state, and ZIP code",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_phone_number",
+          "label": "Applicant: phone number",
+          "type": "/Tx"
+        },
+        {
+          "name": "county_and_state_where_signed__1",
+          "label": "County and state where signed",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_email",
+          "label": "Applicant: email address",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_name_full",
+          "label": "Spouse: full name",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_address_line_one",
+          "label": "Spouse: street address",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_address_line_two",
+          "label": "Spouse: city, state, and ZIP code",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_phone_number",
+          "label": "Spouse: phone number",
+          "type": "/Tx"
+        },
+        {
+          "name": "spouses_email",
+          "label": "Spouse: email address",
+          "type": "/Tx"
+        },
+        {
+          "name": "minor_fourteen_years_old_name_full",
+          "label": "Name of minor age 14 or older signing the form",
+          "type": "/Tx"
+        },
+        {
+          "name": "minor_children_included_names",
+          "label": "Names of minor children included in this application",
+          "type": "/Tx"
+        },
+        {
+          "name": "name_of_person_and_description_of_person_with_claim_interest_or_lien",
+          "label": "Person with property interest or lien and legal description of property",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_other_statements",
+          "label": "Other information for the court",
+          "type": "/Tx"
+        },
+        {
+          "name": "users1_name_last_change__1",
+          "label": "Applicant: requested last name",
+          "type": "/Tx"
+        },
+        {
+          "name": "applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota",
+          "label": "Applicant, spouse, or included child has an interest or lien in Minnesota land",
+          "type": "/Btn"
+        },
+        {
+          "name": "children2_name_last",
+          "label": "Child 2: current last name",
+          "type": "/Tx"
+        }
+      ],
+      "all_fields_mapped": true,
+      "all_tooltips_present": true
+    },
+    {
+      "file": "Application_for_name_change_next_steps.docx",
+      "variables": [
+        "court_administrator_address",
+        "court_administrator_city_state_zip",
+        "has_felony",
+        "hennepin_packet",
+        "included_children",
+        "parent_address_known",
+        "parental_notice_needed",
+        "parents_nonapplicant_unknown",
+        "release_people",
+        "request_fee_waiver",
+        "users",
+        "users1_divorced_seeking_change_to_legal_name_on_birth_certificate",
+        "users1_inmate_in_correctional_facility_and_submitting_inmate_aff"
+      ],
+      "jinja_labels": [
+        "users[0].name.full()",
+        "release_people | length",
+        "court_administrator_address",
+        "court_administrator_city_state_zip"
+      ],
+      "conditional_and_loop_tags": [
+        "p if hennepin_packet",
+        "p endif",
+        "p if users1_divorced_seeking_change_to_legal_name_on_birth_certificate",
+        "p endif",
+        "p if has_felony",
+        "p endif",
+        "p if users1_inmate_in_correctional_facility_and_submitting_inmate_aff",
+        "p endif",
+        "p if parental_notice_needed",
+        "p if not parent_address_known",
+        "p endif",
+        "p endif",
+        "p if included_children and parents_nonapplicant_unknown",
+        "p endif",
+        "p if request_fee_waiver",
+        "p if users1_inmate_in_correctional_facility_and_submitting_inmate_aff",
+        "p else",
+        "p endif",
+        "p endif"
+      ],
+      "manual_execution_fields": "Signatures, initials, signing dates and notarial/witness attestations remain blank where applicable."
+    },
+    {
+      "file": "criminal_history_releases.docx",
+      "variables": [
+        "release_people"
+      ],
+      "jinja_labels": [
+        "person.name.full()",
+        "person.release_other_names",
+        "person.birthdate.format()",
+        "\"\u2612\" if person.release_sex == \"Female\" else \"\u2610\"",
+        "\"\u2612\" if person.release_sex == \"Male\" else \"\u2610\"",
+        "person.release_race"
+      ],
+      "conditional_and_loop_tags": [
+        "p for person in release_people",
+        "p if not loop.last",
+        "p endif",
+        "p endfor"
+      ],
+      "manual_execution_fields": "Signatures, initials, signing dates and notarial/witness attestations remain blank where applicable."
+    },
+    {
+      "file": "fee_waiver_affidavit.docx",
+      "variables": [
+        "district_court_county",
+        "docket_number",
+        "fee_accounts",
+        "fee_assets",
+        "fee_below_poverty_guideline",
+        "fee_benefits",
+        "fee_cash",
+        "fee_debt",
+        "fee_expenses",
+        "fee_financial_details",
+        "fee_full_details",
+        "fee_household_members",
+        "fee_household_size",
+        "fee_income_is_average",
+        "fee_income_sources",
+        "fee_lawyer_name",
+        "fee_lawyer_program",
+        "fee_legal_services",
+        "fee_monthly_income",
+        "fee_other_household_income",
+        "fee_other_program",
+        "fee_other_reasons",
+        "fee_public_assistance",
+        "fee_spouse_income_known",
+        "fee_spouse_income_sources",
+        "fee_spouse_income_unknown_reason",
+        "fee_spouse_monthly_income",
+        "fee_yearly_income",
+        "judicial_district",
+        "not_married",
+        "packet_caption",
+        "users"
+      ],
+      "jinja_labels": [
+        "district_court_county",
+        "judicial_district",
+        "docket_number",
+        "packet_caption",
+        "\"\u2612\" if fee_legal_services else \"\u2610\"",
+        "fee_lawyer_name if fee_legal_services else \"\"",
+        "fee_lawyer_program if fee_legal_services else \"\"",
+        "\"\u2612\" if not fee_legal_services and fee_public_assistance == \"none\" else \"\u2610\"",
+        "\"\u2612\" if not fee_legal_services and fee_public_assistance != \"none\" else \"\u2610\"",
+        "\"\u2612\" if not fee_legal_services and fee_public_assistance == \"listed\" else \"\u2610\"",
+        "fee_benefits.true_values() | join(\"; \") if not fee_legal_services and fee_public_assistance == \"listed\" else \"\"",
+        "\"\u2612\" if not fee_legal_services and fee_public_assistance == \"other\" else \"\u2610\"",
+        "fee_other_program if not fee_legal_services and fee_public_assistance == \"other\" else \"\"",
+        "fee_household_size if fee_financial_details else \"\"",
+        "fee_household_members if fee_financial_details else \"\"",
+        "fee_income_sources if fee_financial_details else \"\"",
+        "\"average\" if fee_financial_details and fee_income_is_average else \"total\"",
+        "\"%.2f\" | format(fee_monthly_income) if fee_financial_details else \"\"",
+        "\"\u2612\" if fee_financial_details and not_married else \"\u2610\"",
+        "\"\u2612\" if fee_financial_details and not not_married else \"\u2610\"",
+        "\"%.2f\" | format(fee_spouse_monthly_income) if fee_financial_details and not not_married and fee_spouse_income_known else \"\"",
+        "fee_spouse_income_sources if fee_financial_details and not not_married and fee_spouse_income_known else \"\"",
+        "fee_spouse_income_unknown_reason if fee_financial_details and not not_married and not fee_spouse_income_known else \"\"",
+        "fee_other_household_income if fee_financial_details else \"\"",
+        "\"%.2f\" | format(fee_yearly_income) if fee_financial_details else \"\"",
+        "\"\u2612\" if fee_financial_details and fee_below_poverty_guideline else \"\u2610\"",
+        "\"\u2612\" if fee_financial_details and not fee_below_poverty_guideline else \"\u2610\"",
+        "fee_expenses if fee_full_details else \"\"",
+        "\"%.2f\" | format(fee_debt) if fee_full_details else \"\"",
+        "\"%.2f\" | format(fee_cash) if fee_full_details else \"\"",
+        "\"%.2f\" | format(fee_accounts) if fee_full_details else \"\"",
+        "fee_assets if fee_full_details else \"\"",
+        "fee_other_reasons if fee_full_details else \"\"",
+        "users[0].name.full()",
+        "users[0].address.address",
+        "users[0].address.line_two()",
+        "users[0].phone_number",
+        "users[0].email"
+      ],
+      "conditional_and_loop_tags": [],
+      "manual_execution_fields": "Signatures, initials, signing dates and notarial/witness attestations remain blank where applicable."
+    },
+    {
+      "file": "felony_name_change_notices.docx",
+      "variables": [
+        "court_administrator_address",
+        "court_administrator_city_state_zip",
+        "district_court_county",
+        "docket_number",
+        "felony_notice_data",
+        "judicial_district",
+        "users"
+      ],
+      "jinja_labels": [
+        "district_court_county",
+        "docket_number",
+        "judicial_district",
+        "notice['current_name']",
+        "notice['requested_name']",
+        "\"\u2610\" if notice['kind'] == \"federal\" else \"\u2612\"",
+        "notice['authority'] if notice['kind'] != \"federal\" else \"\"",
+        "\"\u2612\" if notice['kind'] == \"federal\" else \"\u2610\"",
+        "notice['authority'] if notice['kind'] == \"federal\" else \"\"",
+        "\"\u2612\" if notice['kind'] != \"minnesota\" else \"\u2610\"",
+        "district_court_county",
+        "court_administrator_address",
+        "court_administrator_city_state_zip",
+        "users[0].name.full()",
+        "users[0].address.address",
+        "users[0].address.line_two()",
+        "users[0].phone_number",
+        "users[0].email"
+      ],
+      "conditional_and_loop_tags": [
+        "p for notice in felony_notice_data",
+        "p if not loop.last",
+        "p endif",
+        "p endfor"
+      ],
+      "manual_execution_fields": "Signatures, initials, signing dates and notarial/witness attestations remain blank where applicable."
+    },
+    {
+      "file": "inmate_name_change_affidavit.docx",
+      "variables": [
+        "applicant_requested_name",
+        "district_court_county",
+        "docket_number",
+        "inmate_name_change_reason",
+        "judicial_district",
+        "users"
+      ],
+      "jinja_labels": [
+        "district_court_county",
+        "judicial_district",
+        "docket_number",
+        "users[0].name.full()",
+        "applicant_requested_name",
+        "users[0].name.full()",
+        "inmate_name_change_reason",
+        "users[0].name.full()",
+        "users[0].address.address",
+        "users[0].address.line_two()",
+        "users[0].phone_number",
+        "users[0].email"
+      ],
+      "conditional_and_loop_tags": [],
+      "manual_execution_fields": "Signatures, initials, signing dates and notarial/witness attestations remain blank where applicable."
+    },
+    {
+      "file": "parental_hearing_notice.docx",
+      "variables": [
+        "children_requested_names",
+        "district_court_county",
+        "docket_number",
+        "included_children_names",
+        "judicial_district",
+        "nonapplicant_parent_name",
+        "users"
+      ],
+      "jinja_labels": [
+        "district_court_county",
+        "judicial_district",
+        "docket_number",
+        "users[0].name.full()",
+        "nonapplicant_parent_name",
+        "included_children_names",
+        "children_requested_names"
+      ],
+      "conditional_and_loop_tags": [],
+      "manual_execution_fields": "Signatures, initials, signing dates and notarial/witness attestations remain blank where applicable."
+    },
+    {
+      "file": "parental_personal_service.docx",
+      "variables": [
+        "children_requested_names",
+        "district_court_county",
+        "docket_number",
+        "included_children_names",
+        "judicial_district",
+        "nonapplicant_parent_name",
+        "users"
+      ],
+      "jinja_labels": [
+        "district_court_county",
+        "judicial_district",
+        "docket_number",
+        "users[0].name.full()",
+        "included_children_names",
+        "children_requested_names",
+        "nonapplicant_parent_name"
+      ],
+      "conditional_and_loop_tags": [],
+      "manual_execution_fields": "Signatures, initials, signing dates and notarial/witness attestations remain blank where applicable."
+    },
+    {
+      "file": "parental_publication_request.docx",
+      "variables": [
+        "children_requested_names",
+        "district_court_county",
+        "docket_number",
+        "included_children_names",
+        "judicial_district",
+        "parent_last_employment",
+        "parent_last_location",
+        "parent_relatives",
+        "parent_search_efforts",
+        "users"
+      ],
+      "jinja_labels": [
+        "district_court_county",
+        "judicial_district",
+        "docket_number",
+        "users[0].name.full()",
+        "included_children_names",
+        "children_requested_names",
+        "district_court_county",
+        "included_children_names",
+        "children_requested_names",
+        "parent_last_location",
+        "parent_last_employment",
+        "parent_relatives",
+        "parent_search_efforts"
+      ],
+      "conditional_and_loop_tags": [],
+      "manual_execution_fields": "Signatures, initials, signing dates and notarial/witness attestations remain blank where applicable."
+    },
+    {
+      "file": "proposed_name_change_order.docx",
+      "variables": [
+        "applicant_requested_name",
+        "birth_requested_name",
+        "district_court_county",
+        "docket_number",
+        "felony_summary",
+        "has_felony",
+        "included_children",
+        "included_children_names",
+        "judicial_district",
+        "land_summary",
+        "listed_children_summary",
+        "listed_spouse_summary",
+        "omit_former_name",
+        "omit_former_sex",
+        "order_people",
+        "replacement_birth_record",
+        "request_for_applicant_name_change",
+        "request_for_applicant_name_change_on_birth_record",
+        "request_sex_change_on_birth_record",
+        "sex_change",
+        "spouse_included",
+        "spouse_requested_name",
+        "users",
+        "users1_other_statements"
+      ],
+      "jinja_labels": [
+        "district_court_county",
+        "judicial_district",
+        "docket_number",
+        "order['caption']",
+        "order['requested_caption']",
+        "users[0].address.on_one_line()",
+        "users[0].address.county",
+        "users[0].name.full()",
+        "users[0].birthdate.format()",
+        "listed_spouse_summary",
+        "\"\u2612\" if spouse_included else \"\u2610\"",
+        "\"\u2610\" if spouse_included else \"\u2612\"",
+        "listed_children_summary",
+        "\"\u2610\" if included_children else \"\u2612\"",
+        "\"\u2612\" if included_children else \"\u2610\"",
+        "included_children_names",
+        "\"\u2612\" if order['primary'] and request_for_applicant_name_change else \"\u2610\"",
+        "applicant_requested_name if order['primary'] else \"\"",
+        "\"\u2612\" if order['primary'] and request_for_applicant_name_change_on_birth_record else \"\u2610\"",
+        "birth_requested_name if order['primary'] else \"\"",
+        "\"\u2612\" if order['primary'] and request_sex_change_on_birth_record else \"\u2610\"",
+        "sex_change if order['primary'] and request_sex_change_on_birth_record else \"\"",
+        "\"\u2612\" if order['primary'] and replacement_birth_record else \"\u2610\"",
+        "\"\u2612\" if order['primary'] and omit_former_name else \"\u2610\"",
+        "\"\u2612\" if order['primary'] and omit_former_sex else \"\u2610\"",
+        "\"\u2612\" if order['spouse'] else \"\u2610\"",
+        "spouse_requested_name if order['spouse'] else \"\"",
+        "\"\u2612\" if order['children'] else \"\u2610\"",
+        "order['children']",
+        "\"\u2610\" if has_felony else \"\u2612\"",
+        "\"\u2612\" if has_felony else \"\u2610\"",
+        "felony_summary",
+        "land_summary",
+        "users1_other_statements"
+      ],
+      "conditional_and_loop_tags": [
+        "p for order in order_people",
+        "p if not loop.last",
+        "p endif",
+        "p endfor"
+      ],
+      "manual_execution_fields": "Signatures, initials, signing dates and notarial/witness attestations remain blank where applicable."
+    }
+  ]
+}
