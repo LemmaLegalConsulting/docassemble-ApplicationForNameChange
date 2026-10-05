@@ -34,7 +34,7 @@ The LHI launch identifies a 2019 update. Its instructions include dated fee figu
 - [Fee waiver forms](https://mncourts.gov/getforms/fee-waiver), including current FEE102 and FEE201 Rev 07/24.
 - [Matching LawHelpMN resource](https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information).
 
-Archived originals, retrieval dates, URLs, and SHA-256 hashes are in `data/sources/court-originals/manifest.json`. Every automated template's labels are inventoried separately from official static downloads.
+Archived originals, retrieval dates, URLs, and SHA-256 hashes are in `reference/court-originals/manifest.json`. Every automated template's labels are inventoried separately from official static downloads.
 
 ## Boundaries still needing work
 

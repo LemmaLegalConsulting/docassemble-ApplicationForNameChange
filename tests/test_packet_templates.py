@@ -61,7 +61,7 @@ class PacketTemplates(unittest.TestCase):
   self.assertTrue(any(p.text == 'Affidavit of Personal Service' for p in doc.paragraphs))
   self.assertTrue(any(p.text == 'Avery Original; Casey Original' for p in doc.paragraphs))
  def test_source_judicial_order_section_is_unmodified(self):
-  original=Document(ROOT/'docassemble/ApplicationForNameChange/data/sources/court-originals/NAM107.docx')
+  original=Document(ROOT/'reference/court-originals/NAM107.docx')
   labeled=Document(T/'proposed_name_change_order.docx')
   start=next(i for i,p in enumerate(original.paragraphs) if 'IT IS ORDERED' in p.text)
   self.assertEqual([p._p.xml for p in original.paragraphs[start:]],[p._p.xml for p in labeled.paragraphs[start+1:start+1+len(original.paragraphs)-start]])
