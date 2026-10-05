@@ -26,6 +26,11 @@ Then('the downloaded PDF {string} should not contain {string}',async(file,unwant
  const text=clean(execFileSync('pdftotext',[path.join(scope.paths.scenario,file),'-'],{encoding:'utf8'}));
  if(text.includes(clean(unwanted)))throw Error('Unexpected PDF text: '+unwanted);
 });
+Then('the downloaded PDF {string} should contain {string} exactly {int} times',async(file,expected,count)=>{
+ const text=clean(execFileSync('pdftotext',[path.join(scope.paths.scenario,file),'-'],{encoding:'utf8'}));
+ const actual=text.split(clean(expected)).length-1;
+ if(actual!==count)throw Error('Expected '+count+' occurrences of '+expected+'; found '+actual);
+});
 
 // Fail promptly on AssemblyLine's custom error screen instead of repeatedly pressing Next.
 const examine=scope.examinePageID;
