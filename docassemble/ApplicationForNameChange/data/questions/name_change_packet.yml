@@ -1,0 +1,475 @@
+---
+objects:
+  - felony_notices: DAList.using(object_type=DAObject, auto_gather=False)
+  - Court_name_change_instructions: ALStaticDocument.using(title="Official court instructions (NAM101)", filename="NAM101.pdf", enabled=True)
+  - After_name_change_notice: ALStaticDocument.using(title="After your name change (NAM106)", filename="NAM106.pdf", enabled=True)
+  - Personal_service_instructions: ALStaticDocument.using(title="Personal service instructions (NAM204)", filename="NAM204.pdf", enabled=False)
+  - Publication_instructions: ALStaticDocument.using(title="Publication instructions (NAM206)", filename="NAM206.pdf", enabled=False)
+  - Fee_waiver_instructions: ALStaticDocument.using(title="Fee waiver instructions (FEE101)", filename="FEE101.pdf", enabled=False)
+  - Hennepin_name_change_instructions: ALStaticDocument.using(title="Hennepin supplemental instructions", filename="NAM101-supp.pdf", enabled=False)
+  - Inmate_fee_waiver_form: ALStaticDocument.using(title="Inmate fee waiver (FEE201, complete separately)", filename="FEE201.pdf", enabled=False)
+  - Proposed_name_change_order: ALDocument.using(title="Proposed order (NAM107)", filename="proposed_name_change_order", enabled=True, has_addendum=False)
+  - Criminal_history_releases: ALDocument.using(title="Criminal history releases (NAM103)", filename="criminal_history_releases", enabled=False, has_addendum=False)
+  - Felony_name_change_notices: ALDocument.using(title="Felony notices (NAM104)", filename="felony_name_change_notices", enabled=False, has_addendum=False)
+  - Inmate_name_change_affidavit: ALDocument.using(title="Inmate affidavit (NAM105)", filename="inmate_name_change_affidavit", enabled=False, has_addendum=False)
+  - Parental_hearing_notice: ALDocument.using(title="Notice to the other parent", filename="parental_hearing_notice", enabled=False, has_addendum=False)
+  - Parental_personal_service: ALDocument.using(title="Personal service affidavit (NAM205)", filename="parental_personal_service", enabled=False, has_addendum=False)
+  - Parental_publication_request: ALDocument.using(title="Request for publication (NAM207)", filename="parental_publication_request", enabled=False, has_addendum=False)
+  - Fee_waiver_affidavit: ALDocument.using(title="Fee waiver affidavit (FEE102)", filename="fee_waiver_affidavit", enabled=False, has_addendum=False)
+---
+id: Minnesota residency
+question: Have all people requesting a name change lived in Minnesota for at least 6 months?
+fields:
+  - "Everyone requesting a name change meets this requirement": all_applicants_resident_six_months
+    datatype: yesnoradio
+---
+id: adult applicant help
+event: adult_applicant_help
+question: Use the minor name change packet
+subquestion: |
+  This interview starts with an adult applicant. If the only person requesting a name change
+  is under 18, use the [court’s minor name change forms](https://mncourts.gov/getforms/name-change).
+buttons:
+  - Restart: restart
+---
+id: residency help
+event: residency_help
+question: Check the Minnesota residency requirement
+subquestion: |
+  NAM101 requires at least 6 months of Minnesota residence for a name change.
+  Contact the [court’s Self-Help Center](https://mncourts.gov/help-topics/self-help-centers)
+  before preparing an application if this requirement is not met.
+buttons:
+  - Restart: restart
+---
+id: no relief selected
+event: no_relief_help
+question: Choose a change to request
+subquestion: |
+  You have not selected a name or birth-record change. Go back and select the relief you want.
+  If only a minor is requesting a name change, use the [minor packet](https://mncourts.gov/getforms/name-change).
+buttons:
+  - Restart: restart
+---
+generic object: ALIndividual
+id: criminal history release details
+question: Information for ${ x.name.full() }’s criminal history release
+subquestion: |
+  The court requires a release for each covered person age 10 or older, even if they have no
+  criminal history. The published release asks for the sex designation and race below.
+  Contact court administration if its choices do not fit. Leave the signature for the person
+  signing the release. This information will be in the court file.
+fields:
+  - Other names this person has used: x.release_other_names
+    input type: area
+    required: false
+  - Sex designation for this release: x.release_sex
+    input type: radio
+    choices:
+      - Female
+      - Male
+      - I need to ask the court: ask_court
+  - Race: x.release_race
+---
+id: felony notice court contact
+question: Where should the court receive responses to felony notices?
+subquestion: |
+  Use court administration’s mailing address for the county where you will file.
+  You can find it in the [court directory](https://mncourts.gov/find-courts).
+fields:
+  - Court administrator’s street or mailing address: court_administrator_address
+  - City, state, and ZIP code: court_administrator_city_state_zip
+---
+id: felony notice recipient
+question: Who needs notice for felony offense ${ i + 1 }?
+subquestion: |
+  Offense: ${ value("party" + str(i + 1) + "_name_of_offense") }
+
+  Choose the person convicted and the jurisdiction of the prosecuting authority that obtained
+  the conviction. A federal or out-of-state conviction also requires notice to the Minnesota
+  Attorney General. If several offenses have the same recipient, check the generated notices
+  and serve the necessary copies with the application. Do not sign a notice before reviewing it.
+fields:
+  - Person convicted: felony_notices[i].person_index
+    datatype: integer
+    choices:
+      code: |
+        [{index: person.name.full()} for index, person in enumerate(packet_people)]
+  - Conviction jurisdiction: felony_notices[i].kind
+    input type: radio
+    choices:
+      - Minnesota state court: minnesota
+      - Another state’s court: other_state
+      - Federal court: federal
+  - County and state, or federal district, of the prosecuting authority: felony_notices[i].authority
+---
+id: divorce exception verification
+question: Do you meet the court’s divorce exception?
+subquestion: |
+  Use this exception only for your own return to the legal name on your birth certificate.
+  Read NAM101’s post-dissolution instructions. You must provide certified copies of your
+  birth certificate and divorce document. The exception does not apply to a person with a
+  felony conviction.
+fields:
+  - I meet the requirements and will file both certified documents: divorce_exception_confirmed
+    datatype: yesnoradio
+---
+id: divorce exception help
+event: divorce_exception_help
+question: Check the divorce exception before filing
+subquestion: |
+  These answers do not fit the single-adult divorce exception used by this interview.
+  Go back and turn off the exception to prepare the standard packet, or contact court administration.
+buttons:
+  - Restart: restart
+---
+id: inmate prior requests
+question: Have you already requested a name change during this confinement?
+fields:
+  - I have made an earlier request during this confinement: inmate_prior_name_change_request
+    datatype: yesnoradio
+---
+id: inmate repeat request help
+event: inmate_repeat_help
+question: Get help with an additional inmate name change request
+subquestion: |
+  NAM105 states that you have not made an earlier request during this confinement.
+  A repeated request needs review under Minn. Stat. § 259.12. Contact a lawyer or court
+  administration about a constitutional-right exception before preparing this affidavit.
+buttons:
+  - Restart: restart
+---
+id: inmate reason
+question: Why are you requesting a name change?
+fields:
+  - Reason for the inmate affidavit: inmate_name_change_reason
+    input type: area
+---
+id: parent address known
+question: Do you know where the other parent can receive notice?
+subquestion: |
+  Contact court administration about whether it requires certified mail or personal service.
+  If the address is unknown, you can ask the court to allow publication. You must explain your
+  efforts to find the parent. This interview handles one other parent shared by the included children.
+fields:
+  - I know the other parent’s address: parent_address_known
+    datatype: yesnoradio
+validation code: |
+  if parent_address_known and (not parents_nonapplicant_address_address.strip() or not parents_nonapplicant_city_state_zip.strip()):
+    validation_error("Go back and enter the other parent’s complete address, or choose No.")
+---
+id: parent last locations
+question: Where was the other parent last known to live and work?
+fields:
+  - Last known location of the other parent: parent_last_location
+    input type: area
+  - Last known employment location: parent_last_employment
+    input type: area
+    help: If you do not know, write “Unknown.”
+---
+id: parent relatives
+question: Who might know the other parent’s address?
+fields:
+  - Names and addresses of the other parent’s close relatives: parent_relatives
+    input type: area
+    help: Include parents, siblings, children, and other close relatives. Explain if you do not know any.
+  - Steps you took to get the address from these people: parent_search_efforts
+    input type: area
+---
+id: fee waiver choice
+question: Do you want to ask the court to waive its fees?
+subquestion: |
+  The court decides whether to grant a full or partial waiver. The affidavit is confidential.
+  If you qualify for the divorce or marriage fee exemption, confirm that with court administration.
+  A felony conviction can limit when you may request a fee waiver; read NAM101 first.
+fields:
+  - Prepare a fee-waiver request: request_fee_waiver
+    datatype: yesnoradio
+---
+id: inmate fee waiver guidance
+continue button field: inmate_fee_waiver_help
+question: Inmates use a different fee-waiver affidavit
+subquestion: |
+  The packet includes a blank [FEE201](https://mncourts.gov/getforms/fee-waiver).
+  Read its instructions about eligibility, correctional account records, and authorization
+  to release those records. Complete it separately before filing.
+  Ask court administration which affidavit applies if FEE201 does not describe your situation.
+---
+id: unidentified parent conditions
+question: Check whether another parent may need notice
+subquestion: |
+  A name missing from a birth certificate does not always mean notice can be skipped.
+  Confirm these statements for every included child:
+
+  * No other parent is named on the birth certificate.
+  * You were not married to the other parent at the child's birth or within 280 days
+    of the birth, including an attempted marriage.
+  * The other parent never signed a Recognition of Parentage.
+  * No court order establishes another legal parent.
+
+  These conditions come from the Hennepin supplemental guide. Ask your court
+  about its notice requirements and bring certified birth certificates.
+fields:
+  - All of these statements are true for each included child: unidentified_parent_conditions_confirmed
+    datatype: yesnoradio
+---
+id: unidentified parent help
+event: unidentified_parent_help
+question: Get help with notice to the other parent
+subquestion: |
+  Ask court administration or a lawyer who must receive notice and how to give it.
+  This interview cannot prepare the notice documents without identifying the parent.
+  [Find legal help on LawHelpMN](https://www.lawhelpmn.org/providers-and-clinics).
+buttons:
+  - Restart: restart
+---
+id: fee waiver legal services
+question: Do you have a lawyer from a program for people with low incomes?
+fields:
+  - My lawyer is through a civil legal services or volunteer attorney program: fee_legal_services
+    datatype: yesnoradio
+---
+id: fee waiver lawyer
+question: Tell us about the lawyer helping you
+fields:
+  - Lawyer’s name: fee_lawyer_name
+  - Legal services or volunteer attorney program: fee_lawyer_program
+---
+id: fee waiver benefits
+question: Do you receive public assistance?
+fields:
+  - Public assistance: fee_public_assistance
+    input type: radio
+    choices:
+      - One or more of the programs listed below: listed
+      - A different program based on income: other
+      - No public assistance: none
+  - Programs you receive: fee_benefits
+    datatype: checkboxes
+    none of the above: false
+    choices:
+      - SSI
+      - MSA or Emergency MSA
+      - GA or Emergency GA
+      - SNAP
+      - MFIP, DWP, or Work Participation Cash Benefit
+      - MinnesotaCare or Medical Assistance
+      - Medicare part D extra help or government payment of part B premiums
+      - Emergency Assistance or county crisis funds
+      - Energy or Fuel Assistance
+    show if:
+      variable: fee_public_assistance
+      is: listed
+validation code: |
+  if fee_public_assistance == "listed" and not fee_benefits.any_true():
+    validation_error("Choose at least one program you receive.", field="fee_benefits")
+---
+id: fee waiver other program
+question: What other income-based program do you receive?
+fields:
+  - Program name: fee_other_program
+---
+id: fee waiver household
+question: Who is in your household?
+subquestion: |
+  Count yourself, your spouse or significant other, minor children (and older children still in high
+  school), and other people who rely on you for most of their support. List each other person’s
+  name, age, and relationship to you, one person per line. Write “None” if you live alone.
+fields:
+  - Household size, including you: fee_household_size
+    datatype: integer
+    min: 1
+  - Other household members, ages, and relationships: fee_household_members
+    input type: area
+---
+id: fee waiver income
+question: What income do you receive?
+subquestion: |
+  Include wages, unemployment, Social Security, child or spousal support, trust income, and other
+  sources. Use income before taxes and deductions. If income varies, average the last 6 months.
+fields:
+  - Income sources: fee_income_sources
+    input type: area
+  - Total monthly income before deductions: fee_monthly_income
+    datatype: currency
+    min: 0
+  - This is an average for the last 6 months: fee_income_is_average
+    datatype: yesnoradio
+---
+id: fee waiver spouse income known
+question: Do you know your spouse’s income?
+fields:
+  - I know my spouse’s income: fee_spouse_income_known
+    datatype: yesnoradio
+---
+id: fee waiver spouse income
+question: What income does your spouse receive?
+fields:
+  - Total monthly income before deductions: fee_spouse_monthly_income
+    datatype: currency
+    min: 0
+  - Income sources: fee_spouse_income_sources
+    input type: area
+---
+id: fee waiver spouse income unknown
+question: Why don’t you know your spouse’s income?
+fields:
+  - Reason the income is unknown: fee_spouse_income_unknown_reason
+    input type: area
+---
+id: fee waiver other household income
+question: Do other household members have income?
+fields:
+  - Names, monthly take-home income, and sources: fee_other_household_income
+    input type: area
+    help: Write one person per line. Write “None” if no other household member has income.
+---
+id: fee waiver yearly income
+question: What is your household’s yearly income?
+subquestion: |
+  Include the entire household’s income before taxes and deductions. Compare it with the
+  **current 125% poverty guideline for your household size** in the
+  [court’s fee-waiver instructions](https://mncourts.gov/getforms/fee-waiver).
+  If you are unsure, contact the court’s Self-Help Center.
+fields:
+  - Household yearly income before deductions: fee_yearly_income
+    datatype: currency
+    min: 0
+  - This is less than 125% of the current poverty guideline for my household size: fee_below_poverty_guideline
+    datatype: yesnoradio
+---
+id: fee waiver expenses
+question: What are your household’s monthly expenses?
+subquestion: |
+  List each amount you pay. Include rent or mortgage, utilities, food, car payments, car insurance,
+  spousal support, child support, childcare, medical insurance, cell phone, and other expenses.
+  List $0 for expenses you do not have. Explain any other expense.
+fields:
+  - Monthly expenses, one amount per category: fee_expenses
+    input type: area
+---
+id: fee waiver debt and cash
+question: What debt and available money do you have?
+fields:
+  - Debt, excluding car and real estate loans: fee_debt
+    datatype: currency
+    min: 0
+  - Cash available: fee_cash
+    datatype: currency
+    min: 0
+  - Checking, savings, and credit union accounts available: fee_accounts
+    datatype: currency
+    min: 0
+---
+id: fee waiver property
+question: What property do you own?
+subquestion: |
+  Give each item’s equity: what it could sell for minus what you owe.
+  Include each vehicle’s year and make, your home, other real estate, and personal property
+  such as jewelry, stocks, and bonds. Write $0 or “None” for items you do not have.
+fields:
+  - Items and equity values: fee_assets
+    input type: area
+---
+id: fee waiver other reasons
+question: Is there anything else affecting your ability to pay?
+fields:
+  - Other reasons you cannot afford fees: fee_other_reasons
+    input type: area
+    required: false
+---
+attachment:
+  name: proposed name change order
+  filename: proposed_name_change_order
+  variable name: Proposed_name_change_order[i]
+  docx template file: proposed_name_change_order.docx
+  tagged pdf: true
+---
+attachment:
+  name: criminal history releases
+  filename: criminal_history_releases
+  variable name: Criminal_history_releases[i]
+  docx template file: criminal_history_releases.docx
+  tagged pdf: true
+---
+attachment:
+  name: felony name change notices
+  filename: felony_name_change_notices
+  variable name: Felony_name_change_notices[i]
+  docx template file: felony_name_change_notices.docx
+  tagged pdf: true
+---
+attachment:
+  name: inmate name change affidavit
+  filename: inmate_name_change_affidavit
+  variable name: Inmate_name_change_affidavit[i]
+  docx template file: inmate_name_change_affidavit.docx
+  tagged pdf: true
+---
+attachment:
+  name: parental hearing notice
+  filename: parental_hearing_notice
+  variable name: Parental_hearing_notice[i]
+  docx template file: parental_hearing_notice.docx
+  tagged pdf: true
+---
+attachment:
+  name: parental personal service
+  filename: parental_personal_service
+  variable name: Parental_personal_service[i]
+  docx template file: parental_personal_service.docx
+  tagged pdf: true
+---
+attachment:
+  name: parental publication request
+  filename: parental_publication_request
+  variable name: Parental_publication_request[i]
+  docx template file: parental_publication_request.docx
+  tagged pdf: true
+---
+attachment:
+  name: fee waiver affidavit
+  filename: fee_waiver_affidavit
+  variable name: Fee_waiver_affidavit[i]
+  docx template file: fee_waiver_affidavit.docx
+  tagged pdf: true
+---
+id: review packet choices
+continue button field: review_name_change_packet
+question: Review packet information
+review:
+  - Edit: all_applicants_resident_six_months
+    button: Minnesota residency
+  - Edit: users[0].release_other_names
+    show if: users[0] in release_people
+    button: Your criminal history release
+  - Edit: spouses[0].release_other_names
+    show if: spouse_included and spouses[0] in release_people
+    button: Spouse’s criminal history release
+  - Edit: request_fee_waiver
+    button: Fee waiver
+  - Edit: fee_legal_services
+    show if: request_fee_waiver and not users1_inmate_in_correctional_facility_and_submitting_inmate_aff
+    button: Legal aid representation
+  - Edit: fee_public_assistance
+    show if: request_fee_waiver and not users1_inmate_in_correctional_facility_and_submitting_inmate_aff and not fee_legal_services
+    button: Public assistance
+  - Edit: fee_household_size
+    show if: fee_financial_details
+    button: Household and finances
+  - Edit: parent_address_known
+    show if: parental_notice_needed
+    button: Other parent’s address
+  - Edit: inmate_prior_name_change_request
+    show if: users1_inmate_in_correctional_facility_and_submitting_inmate_aff
+    button: Inmate affidavit
+---
+id: minor only packet help
+event: minor_only_help
+question: Use the minor name change application
+subquestion: |
+  The court publishes a separate packet when only minors are requesting name changes.
+  Use [NAM202 and the minor packet](https://mncourts.gov/getforms/name-change),
+  or get help if you also need an adult birth-record change.
+buttons:
+  - Restart: restart

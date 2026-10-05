@@ -1,9 +1,10 @@
 ---
 include:
 - docassemble.AssemblyLine:assembly_line.yml
+- name_change_packet.yml
 ---
 metadata:
-  title: Application for name change
+  title: Minnesota name change packet
   short title: Apply for a name change
   description: This interview helps someone in Minnesota ask the court to change their name and the names
     of their spouse and children.
@@ -64,6 +65,11 @@ code: |
   user_ask_role = "na"
   users.gather()
   users[0].birthdate
+  if users[0].age_in_years() < 18:
+    adult_applicant_help
+  all_applicants_resident_six_months
+  if not all_applicants_resident_six_months:
+    residency_help
   users[0].address.address
   users[0].address.county
   users[0].phone_number
@@ -97,6 +103,8 @@ code: |
   no_nonapplicant_parent = no_minor_children or minor_children_listed_not_included_in_application != "minor_children_included_yes"
   if not no_nonapplicant_parent:
     parents_nonapplicant_unknown
+    if not parents_nonapplicant_unknown:
+      parent_address_known
   parties_have_criminal_history
   no_parties_have_criminal_history = not parties_have_criminal_history
   if parties_have_criminal_history:
@@ -110,6 +118,126 @@ code: |
   users1_involved_in_victim_or_witness_protection
   users1_other_statements
   county_and_state_where_signed
+  spouse_included = not not_married and application_includes_spouse == "yes_includes_spouse"
+  applicant_requested_name = " ".join(part for part in [users1_name_first_change, users1_name_middle_change, users1_name_last_change] if part.strip()) if request_for_applicant_name_change else ""
+  birth_requested_name = " ".join(part for part in [users1_name_first_change_birth_record, users1_name_middle_change_birth_record, users1_name_last_change_birth_record] if part.strip()) if request_for_applicant_name_change_on_birth_record else ""
+  spouse_requested_name = " ".join(part for part in [spouses_name_first_change, spouses_name_middle_change, spouses_name_last_change] if part.strip()) if spouse_included and request_applicant_spouse_name_change else ""
+  included_children = []
+  child_requested_pairs = []
+  if not no_minor_children and minor_children_listed_not_included_in_application == "minor_children_included_yes" and request_childrens_name_change:
+    for index, child in enumerate(children):
+      if index < 5:
+        requested = " ".join(value("children" + str(index + 1) + "_name_" + part + "_change") for part in ["first", "middle", "last"]).strip()
+        if requested:
+          included_children.append(child)
+          child_requested_pairs.append((child.name.full(), requested))
+  if child_requested_pairs and not (applicant_requested_name or spouse_requested_name):
+    minor_only_help
+  if not (applicant_requested_name or birth_requested_name or request_sex_change_on_birth_record or replacement_birth_record or spouse_requested_name or child_requested_pairs):
+    no_relief_help
+  included_children_names = "; ".join(child.name.full() for child in included_children)
+  children_requested_names = "; ".join(pair[1] for pair in child_requested_pairs)
+  children_requested_summary = "; ".join(old + " → " + new for old, new in child_requested_pairs)
+  if included_children:
+    minor_children_included_names = included_children_names
+  listed_children_summary = "; ".join(child.name.full() + "; " + child.birthdate.format() for child in children) if not no_minor_children else "None"
+  listed_spouse_summary = spouses[0].name.full() + "; " + spouses[0].birthdate.format() if not not_married else "None"
+  packet_people = [users[0]] + ([spouses[0]] if spouse_included else []) + included_children
+  packet_new_names = [applicant_requested_name or users[0].name.full()] + ([spouse_requested_name or spouses[0].name.full()] if spouse_included else []) + [pair[1] for pair in child_requested_pairs]
+  packet_caption = "; ".join(person.name.full() for person in packet_people)
+  packet_requested_caption = "; ".join(packet_new_names)
+  hennepin_packet = district_court_county.strip().lower().removesuffix(" county") == "hennepin"
+  order_people = []
+  if hennepin_packet:
+    if applicant_requested_name or birth_requested_name or request_sex_change_on_birth_record or replacement_birth_record:
+      order_people.append({"caption": users[0].name.full(), "requested_caption": packet_new_names[0], "primary": True, "spouse": False, "children": ""})
+    if spouse_requested_name:
+      order_people.append({"caption": spouses[0].name.full(), "requested_caption": spouse_requested_name, "primary": False, "spouse": True, "children": ""})
+    for old, new in child_requested_pairs:
+      order_people.append({"caption": old, "requested_caption": new, "primary": False, "spouse": False, "children": old + " → " + new})
+  else:
+    order_people.append({"caption": packet_caption, "requested_caption": packet_requested_caption, "primary": True, "spouse": bool(spouse_requested_name), "children": children_requested_summary})
+  omit_former_name = replacement_birth_record and keep_former_name_confidential
+  omit_former_sex = replacement_birth_record and keep_former_sex_confidential
+  has_felony = parties_have_criminal_history and parties_with_criminal_history
+  felony_summary = "; ".join(value("party" + str(index + 1) + "_with_offense") + ": " + value("party" + str(index + 1) + "_name_of_offense") + ", " + value("party" + str(index + 1) + "_date_of_offense") + ", " + value("party" + str(index + 1) + "_state_of_offense") for index in range(felony_count)) if has_felony else ""
+  land_summary = name_of_person_and_description_of_person_with_claim_interest_or_lien if applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota == "parties_have_claim_interest_or_lien" else "None"
+  if users1_divorced_seeking_change_to_legal_name_on_birth_certificate:
+    divorce_exception_confirmed
+    if not divorce_exception_confirmed or has_felony or len(packet_people) != 1:
+      divorce_exception_help
+  release_people = [person for person in packet_people if person.age_in_years() >= 10 and not users1_divorced_seeking_change_to_legal_name_on_birth_certificate]
+  for person in release_people:
+    person.release_other_names
+    person.release_sex
+    person.release_race
+  felony_notice_data = []
+  if has_felony:
+    court_administrator_address
+    for index in range(felony_count):
+      felony_notices[index].person_index
+      felony_notices[index].kind
+      felony_notices[index].authority
+      felony_notice_data.append({"current_name": packet_people[felony_notices[index].person_index].name.full(), "requested_name": packet_new_names[felony_notices[index].person_index], "kind": felony_notices[index].kind, "authority": felony_notices[index].authority})
+  if users1_inmate_in_correctional_facility_and_submitting_inmate_aff:
+    inmate_prior_name_change_request
+    if inmate_prior_name_change_request:
+      inmate_repeat_help
+    inmate_name_change_reason
+  parental_notice_needed = bool(included_children) and not parents_nonapplicant_unknown
+  if included_children and parents_nonapplicant_unknown:
+    unidentified_parent_conditions_confirmed
+    if not unidentified_parent_conditions_confirmed:
+      unidentified_parent_help
+  nonapplicant_parent_name = " ".join([parents_nonapplicant_name_first, parents_nonapplicant_name_middle, parents_nonapplicant_name_last]) if parental_notice_needed else ""
+  if parental_notice_needed and not parent_address_known:
+    parent_last_location
+    parent_last_employment
+    parent_relatives
+    parent_search_efforts
+  request_fee_waiver
+  if request_fee_waiver and users1_inmate_in_correctional_facility_and_submitting_inmate_aff:
+    inmate_fee_waiver_help
+  if request_fee_waiver and not users1_inmate_in_correctional_facility_and_submitting_inmate_aff:
+    fee_legal_services
+    if fee_legal_services:
+      fee_lawyer_name
+    else:
+      fee_public_assistance
+      if fee_public_assistance == "other":
+        fee_other_program
+      if fee_public_assistance != "listed":
+        fee_household_size
+        fee_household_members
+        fee_income_sources
+        fee_monthly_income
+        if not not_married:
+          fee_spouse_income_known
+          if fee_spouse_income_known:
+            fee_spouse_monthly_income
+          else:
+            fee_spouse_income_unknown_reason
+        fee_other_household_income
+        fee_yearly_income
+        if not fee_below_poverty_guideline:
+          fee_expenses
+          fee_debt
+          fee_assets
+          fee_other_reasons
+  fee_financial_details = request_fee_waiver and not users1_inmate_in_correctional_facility_and_submitting_inmate_aff and not fee_legal_services and fee_public_assistance != "listed"
+  fee_full_details = fee_financial_details and not fee_below_poverty_guideline
+  Personal_service_instructions.enabled = parental_notice_needed and parent_address_known
+  Publication_instructions.enabled = parental_notice_needed and not parent_address_known
+  Fee_waiver_instructions.enabled = request_fee_waiver
+  Hennepin_name_change_instructions.enabled = hennepin_packet
+  Inmate_fee_waiver_form.enabled = request_fee_waiver and users1_inmate_in_correctional_facility_and_submitting_inmate_aff
+  Criminal_history_releases.enabled = bool(release_people)
+  Felony_name_change_notices.enabled = has_felony
+  Inmate_name_change_affidavit.enabled = users1_inmate_in_correctional_facility_and_submitting_inmate_aff
+  Parental_hearing_notice.enabled = parental_notice_needed
+  Parental_personal_service.enabled = parental_notice_needed and parent_address_known
+  Parental_publication_request.enabled = parental_notice_needed and not parent_address_known
+  Fee_waiver_affidavit.enabled = request_fee_waiver and not users1_inmate_in_correctional_facility_and_submitting_inmate_aff
   Application_for_name_change_download
 ---
 comment: |
@@ -123,9 +251,10 @@ subquestion: |
   You can include a spouse or minor children. Gather current names, dates of birth,
   requested names, and any criminal history or Minnesota property interests.
 
-  This interview prepares the application, not every document you may need to file.
+  Prepare the application, criminal-history releases, and proposed order.
+  We will add notices, affidavits, and a fee-waiver request when they apply to your answers.
   Read the [court instructions](https://mncourts.gov/help-topics/name-change)
-  for additional forms, notice requirements, and the hearing.
+  for filing, notice requirements, and the hearing.
 
   The application states that everyone requesting a name change has lived in Minnesota
   for at least six months. Get help before signing if that statement is not true.
@@ -347,10 +476,12 @@ fields:
   show if:
     variable: parents_nonapplicant_unknown
     is: false
+  required: false
 - City, state, and zipcode of the non-applicant parent: parents_nonapplicant_city_state_zip
   show if:
     variable: parents_nonapplicant_unknown
     is: false
+  required: false
 ---
 id: Criminal History
 question: Does anyone applying have a criminal history?
@@ -654,14 +785,20 @@ confirm: true
 ---
 id: download Application_for_name_change
 event: Application_for_name_change_download
-question: Review and print your application
+question: Review and print your name change packet
 subquestion: |
   Review every page before signing. Nothing has been filed with the court.
 
   ${ action_button_html(url_action('review_Application_for_name_change'), label='Edit answers', color='info') }
+  ${ action_button_html(url_action('review_name_change_packet'), label='Edit packet information', color='info') }
   ${ al_user_bundle.download_list_html() }
 
-  Read the court instructions for additional forms and steps.
+  Sign the application and each release where indicated. Leave the judge’s order fields blank.
+  Service forms must be completed by the person who actually delivers the documents.
+  Hearing notices need the date, time, and location supplied by the court.
+  Read the included checklist and court instructions before filing.
+
+  ${ "Keep the confidential fee-waiver affidavit separate from public forms when filing." if request_fee_waiver else "" }
 
   Learn more: [Name Change - Minnesota Court Forms and Information](https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information) on LawHelpMN.
 progress: 100
@@ -674,9 +811,9 @@ objects:
 ---
 objects:
 - al_user_bundle: ALDocumentBundle.using(elements=[Application_for_name_change_Post_interview_instructions,
-    Application_for_name_change_attachment], filename="Application_for_name_change", title="All forms
+    Court_name_change_instructions, Hennepin_name_change_instructions, After_name_change_notice, Personal_service_instructions, Publication_instructions, Fee_waiver_instructions, Inmate_fee_waiver_form, Application_for_name_change_attachment, Proposed_name_change_order, Criminal_history_releases, Felony_name_change_notices, Inmate_name_change_affidavit, Parental_hearing_notice, Parental_personal_service, Parental_publication_request, Fee_waiver_affidavit], filename="Application_for_name_change", title="All forms
     to download for your records", enabled=True)
-- al_court_bundle: ALDocumentBundle.using(elements=[Application_for_name_change_attachment],  filename="Application_for_name_change",
+- al_court_bundle: ALDocumentBundle.using(elements=[Application_for_name_change_attachment, Proposed_name_change_order, Criminal_history_releases, Inmate_name_change_affidavit, Parental_publication_request],  filename="Application_for_name_change",
     title="All forms to deliver to court", enabled=True)
 ---
 attachment:
@@ -684,7 +821,6 @@ attachment:
   filename: Application_for_name_change_next_steps
   docx template file: Application_for_name_change_next_steps.docx
   variable name: Application_for_name_change_Post_interview_instructions[i]
-  skip undefined: true
   tagged pdf: true
 ---
 attachment:
@@ -710,13 +846,13 @@ attachment:
   - users1_name_last__2: ${ users[0].name.last }
   - users1_name_first_change: ${ (users1_name_first_change) if request_for_applicant_name_change else
       "" }
-  - users1_name_first_change__1: ${ users1_name_first_change }
+  - users1_name_first_change__1: ${ users1_name_first_change if request_for_applicant_name_change else "" }
   - users1_name_middle_change: ${ (users1_name_middle_change) if request_for_applicant_name_change else
       "" }
-  - users1_name_middle_change__1: ${ users1_name_middle_change }
+  - users1_name_middle_change__1: ${ users1_name_middle_change if request_for_applicant_name_change else "" }
   - users1_name_last_change: ${ (users1_name_last_change) if request_for_applicant_name_change else ""
       }
-  - users1_name_last_change__1: ${ users1_name_last_change }
+  - users1_name_last_change__1: ${ users1_name_last_change if request_for_applicant_name_change else "" }
   - users1_address_address: ${ users[0].address.address }
   - users1_address_city: ${ users[0].address.line_two() }
   - users1_address_county: ${ users[0].address.county }
