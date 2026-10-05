@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-04",
+  "method": "Strict Jinja renders and LibreOffice PDF conversion; synthetic examples from template regression context",
+  "renders": [
+    {
+      "file": "inmate_name_change_affidavit.pdf",
+      "pages": 1,
+      "unrendered_tags": false
+    },
+    {
+      "file": "proposed_name_change_order.pdf",
+      "pages": 3,
+      "unrendered_tags": false
+    },
+    {
+      "file": "parental_publication_request.pdf",
+      "pages": 2,
+      "unrendered_tags": false
+    },
+    {
+      "file": "Application_for_name_change_next_steps.pdf",
+      "pages": 1,
+      "unrendered_tags": false
+    },
+    {
+      "file": "felony_name_change_notices.pdf",
+      "pages": 2,
+      "unrendered_tags": false
+    },
+    {
+      "file": "parental_personal_service.pdf",
+      "pages": 1,
+      "unrendered_tags": false
+    },
+    {
+      "file": "fee_waiver_affidavit.pdf",
+      "pages": 2,
+      "unrendered_tags": false
+    },
+    {
+      "file": "criminal_history_releases.pdf",
+      "pages": 2,
+      "unrendered_tags": false
+    },
+    {
+      "file": "parental_hearing_notice.pdf",
+      "pages": 1,
+      "unrendered_tags": false
+    }
+  ]
+}

@@ -42,6 +42,10 @@ Tested ALKiln checkout: `d7e4f42aa8a828013a8a229067697decf1322e5f`. `tests/steps
 
 ## Template audit and decisions
 
-`validation/template-labels.json` records the current labels and control tags. `validation/template-verification.json` records strict synthetic rendering and PDF checks. The workspace scripts `audit_current_templates.py` and `verify_templates.py` refresh them. Early one-time migration scripts are historical and should not be rerun against the edited templates.
+`validation/template-labels.json` records the current labels and control tags. `validation/template-verification.json` records strict synthetic rendering and PDF checks. The workspace `scripts/audit_current_templates.py` refreshes the label inventory. The package `scripts/render_packet_examples.py` renders all current companion DOCX templates with strict synthetic data and checks LibreOffice PDF conversion. Unit tests check the NAM102 PDF mappings. The workspace `scripts/verify_templates.py ApplicationForNameChange` also checks the original PDF appearance and all DOCX templates using the expanded packet context. Early one-time migration scripts are historical and should not be rerun against the edited templates.
 
 Keep wet signatures, initials, execution dates, and witness/notarial attestations manual. Record substantive choices and sources in [DECISIONS.md](DECISIONS.md); keep the remaining release decisions in [IMPROVEMENTS.md](IMPROVEMENTS.md).
+
+Build the labeled court templates with `scripts/build_packet_templates.py` (LibreOffice required for archived legacy Word sources) and the fee/checklist adaptations with `scripts/build_fee_templates.py`. Originals and retrieval hashes are archived under `data/sources/court-originals/`. Run template regressions after rebuilding.
+
+Use `scripts/summarize_alkiln.py ARTIFACT_DIR APPLICATION_COMMIT [ARTIFACT_DIR APPLICATION_COMMIT ...]` to save a sanitized report across a full run and later focused verification. It requires coverage of the current scenario set, uses the newest result for each scenario, preserves each run's totals, and omits session URLs and step arguments.

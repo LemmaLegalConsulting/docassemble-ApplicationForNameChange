@@ -15,5 +15,69 @@
     "libreoffice_pdf_render": "pass",
     "new_content_labels_found_in_pdf": 0,
     "pdf_pages": 1
+  },
+  {
+    "template": "criminal_history_releases.docx",
+    "status": "pass",
+    "strict_jinja_render": "pass",
+    "libreoffice_pdf_render": "pass",
+    "new_content_labels_found_in_pdf": 0,
+    "pdf_pages": 2
+  },
+  {
+    "template": "fee_waiver_affidavit.docx",
+    "status": "pass",
+    "strict_jinja_render": "pass",
+    "libreoffice_pdf_render": "pass",
+    "new_content_labels_found_in_pdf": 0,
+    "pdf_pages": 2
+  },
+  {
+    "template": "felony_name_change_notices.docx",
+    "status": "pass",
+    "strict_jinja_render": "pass",
+    "libreoffice_pdf_render": "pass",
+    "new_content_labels_found_in_pdf": 0,
+    "pdf_pages": 2
+  },
+  {
+    "template": "inmate_name_change_affidavit.docx",
+    "status": "pass",
+    "strict_jinja_render": "pass",
+    "libreoffice_pdf_render": "pass",
+    "new_content_labels_found_in_pdf": 0,
+    "pdf_pages": 1
+  },
+  {
+    "template": "parental_hearing_notice.docx",
+    "status": "pass",
+    "strict_jinja_render": "pass",
+    "libreoffice_pdf_render": "pass",
+    "new_content_labels_found_in_pdf": 0,
+    "pdf_pages": 1
+  },
+  {
+    "template": "parental_personal_service.docx",
+    "status": "pass",
+    "strict_jinja_render": "pass",
+    "libreoffice_pdf_render": "pass",
+    "new_content_labels_found_in_pdf": 0,
+    "pdf_pages": 1
+  },
+  {
+    "template": "parental_publication_request.docx",
+    "status": "pass",
+    "strict_jinja_render": "pass",
+    "libreoffice_pdf_render": "pass",
+    "new_content_labels_found_in_pdf": 0,
+    "pdf_pages": 2
+  },
+  {
+    "template": "proposed_name_change_order.docx",
+    "status": "pass",
+    "strict_jinja_render": "pass",
+    "libreoffice_pdf_render": "pass",
+    "new_content_labels_found_in_pdf": 0,
+    "pdf_pages": 3
   }
 ]

@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-04",
+  "server": "localhost",
+  "package": "ApplicationForNameChange",
+  "alkiln_commit": "d7e4f42aa8a828013a8a229067697decf1322e5f",
+  "application_commit": "e88d01a13947d5bbd967732c7409241ad9eedf11",
+  "fixture_and_harness_sha256": {
+    "tests/steps.cjs": "fb643f9cb1476863f8312eea9126d4a0939c6b366bfb103ebcff45d548324645",
+    "tests/run_alkiln.py": "40805dd9ebe460ae3f36c394891dae778445edba719867abdbac4b7a1aa63cb2",
+    "docassemble/ApplicationForNameChange/data/sources/scenarios.feature": "5637c79419653cee3a29fbc137d4d8340504781a42adc62a627fba38cb454f5a"
+  },
+  "local_artifacts": ".alkiln-artifacts/20261004-190110",
+  "scenario_count": 9,
+  "passed": 9,
+  "step_count": 65,
+  "scenarios": [
+    {
+      "name": "Robin applies alone with no criminal history",
+      "tags": [
+        "@adult_no_family"
+      ],
+      "status": "passed",
+      "steps": 6,
+      "duration_seconds": 33.873
+    },
+    {
+      "name": "Robin lists a spouse who is not applying",
+      "tags": [
+        "@spouse_not_applying"
+      ],
+      "status": "passed",
+      "steps": 6,
+      "duration_seconds": 30.834
+    },
+    {
+      "name": "Robin includes three children with distinct surnames",
+      "tags": [
+        "@three_children"
+      ],
+      "status": "passed",
+      "steps": 8,
+      "duration_seconds": 41.529
+    },
+    {
+      "name": "Robin requests birth-record relief and discloses a felony",
+      "tags": [
+        "@birth_record_and_history"
+      ],
+      "status": "passed",
+      "steps": 6,
+      "duration_seconds": 36.512
+    },
+    {
+      "name": "Alexandria has long names and a lengthy property description",
+      "tags": [
+        "@land_and_long_names"
+      ],
+      "status": "passed",
+      "steps": 6,
+      "duration_seconds": 25.777
+    },
+    {
+      "name": "Robin removes children after completing the application",
+      "tags": [
+        "@remove_children"
+      ],
+      "status": "passed",
+      "steps": 11,
+      "duration_seconds": 29.078
+    },
+    {
+      "name": "Robin and Jamie both request new names",
+      "tags": [
+        "@spouse_applying"
+      ],
+      "status": "passed",
+      "steps": 8,
+      "duration_seconds": 23.171
+    },
+    {
+      "name": "Robin lists a child who is not applying",
+      "tags": [
+        "@children_not_applying"
+      ],
+      "status": "passed",
+      "steps": 7,
+      "duration_seconds": 18.532
+    },
+    {
+      "name": "Robin requests a Hmong interpreter",
+      "tags": [
+        "@interpreter_needed"
+      ],
+      "status": "passed",
+      "steps": 7,
+      "duration_seconds": 20.002
+    }
+  ]
+}
