@@ -51,7 +51,8 @@ paragraphs=[
 'Phone: {{ users[0].phone_number }}    Email: {{ users[0].email }}',
 'File this confidential affidavit with your pleadings and proof of public assistance or financial need. A judicial officer will decide whether to grant a full or partial waiver.'
 ]
-for t in paragraphs:d.add_paragraph(t)
+for i,t in enumerate(paragraphs):d.add_paragraph(t, style='Title' if i == 5 else None)
+d.core_properties.title='Affidavit to request fee waiver'
 d.sections[0].footer.paragraphs[0].text='Adapted from Minnesota Judicial Branch FEE102, Rev. 07/24 — financial details expand as needed.'
 d.save(p/'fee_waiver_affidavit.docx')
 # Fresh packet checklist, rather than the old application-only instructions.
@@ -62,7 +63,10 @@ for t in [
 'Nothing has been filed or approved. Review every page of the packet.',
 '1. Review and sign the application (NAM102). Any included spouse must sign. Each included child age 14 or older must sign. Use an additional signature sheet for more than one child needing to sign.',
 '2. Sign one criminal-history release (NAM103) for each covered person age 10 or older. The packet includes {{ release_people | length }} release(s). If the binary sex choices do not fit, ask court administration how to complete that field before filing.',
-'3. Review the proposed order (NAM107). The portions below IT IS ORDERED and the judge’s signature are for the court. The hearing date and service/no-objection findings are left blank.',
+'3. Review the proposed order(s) (NAM107). The portions below IT IS ORDERED and the judge’s signature are for the court. The hearing date and service/no-objection findings are left blank.',
+'{%p if hennepin_packet %}',
+'Hennepin: This packet includes a separate proposed order for each person requesting a change. Read the included supplemental guide. For notice to a known-address parent, follow its certified-mail, affidavit-of-service, and receipt requirements. NAM205 is for actual personal service; it does not prove mailing. Ask the court for the correct mailing affidavit.',
+'{%p endif %}',
 '4. Read the included official instructions (NAM101). File in the county where you live. Pay the fee or submit the applicable fee-waiver or exemption documents. Ask court administration how to schedule your hearing.',
 '5. Bring two witnesses who know you to the hearing unless the court confirms an exception. Included minors must attend. Obtain certified copies of a signed order after approval.',
 '{%p if users1_divorced_seeking_change_to_legal_name_on_birth_certificate %}',
@@ -76,17 +80,17 @@ for t in [
 'Incarceration: Review and sign NAM105 only if every statement is true. A repeated name change request during confinement needs legal review.',
 '{%p endif %}',
 '{%p if parental_notice_needed %}',
-'Children’s other parent: Fill in the hearing notice after the court schedules the hearing. Attach the application. Ask court administration whether certified mail or personal service is required. For personal service, use a person age 18 or older who can complete NAM205 with the actual date, place, and delivery facts. Do not sign the service affidavit yourself unless you actually performed valid service.',
+'Children’s other parent: Fill in the hearing notice after the court schedules the hearing. Attach the application. Ask court administration whether certified mail or personal service is required. For personal service, use a person age 18 or older who can complete NAM205 with the actual date, place, and delivery facts. Follow the included personal-service instructions about who may serve. The person who actually served the papers completes the affidavit.',
 '{%p if not parent_address_known %}',
 'Unknown address: Review the search-effort statements in NAM207. Its first statement says the application has been filed: file the application before signing that statement. Ask the judge to permit publication or other notice; wait for an order before arranging publication. The newspaper supplies proof of publication. The publication order fields are left blank for the judge.',
 '{%p endif %}',
 '{%p endif %}',
 '{%p if included_children and parents_nonapplicant_unknown %}',
-'Unknown parent: Bring the certified birth certificate showing that no second parent is named. Ask court administration whether an adjudicated parent or other circumstances require notice.',
+'Unknown parent: Bring the certified birth certificate showing that no second parent is named. Your answers confirmed no marriage or attempted marriage in the stated period, Recognition of Parentage, or parentage order. Ask court administration to confirm that notice may be omitted.',
 '{%p endif %}',
 '{%p if request_fee_waiver %}',
 '{%p if users1_inmate_in_correctional_facility_and_submitting_inmate_aff %}',
-'Inmate fee waiver: Complete FEE201 separately with the correctional account records it requires. A standard FEE102 affidavit is not generated for this route.',
+'Inmate fee waiver: Complete the included blank FEE201 separately if its eligibility statements apply. Include the correctional account records and authorization it requires. A standard FEE102 affidavit is not generated for this route.',
 '{%p else %}',
 'Fee waiver: Review and sign the confidential FEE102 adaptation. Attach proof of public assistance or household income as applicable. Confirm that expenses and assets are complete. The court decides whether fees will be waived. Submit it as a confidential document, separately from publicly accessible forms.',
 '{%p endif %}',
@@ -96,5 +100,7 @@ for t in [
 'Court fee-waiver forms: https://mncourts.gov/getforms/fee-waiver',
 'Name Change — Minnesota Court Forms and Information on LawHelpMN:',
 'https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information'
-]:d.add_paragraph(t)
+]:
+ d.add_paragraph(t, style='Title' if t == 'Minnesota name change — your next steps' else None)
+d.core_properties.title='Minnesota name change — your next steps'
 d.save(p/'Application_for_name_change_next_steps.docx')

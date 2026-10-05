@@ -12,6 +12,18 @@
     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8"
   },
   {
+    "file": "FEE201.pdf",
+    "url": "https://mncourts.gov/_media/migration/courtforms/fee-waiver/fee201_current.pdf",
+    "retrieved": "2026-10-04",
+    "sha256": "3d783604d770a514bf18c4d72554f43f3dab9f1a82f7adb326fd1a89b4feb604"
+  },
+  {
+    "file": "NAM101-supp.pdf",
+    "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam101-supp.pdf",
+    "retrieved": "2026-10-04",
+    "sha256": "abfa6e13ca8574a61a72dd1f0ce541c084647b3e1307d307156bdaaf5989f823"
+  },
+  {
     "file": "NAM101.pdf",
     "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam101.pdf",
     "retrieved": "2026-10-04",
