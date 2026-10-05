@@ -12,7 +12,7 @@ from docx.enum.style import WD_STYLE_TYPE
 from docx.oxml.ns import qn
 ROOT=Path(__file__).resolve().parents[1]
 DATA=ROOT/'docassemble/ApplicationForNameChange/data'
-OUT=DATA/'templates'; ORIG=DATA/'sources/court-originals'
+OUT=DATA/'templates'; ORIG=ROOT/'reference/court-originals'
 
 def replace(d,index,text):
  p=d.paragraphs[index]; p.clear();p.add_run(text)

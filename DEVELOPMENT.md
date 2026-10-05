@@ -46,6 +46,6 @@ Tested ALKiln checkout: `d7e4f42aa8a828013a8a229067697decf1322e5f`. `tests/steps
 
 Keep wet signatures, initials, execution dates, and witness/notarial attestations manual. Record substantive choices and sources in [DECISIONS.md](DECISIONS.md); keep the remaining release decisions in [IMPROVEMENTS.md](IMPROVEMENTS.md).
 
-Build the labeled court templates with `scripts/build_packet_templates.py` (LibreOffice required for archived legacy Word sources) and the fee/checklist adaptations with `scripts/build_fee_templates.py`. Originals and retrieval hashes are archived under `data/sources/court-originals/`. Run template regressions after rebuilding.
+Build the labeled court templates with `scripts/build_packet_templates.py` (LibreOffice required for archived legacy Word sources) and the fee/checklist adaptations with `scripts/build_fee_templates.py`. Originals and retrieval hashes are archived under `reference/court-originals/`. Run template regressions after rebuilding.
 
 Use `scripts/summarize_alkiln.py ARTIFACT_DIR APPLICATION_COMMIT [ARTIFACT_DIR APPLICATION_COMMIT ...]` to save a sanitized report across a full run and later focused verification. It requires coverage of the current scenario set, uses the newest result for each scenario, preserves each run's totals, and omits session URLs and step arguments.
