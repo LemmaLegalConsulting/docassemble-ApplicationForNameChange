@@ -1,10 +1,8 @@
 ---
 include:
 - docassemble.AssemblyLine:assembly_line.yml
+- docassemble.LawHelpMNBranding:theme.yml
 - name_change_packet.yml
----
-features:
-  bootstrap theme: docassemble.LawHelpMNBranding:LawHelpMNBranding_custom.css
 ---
 metadata:
   title: Minnesota name change packet
@@ -41,8 +39,6 @@ metadata:
 ---
 code: |
   # This controls the default country and list of states in address field questions
-  AL_ORGANIZATION_TITLE = "LawHelpMN"
-  AL_ORGANIZATION_HOMEPAGE = "https://www.lawhelpmn.org/"
   AL_DEFAULT_COUNTRY = "US"
 ---
 code: |
@@ -61,7 +57,6 @@ code: |
 ---
 objects:
 - users: ALPeopleList.using(ask_number=True,target_number=1)
-- al_logo: DAStaticFile.using(filename="docassemble.LawHelpMNBranding:LawHelpMN2x_002_resized.png", alt_text="LawHelpMN")
 - spouses: ALPeopleList.using(there_are_any=True, ask_number=True, target_number=1)
 - children: ALPeopleList.using(there_are_any=True, complete_attribute="complete")
 ---
