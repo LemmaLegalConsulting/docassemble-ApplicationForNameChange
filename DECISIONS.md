@@ -82,3 +82,7 @@ Reviewed screens against plain-language guidance and the Assembly Line "Writing 
 Answer for the user where possible. The judicial district is derived from the filing county using the courts table, and the filing county defaults to the user's county (both are dropdowns). The names of included children are computed from the children who request new names, so the user does not retype them. The other parent's address question is on the same screen as the parent's name. This removes the earlier validation that told users to "go back" and enter an address.
 
 Every referral screen now offers a button to edit the answer that triggered it. The divorce-exception screen used to say "go back and turn off the exception" but offered only Restart. The review screen shows answers and follows the interview order. The unused e-signature preview screen, which said the form would be signed "on the next page", was removed. The fee-waiver screens use bulleted lists instead of long sentences.
+
+## Shared LawHelpMN branding — 2026-10-05
+
+Reference the installed `docassemble.LawHelpMNBranding` package directly: `LawHelpMNBranding_custom.css` supplies the Bootstrap theme and `LawHelpMN2x_002_resized.png` supplies the full logo. Set the AssemblyLine organization title and homepage to LawHelpMN. The branding package must be installed on the server. No branding assets or CSS adapters are copied into the interviews.
