@@ -1,7 +1,10 @@
 ---
+modules:
+- docassemble.ALToolbox.ThreePartsDate
+---
 include:
 - docassemble.AssemblyLine:assembly_line.yml
-- docassemble.LawHelpMNBranding:theme.yml
+- lawhelpmn_theme.yml
 - name_change_packet.yml
 ---
 metadata:
