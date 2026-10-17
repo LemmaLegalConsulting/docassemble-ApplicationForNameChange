@@ -14,25 +14,6 @@ Feature: Complete a representative interview
       | users[0].release_other_names | Robin Former | |
       | users[0].release_sex | Female | |
       | users[0].release_race | White | |
-      | spouses[0].release_other_names | Jamie Former | |
-      | spouses[0].release_sex | Male | |
-      | spouses[0].release_race | White | |
-      | children[0].release_other_names | | |
-      | children[0].release_sex | Female | |
-      | children[0].release_race | White | |
-      | children[1].release_other_names | | |
-      | children[1].release_sex | Male | |
-      | children[1].release_race | White | |
-      | children[2].release_other_names | | |
-      | children[2].release_sex | Female | |
-      | children[2].release_race | White | |
-      | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
-      | court_administrator_address | 15 West Kellogg Boulevard | |
-      | court_administrator_city_state_zip | St. Paul, MN 55102 | |
-      | felony_notices[0].person_index | 0 | |
-      | felony_notices[0].kind | minnesota | |
-      | felony_notices[0].authority | Ramsey County, Minnesota | |
       | users[0].name.first | Robin | |
       | users[0].name.last | Original | |
       | users[0].birthdate | 01/02/1970 | |

@@ -25,6 +25,7 @@ command = [
     "--require", str(helper),
     "--require", str(alkiln / "lib/index.js"),
     "--require", str(repo / "tests/ci_steps.cjs"),
+    "--exit",
     "--format", "progress",
     "--format", "json:" + str(artifacts / "cucumber.json"),
     "--format", "summary:" + str(artifacts / "summary.txt"),
