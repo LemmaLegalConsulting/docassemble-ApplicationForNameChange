@@ -875,19 +875,27 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | fee_legal_services | False | |
       | fee_public_assistance | none | |
-      | fee_household_size | 1 | |
-      | fee_household_members | None | |
+      | fee_household_people.there_are_any | False | |
       | fee_income_sources | Job | |
       | fee_monthly_income | 3000 | |
       | fee_income_is_average | False | |
-      | fee_other_household_income | None | |
       | fee_yearly_income | 36000 | |
-      | fee_below_poverty_guideline | False | |
-      | fee_expenses | Rent $2000; utilities $100; food $400; car payments $0; car insurance $0; spousal support $0; child support $0; childcare $0; medical insurance $100; cell phone $50; other expenses $0 | |
+      | fee_manual_below_guideline | False | |
+      | fee_expense_housing | 2000 | |
+      | fee_expense_utilities | 100 | |
+      | fee_expense_food | 400 | |
+      | fee_expense_car_payments | 0 | |
+      | fee_expense_car_insurance | 0 | |
+      | fee_expense_child_support | 0 | |
+      | fee_expense_spousal_support | 0 | |
+      | fee_expense_childcare | 0 | |
+      | fee_expense_medical | 100 | |
+      | fee_expense_phone | 50 | |
+      | fee_expense_other | 0 | |
       | fee_debt | 1000 | |
       | fee_cash | 5 | |
       | fee_accounts | 10 | |
-      | fee_assets | Vehicle: none; home: none; other real estate: none; other personal property: none | |
+      | fee_property.there_are_any | False | |
       | fee_other_reasons | Medical emergency | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
@@ -1916,19 +1924,27 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | fee_legal_services | False | |
       | fee_public_assistance | none | |
-      | fee_household_size | 1 | |
-      | fee_household_members | None | |
+      | fee_household_people.there_are_any | False | |
       | fee_income_sources | Job | |
       | fee_monthly_income | 500 | |
       | fee_income_is_average | False | |
-      | fee_other_household_income | None | |
       | fee_yearly_income | 6000 | |
-      | fee_below_poverty_guideline | True | |
-      | fee_expenses | Rent $2000; utilities $100; food $400; car payments $0; car insurance $0; spousal support $0; child support $0; childcare $0; medical insurance $100; cell phone $50; other expenses $0 | |
+      | fee_manual_below_guideline | True | |
+      | fee_expense_housing | 2000 | |
+      | fee_expense_utilities | 100 | |
+      | fee_expense_food | 400 | |
+      | fee_expense_car_payments | 0 | |
+      | fee_expense_car_insurance | 0 | |
+      | fee_expense_child_support | 0 | |
+      | fee_expense_spousal_support | 0 | |
+      | fee_expense_childcare | 0 | |
+      | fee_expense_medical | 100 | |
+      | fee_expense_phone | 50 | |
+      | fee_expense_other | 0 | |
       | fee_debt | 1000 | |
       | fee_cash | 5 | |
       | fee_accounts | 10 | |
-      | fee_assets | Vehicle: none; home: none; other real estate: none; other personal property: none | |
+      | fee_property.there_are_any | False | |
       | fee_other_reasons | Medical emergency | |
     Then I download "fee_waiver_affidavit.pdf"
     And the downloaded PDF "fee_waiver_affidavit.pdf" should contain "6000.00"
@@ -1993,19 +2009,27 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | fee_legal_services | False | |
       | fee_public_assistance | none | |
-      | fee_household_size | 1 | |
-      | fee_household_members | None | |
+      | fee_household_people.there_are_any | False | |
       | fee_income_sources | Job | |
       | fee_monthly_income | 3000 | |
       | fee_income_is_average | False | |
-      | fee_other_household_income | None | |
       | fee_yearly_income | 36000 | |
-      | fee_below_poverty_guideline | False | |
-      | fee_expenses | Rent $2000; utilities $100; food $400; car payments $0; car insurance $0; spousal support $0; child support $0; childcare $0; medical insurance $100; cell phone $50; other expenses $0 | |
+      | fee_manual_below_guideline | False | |
+      | fee_expense_housing | 2000 | |
+      | fee_expense_utilities | 100 | |
+      | fee_expense_food | 400 | |
+      | fee_expense_car_payments | 0 | |
+      | fee_expense_car_insurance | 0 | |
+      | fee_expense_child_support | 0 | |
+      | fee_expense_spousal_support | 0 | |
+      | fee_expense_childcare | 0 | |
+      | fee_expense_medical | 100 | |
+      | fee_expense_phone | 50 | |
+      | fee_expense_other | 0 | |
       | fee_debt | 1000 | |
       | fee_cash | 5 | |
       | fee_accounts | 10 | |
-      | fee_assets | Vehicle: none; home: none; other real estate: none; other personal property: none | |
+      | fee_property.there_are_any | False | |
       | fee_other_reasons | Medical emergency | |
     When I follow the review link containing "Edit packet information"
     And I follow the review link containing "Fee waiver"

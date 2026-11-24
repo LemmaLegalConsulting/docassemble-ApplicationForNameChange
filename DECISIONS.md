@@ -90,3 +90,12 @@ Reference the installed `docassemble.LawHelpMNBranding` package directly: `LawHe
 ## Shared theme entrypoint — 2026-10-05
 
 The LemmaLegalConsulting fork now provides `docassemble.LawHelpMNBranding:theme.yml`. Include it after AssemblyLine instead of repeating the theme, logo, and organization settings in each interview. Install the Lemma fork (version 0.0.2 or later) on the server. This supersedes the direct configuration above and matches the shared theme include pattern used by LITLabTheme.
+
+
+## 2026-11-24: Structured financial and family validation
+
+The applicant is counted once automatically; other household entries carry name, age, relationship, and applicable take-home income. A spouse's income remains separate. Expense categories and property value/debt entries produce the existing FEE102 summary fields and exact decimal totals; negative property equity is preserved. The adapted court template and signature/judicial statements are unchanged.
+
+Guideline data is stored by year with its source and verification date. The 2026 contiguous-states figures were checked against [HHS's 2026 table](https://aspe.hhs.gov/sites/default/files/documents/b1bfa16b20ae9b89d525bc35de7c1643/detailed-guidelines-2026.pdf). Missing-year data invokes a manual comparison rather than a stale automatic result. The existing FEE102 wording uses a strict less-than comparison; at equality the interview gathers the remaining finances and continues to permit the request. [The court's fee-waiver overview](https://mncourts.gov/help-topics/fee-waiver-ifp) describes other grounds and leaves the decision to the judicial officer.
+
+Children may leave all requested-name parts blank when not applying. A nonblank request requires both first and last name, consistent with the screen's full-new-name instruction. Adults entered in the under-18 list get edit links rather than silently entering the minor branch. The filing county now recomputes the judicial district during the main flow so edits cannot leave a stale caption.

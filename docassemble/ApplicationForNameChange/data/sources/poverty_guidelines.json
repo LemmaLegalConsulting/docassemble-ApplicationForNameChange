@@ -1,0 +1,8 @@
+{
+  "region": "48 contiguous states and District of Columbia",
+  "source": "https://aspe.hhs.gov/poverty-guidelines/",
+  "form_comparison": "FEE102's less-than-125-percent checkbox uses a strict comparison; equality still permits a waiver request with the remaining financial details.",
+  "years": {
+    "2026": {"one_person": 15960, "additional_person": 5680, "source": "https://aspe.hhs.gov/sites/default/files/documents/b1bfa16b20ae9b89d525bc35de7c1643/detailed-guidelines-2026.pdf", "verified_on": "2026-11-24"}
+  }
+}

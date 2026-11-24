@@ -1,11 +1,13 @@
 ---
 modules:
 - docassemble.ALToolbox.ThreePartsDate
+- docassemble.ApplicationForNameChange.validation
 ---
 include:
 - docassemble.AssemblyLine:assembly_line.yml
 - lawhelpmn_theme.yml
 - name_change_packet.yml
+- financial_validation.yml
 ---
 metadata:
   title: Minnesota name change packet
@@ -93,6 +95,7 @@ code: |
   users[0].email
   interpreter_request
   district_court_county
+  judicial_district = minnesota_judicial_districts.get(district_court_county, "")
   request_for_applicant_name_change
   request_for_applicant_name_change_on_birth_record
   request_sex_change_on_birth_record
@@ -109,6 +112,9 @@ code: |
   no_minor_children
   if not no_minor_children:
     children.gather()
+    for child_age_index, child in enumerate(children):
+      if child.age_in_years() >= 18:
+        child_age_help
     if children.number_gathered() > 5:
       children_extra_sheet
     minor_children_listed_not_included_in_application
@@ -224,8 +230,11 @@ code: |
       if fee_public_assistance == "other":
         fee_other_program
       if fee_public_assistance != "listed":
-        fee_household_size
-        fee_household_members
+        fee_household_people.gather()
+        fee_household_size = len(fee_household_people) + 1
+        fee_household_members = household_summary(fee_household_people)
+        fee_other_household_income = household_income_summary(fee_household_people)
+        fee_poverty_threshold = fee_threshold(fee_household_size, today().year)
         fee_income_sources
         fee_monthly_income
         if not not_married:
@@ -234,13 +243,33 @@ code: |
             fee_spouse_monthly_income
           else:
             fee_spouse_income_unknown_reason
-        fee_other_household_income
         fee_yearly_income
+        fee_known_monthly_income = money_total([fee_monthly_income] + ([fee_spouse_monthly_income] if not not_married and fee_spouse_income_known else []))
+        fee_monthly_income_estimate = fee_known_monthly_income * 12
+        if fee_yearly_income < fee_monthly_income_estimate:
+          fee_current_income_key = str(fee_known_monthly_income) + ":" + str(fee_yearly_income)
+          if not defined("fee_income_review_key") or fee_income_review_key != fee_current_income_key:
+            fee_income_review_key = fee_current_income_key
+            undefine("fee_income_difference_review")
+          fee_income_difference_review
+        fee_below_poverty_guideline = fee_yearly_income < fee_poverty_threshold if fee_poverty_threshold is not None else fee_manual_below_guideline
         if not fee_below_poverty_guideline:
-          fee_expenses
+          fee_expense_housing
+          fee_expense_child_support
+          fee_expense_data = {
+            "Rent or mortgage": fee_expense_housing, "Utilities": fee_expense_utilities,
+            "Food": fee_expense_food, "Car payments": fee_expense_car_payments,
+            "Car insurance": fee_expense_car_insurance, "Child support": fee_expense_child_support,
+            "Spousal support": fee_expense_spousal_support, "Childcare": fee_expense_childcare,
+            "Medical insurance": fee_expense_medical, "Cell phone": fee_expense_phone,
+            "Other expenses" + (" (" + fee_expense_other_description.strip() + ")" if fee_expense_other > 0 else ""): fee_expense_other}
+          fee_expenses = expense_summary(fee_expense_data)
+          fee_expense_total = money_total(fee_expense_data.values())
           fee_debt
-          fee_assets
+          fee_property.gather()
+          fee_assets = property_summary(fee_property)
           fee_other_reasons
+        review_fee_finances
   fee_financial_details = request_fee_waiver and not users1_inmate_in_correctional_facility_and_submitting_inmate_aff and not fee_legal_services and fee_public_assistance != "listed"
   fee_full_details = fee_financial_details and not fee_below_poverty_guideline
   Personal_service_instructions.enabled = parental_notice_needed and parent_address_known
@@ -434,6 +463,9 @@ fields:
   required: false
 - New last name: children1_name_last_change
   required: false
+validation code: |
+  if not requested_name_complete(children1_name_first_change, children1_name_middle_change, children1_name_last_change):
+    validation_error("Enter both a first and last name, or leave all three boxes blank if this child is not applying.", field="children1_name_first_change")
 ---
 id: child 2 requested name
 question: What name are you requesting for ${ children[1] }?
@@ -446,6 +478,9 @@ fields:
   required: false
 - New last name: children2_name_last_change
   required: false
+validation code: |
+  if not requested_name_complete(children2_name_first_change, children2_name_middle_change, children2_name_last_change):
+    validation_error("Enter both a first and last name, or leave all three boxes blank if this child is not applying.", field="children2_name_first_change")
 ---
 id: child 3 requested name
 question: What name are you requesting for ${ children[2] }?
@@ -458,6 +493,9 @@ fields:
   required: false
 - New last name: children3_name_last_change
   required: false
+validation code: |
+  if not requested_name_complete(children3_name_first_change, children3_name_middle_change, children3_name_last_change):
+    validation_error("Enter both a first and last name, or leave all three boxes blank if this child is not applying.", field="children3_name_first_change")
 ---
 id: child 4 requested name
 question: What name are you requesting for ${ children[3] }?
@@ -470,6 +508,9 @@ fields:
   required: false
 - New last name: children4_name_last_change
   required: false
+validation code: |
+  if not requested_name_complete(children4_name_first_change, children4_name_middle_change, children4_name_last_change):
+    validation_error("Enter both a first and last name, or leave all three boxes blank if this child is not applying.", field="children4_name_first_change")
 ---
 id: child 5 requested name
 question: What name are you requesting for ${ children[4] }?
@@ -482,6 +523,9 @@ fields:
   required: false
 - New last name: children5_name_last_change
   required: false
+validation code: |
+  if not requested_name_complete(children5_name_first_change, children5_name_middle_change, children5_name_last_change):
+    validation_error("Enter both a first and last name, or leave all three boxes blank if this child is not applying.", field="children5_name_first_change")
 ---
 id: Non Applicant Parent Information
 question: Tell us about your children’s other parent
