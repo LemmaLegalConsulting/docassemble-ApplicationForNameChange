@@ -37,7 +37,7 @@ jobs:
           docker exec docassemble_container supervisorctl restart uwsgi
           alkiln_ready_deadline=$((SECONDS + 180))
           while (( SECONDS < alkiln_ready_deadline )); do
-            if curl --fail --silent --show-error --max-time 5 "$SERVER_URL" >/dev/null 2>&1; then
+            if curl --fail --silent --show-error --max-time 5 "${SERVER_URL%/}/health_check?ready=1" >/dev/null 2>&1; then
               exit 0
             fi
             sleep 2
@@ -63,9 +63,10 @@ jobs:
       - name: Show disposable server error logs on failure
         if: failure()
         run: |
-          container_id=$(docker ps -q | head -1)
+          container_id=$(docker ps -q --filter name=^/docassemble_container$)
           if [ -n "$container_id" ]; then
-            docker exec "$container_id" tail -n 200 /usr/share/docassemble/log/docassemble.log || true
+            docker exec "$container_id" supervisorctl status || true
+            docker exec "$container_id" bash -c 'tail -n 100 /var/log/supervisor/uwsgi-stderr*.log /var/log/supervisor/initialize-stderr*.log /usr/share/docassemble/log/docassemble.log' || true
           fi
       - name: Upload browser reports and generated documents
         if: always()
