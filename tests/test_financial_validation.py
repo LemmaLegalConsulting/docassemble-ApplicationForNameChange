@@ -58,6 +58,10 @@ class FinancialValidation(unittest.TestCase):
         self.assertEqual(household_income_summary([spouse]),'None')
         self.assertEqual(household_summary([]),'None')
 
+    def test_other_dependent_retains_the_actual_relationship(self):
+        person=Person(full_name='Pat Relative',age=65,relationship='dependent',relationship_detail='mother')
+        self.assertEqual(household_summary([person]),'Pat Relative, age 65, mother')
+
     def test_complete_child_names_allow_unicode_and_blank_nonapplicants(self):
         self.assertTrue(requested_name_complete('','',''))
         self.assertTrue(requested_name_complete('  José  ','','Nguyễn-Smith'))

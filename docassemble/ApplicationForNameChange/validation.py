@@ -49,7 +49,11 @@ def property_summary(items):
 
 def household_summary(people):
     labels = {"spouse": "spouse", "partner": "partner", "child": "child", "dependent": "other dependent"}
-    return "; ".join(f"{person.full_name.strip()}, age {person.age}, {labels[person.relationship]}" for person in people) or "None"
+    rows = []
+    for person in people:
+        relationship = person.relationship_detail.strip() if person.relationship == "dependent" else labels[person.relationship]
+        rows.append(f"{person.full_name.strip()}, age {person.age}, {relationship}")
+    return "; ".join(rows) or "None"
 
 
 def household_income_summary(people):

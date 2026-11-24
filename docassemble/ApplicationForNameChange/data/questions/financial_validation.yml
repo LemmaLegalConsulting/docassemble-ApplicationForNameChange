@@ -28,6 +28,10 @@ fields:
       - Partner: partner
       - Child: child
       - Other person I support: dependent
+  - Relationship (for example, parent, sibling, or friend): fee_household_people[i].relationship_detail
+    show if:
+      variable: fee_household_people[i].relationship
+      is: dependent
   - Monthly take-home income: fee_household_people[i].monthly_take_home
     datatype: currency
     min: 0
@@ -43,6 +47,8 @@ fields:
 validation code: |
   if not fee_household_people[i].full_name.strip():
     validation_error("Enter this person's name.", field="fee_household_people[i].full_name")
+  if fee_household_people[i].relationship == "dependent" and not fee_household_people[i].relationship_detail.strip():
+    validation_error("Describe your relationship to this person.", field="fee_household_people[i].relationship_detail")
   if fee_household_people[i].relationship == "spouse" and not_married:
     validation_error("You told us you are not married. Choose the correct relationship, or edit your marital status from Review your answers.", field="fee_household_people[i].relationship")
   if fee_household_people[i].relationship == "spouse" and any(person.relationship == "spouse" for person in fee_household_people[:i]):
