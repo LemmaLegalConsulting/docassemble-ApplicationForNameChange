@@ -1,6 +1,9 @@
 from decimal import Decimal
 from types import SimpleNamespace as Person
 import unittest
+import ast
+from pathlib import Path
+import yaml
 from docassemble.ApplicationForNameChange.validation import (
     fee_threshold, money_total, expense_summary, property_summary,
     household_summary, household_income_summary, requested_name_complete,
@@ -17,6 +20,21 @@ class FinancialValidation(unittest.TestCase):
         for invalid in [0, -1, 1.5, True]:
             with self.subTest(invalid=invalid), self.assertRaises(ValueError):
                 fee_threshold(invalid, 2026)
+
+    def test_future_year_manual_answer_is_invalidated_after_household_edits(self):
+        source=Path(__file__).resolve().parents[1]/'docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml'
+        blocks=list(yaml.safe_load_all(source.read_text(encoding='utf-8')))
+        flow=next(block['code'] for block in blocks if block and block.get('mandatory'))
+        branch=next(node for node in ast.walk(ast.parse(flow)) if isinstance(node,ast.If) and ast.unparse(node.test)=='fee_poverty_threshold is None')
+        compiled=compile(ast.fix_missing_locations(ast.Module(body=[branch],type_ignores=[])),str(source),'exec')
+        for size,year,prior,invalidates in [(2,2027,'2027:2',False),(1,2027,'2027:2',True),(2,2028,'2027:2',True)]:
+            with self.subTest(size=size,year=year):
+                values={'fee_poverty_threshold':None,'fee_household_size':size,'fee_manual_context':prior,'fee_manual_below_guideline':True,'today':lambda:Person(year=year)}
+                values['defined']=lambda name:name in values
+                values['undefine']=lambda name:values.pop(name,None)
+                exec(compiled,values)
+                self.assertEqual('fee_manual_below_guideline' not in values,invalidates)
+                self.assertEqual(values['fee_manual_context'],f'{year}:{size}')
 
     def test_expense_totals_use_decimal_money(self):
         self.assertEqual(money_total([0.1, 0.2]), Decimal('0.30'))

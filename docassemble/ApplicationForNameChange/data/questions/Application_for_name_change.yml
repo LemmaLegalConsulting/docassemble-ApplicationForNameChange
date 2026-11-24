@@ -235,6 +235,11 @@ code: |
         fee_household_members = household_summary(fee_household_people)
         fee_other_household_income = household_income_summary(fee_household_people)
         fee_poverty_threshold = fee_threshold(fee_household_size, today().year)
+        if fee_poverty_threshold is None:
+          fee_current_manual_context = str(today().year) + ":" + str(fee_household_size)
+          if not defined("fee_manual_context") or fee_manual_context != fee_current_manual_context:
+            fee_manual_context = fee_current_manual_context
+            undefine("fee_manual_below_guideline")
         fee_income_sources
         fee_monthly_income
         if not not_married:
