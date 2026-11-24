@@ -18,6 +18,10 @@ Packet coverage and LHI comparison: [PACKET_SCOPE.md](PACKET_SCOPE.md).
 
 ## Isolated ALKiln environment
 
-The isolated workflow preloads `docassemble.ALToolbox.ThreePartsDate` so AssemblyLine’s baseline `BirthDate` field parameters are registered before interview YAML is parsed. After package installation, the job restarts the verified `uwsgi` supervisor service in ALKiln’s `docassemble_container` and waits up to 180 seconds for HTTP readiness. This lets startup imports see the newly installed dependency. The workflow also installs pinned public LawHelpMN branding assets and loads this repository’s PDF assertion steps.
+The workflow uses a temporary, pinned docassemble image and Node 22 with ALKiln 5.17.1. It runs all feature files, including PDF-content assertions and review-screen editing scenarios, and uploads browser reports and generated documents.
 
-Local representative E2E, wheel metadata/assets checks, and an exact baseline parser regression were verified. Startup preloading alone still failed in isolated CI; the subsequent explicit restart and readiness correction is not yet isolated-validated. This public repository is distinct from the private repositories affected by GitHub account billing restrictions. See the PR and workflow reports for current results; no final isolated success is claimed here.
+The server preloads `docassemble.ALToolbox.ThreePartsDate` to register AssemblyLine's `BirthDate` datatype before parsing interview YAML. After package installation, the job restarts the web workers and waits up to 180 seconds for `/health_check?ready=1`. Startup failures include the web-worker logs and service status.
+
+This package shares the `docassemble` namespace with Python's standard-library `pkgutil`, so importing it does not require the removed `pkg_resources` module. A regression test verifies imports without setuptools and discovery of a second namespace location.
+
+Run `python -m unittest discover -s tests -p "test_*.py"` and `node --test tests/navigation.test.cjs` for focused regressions. See [GitHub Actions](https://github.com/LemmaLegalConsulting/docassemble-ApplicationForNameChange/actions) for current full-suite results. Court-content review and release decisions remain listed in [IMPROVEMENTS.md](IMPROVEMENTS.md).
