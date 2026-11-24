@@ -52,18 +52,7 @@ When('I follow the review link containing {string}',{timeout:90000},async(text)=
 
 // Resume can change the question without changing the URL on current Docassemble.
 // Keep the normal error checks and require an observable question or URL change.
-scope.waitUntilContinued=async (state,{url='',id=''})=>{
- const previous=id||state.page_id;
- const deadline=Date.now()+state.timeout;
- while(Date.now()<deadline){
-  const error=await state.checkForError(state);
-  if(error.was_found)return error;
-  const current=await state.get_page_id(state);
-  if(state.page.url()!==url || (previous && current && current!==previous))return error;
-  await new Promise(resolve=>setTimeout(resolve,50));
- }
- throw Error('No question or URL change after Continue from '+previous);
-};
+scope.waitUntilContinued=require('./navigation.cjs');
 
 // A navigation can replace the DOM during a read-only error query. Retry that
 // query on the new document; never retry an input action or ignore an error.
