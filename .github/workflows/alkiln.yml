@@ -44,6 +44,10 @@ jobs:
           done
           echo "The isolated server did not become ready after restarting uwsgi."
           exit 1
+      - name: Use the supported browser-test runtime
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
       - name: Install ALKiln and PDF assertion tools
         run: |
           sudo apt-get update
