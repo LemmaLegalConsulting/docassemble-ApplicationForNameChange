@@ -19,5 +19,7 @@ jobs:
           python -m pip install -r requirements-dev.txt
       - name: Check YAML, Python, URLs, templates, accessibility, and style
         run: dayamlchecker --style .
+      - name: Test browser navigation compatibility
+        run: node --test tests/navigation.test.cjs
       - name: Test template regressions
         run: python -m unittest discover -s tests -p "test_*.py"
