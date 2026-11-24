@@ -43,6 +43,24 @@ class FinancialValidation(unittest.TestCase):
             with self.subTest(invalid=invalid), self.assertRaises(ValueError):
                 money_total([invalid])
 
+    def test_income_review_compares_exact_cents_in_the_interview_flow(self):
+        source=Path(__file__).resolve().parents[1]/'docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml'
+        flow=next(block['code'] for block in yaml.safe_load_all(source.read_text(encoding='utf-8')) if block and block.get('mandatory'))
+        condition=next(node.test for node in ast.walk(ast.parse(flow)) if isinstance(node,ast.If) and isinstance(node.test,ast.Compare) and any(isinstance(value,ast.Name) and value.id=='fee_monthly_income_estimate' for value in node.test.comparators))
+        compiled=compile(ast.Expression(condition),str(source),'eval')
+        for income,estimate,needs_review in [(0.12,'0.12',False),(20000.04,'20000.04',False),(0.11,'0.12',True)]:
+            with self.subTest(income=income):
+                self.assertEqual(eval(compiled,{'money_total':money_total,'fee_yearly_income':income,'fee_monthly_income_estimate':Decimal(estimate)}),needs_review)
+
+    def test_guideline_boundary_and_manual_fallback_in_the_interview_flow(self):
+        source=Path(__file__).resolve().parents[1]/'docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml'
+        flow=next(block['code'] for block in yaml.safe_load_all(source.read_text(encoding='utf-8')) if block and block.get('mandatory'))
+        assignment=next(node for node in ast.walk(ast.parse(flow)) if isinstance(node,ast.Assign) and any(isinstance(target,ast.Name) and target.id=='fee_below_poverty_guideline' for target in node.targets))
+        compiled=compile(ast.Expression(assignment.value),str(source),'eval')
+        for income,threshold,manual,expected in [(19949.99,Decimal('19950'),False,True),(19950,Decimal('19950'),True,False),(19950.01,Decimal('19950'),False,False),(6000,None,True,True),(36000,None,False,False)]:
+            with self.subTest(income=income,threshold=threshold):
+                self.assertEqual(eval(compiled,{'money_total':money_total,'fee_yearly_income':income,'fee_poverty_threshold':threshold,'fee_manual_below_guideline':manual}),expected)
+
     def test_property_equity_preserves_underwater_loans(self):
         items=[Person(kind='vehicle',description='2015 Example',estimated_value=5000,amount_owed=6000),Person(kind='personal',description='Savings bonds',estimated_value=200,amount_owed=0)]
         result=property_summary(items)

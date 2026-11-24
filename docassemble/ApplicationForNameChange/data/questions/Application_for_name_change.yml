@@ -251,13 +251,13 @@ code: |
         fee_yearly_income
         fee_known_monthly_income = money_total([fee_monthly_income] + ([fee_spouse_monthly_income] if not not_married and fee_spouse_income_known else []))
         fee_monthly_income_estimate = fee_known_monthly_income * 12
-        if fee_yearly_income < fee_monthly_income_estimate:
+        if money_total([fee_yearly_income]) < fee_monthly_income_estimate:
           fee_current_income_key = str(fee_known_monthly_income) + ":" + str(fee_yearly_income)
           if not defined("fee_income_review_key") or fee_income_review_key != fee_current_income_key:
             fee_income_review_key = fee_current_income_key
             undefine("fee_income_difference_review")
           fee_income_difference_review
-        fee_below_poverty_guideline = fee_yearly_income < fee_poverty_threshold if fee_poverty_threshold is not None else fee_manual_below_guideline
+        fee_below_poverty_guideline = money_total([fee_yearly_income]) < fee_poverty_threshold if fee_poverty_threshold is not None else fee_manual_below_guideline
         if not fee_below_poverty_guideline:
           fee_expense_housing
           fee_expense_child_support
