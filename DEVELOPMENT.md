@@ -9,7 +9,7 @@ Branch: `setup/validation-and-review`. The local test installation is on `http:/
 ```sh
 uv venv .venv
 uv pip install --python .venv/bin/python -r requirements-dev.txt
-.venv/bin/dayamlchecker --style .
+.venv/bin/dayamlchecker --style docassemble/ApplicationForNameChange/data/questions
 .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
 ```
 
@@ -49,3 +49,18 @@ Keep wet signatures, initials, execution dates, and witness/notarial attestation
 Build the labeled court templates with `scripts/build_packet_templates.py` (LibreOffice required for archived legacy Word sources) and the fee/checklist adaptations with `scripts/build_fee_templates.py`. Originals and retrieval hashes are archived under `reference/court-originals/`. Run template regressions after rebuilding.
 
 Use `scripts/summarize_alkiln.py ARTIFACT_DIR APPLICATION_COMMIT [ARTIFACT_DIR APPLICATION_COMMIT ...]` to save a sanitized report across a full run and later focused verification. It requires coverage of the current scenario set, uses the newest result for each scenario, preserves each run's totals, and omits session URLs and step arguments.
+
+## Editing reliability and expiry investigation
+
+Run the targeted story tables against an installed copy of this checkout:
+
+```sh
+.venv/bin/python tests/run_alkiln.py . '@editing_reliability'
+node --test tests/navigation.test.cjs tests/page_expiry.test.cjs
+```
+
+Project hooks must load after ALKiln's hooks, as both local runners now arrange. Each scenario has an isolated browser context. The preceding context closes only after ALKiln has saved artifacts and completed its cleanup. Repeated downloads are archived before downloading the regenerated file; assertions inspect the fresh PDF.
+
+The project treats Docassemble's success-styled “Input not processed because the page expired” alert as a failure. Do not dismiss it, resubmit automatically, or weaken the security-token checks. Preserve failed artifacts and rerun the affected scenario independently. `submission-trace.json` records step-time request paths and timing plus token/cookie fingerprints; query strings, cookies, and raw tokens are omitted. The trace ends before ALKiln's sign-out cleanup; examine server logs separately for teardown errors.
+
+On Windows, set `PYTHONUTF8=1` before running DAYamlChecker. Restrict its input to the question directory so it does not recursively inspect examples in `.venv` or ignored browser artifacts. URL and accessibility checks remain enabled.

@@ -59,9 +59,14 @@ scope.waitUntilContinued=require('./navigation.cjs');
 const checkForError=scope.checkForError;
 scope.checkForError=async (...args)=>{
  for(let attempt=0;attempt<5;attempt++){
-  try{return await checkForError(...args);}catch(error){
+  try{
+   await require('./page_expiry.cjs')(scope.page);
+   return await checkForError(...args);
+  }catch(error){
    if(!String(error).includes('Execution context was destroyed')||attempt===4)throw error;
    await new Promise(resolve=>setTimeout(resolve,100));
   }
  }
 };
+
+require('./reliability_steps.cjs');

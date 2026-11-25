@@ -190,6 +190,12 @@ question: Who needs notice for felony offense ${ i + 1 }?
 subquestion: |
   Offense: ${ value("party" + str(i + 1) + "_name_of_offense") }
 
+  % if defined("felony_notices[" + str(i) + "].recipient_removed") and felony_notices[i].recipient_removed:
+  **The person you selected for this notice is no longer applying.**
+  Check who this conviction belongs to. If that person is no longer applying,
+  [edit the felony offenses](${ url_action('felony_count') }) before preparing the packet.
+  % endif
+
   The prosecutor who got this conviction must get a notice. For a federal or out-of-state
   conviction, the Minnesota Attorney General must also get a notice.
 fields:
@@ -206,6 +212,9 @@ fields:
       - Federal court: federal
   - County and state, or federal district, of the prosecutor: felony_notices[i].authority
     help: For example, Ramsey County, Minnesota, or District of Minnesota.
+validation code: |
+  felony_notices[i].recipient_removed = False
+
 ---
 id: divorce exception verification
 question: Do you meet the divorce exception rules?

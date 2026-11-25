@@ -36,4 +36,17 @@ The release-age boundary story is evaluated against October 4, 2026: one child i
 
 Template tests separately check strict variable resolution, unchanged court-only order XML, multiple order copies, fee-waiver dormant-answer suppression, and the original child-2/child-3 PDF mapping regression. Visual samples are rendered outside Git. Actual execution summaries and retained failure explanations are in [TEST_RESULTS.md](TEST_RESULTS.md).
 
-Still needing coverage: multiple other parents, automatic overflow/signature sheets, county and service-route edits, additional Unicode/long-answer combinations, full keyboard/screen-reader review, and client-approved legal examples. See [IMPROVEMENTS.md](IMPROVEMENTS.md).
+Still needing coverage: multiple other parents, automatic overflow/signature sheets, county edits and additional notice/family combinations, Unicode/long-answer combinations, full keyboard/screen-reader review, and client-approved legal examples. See [IMPROVEMENTS.md](IMPROVEMENTS.md).
+
+## Editing reliability regressions added November 24, 2026
+
+`editing_reliability.feature` adds these scenarios without bringing in the separate financial/family-validation branch:
+
+| Tag | Behavior checked |
+| --- | --- |
+| `notice_edits` | Known-address service changes to publication, then unidentified-parent conditions, then back to known-address service; downloads and recipient names update. |
+| `family_edits` | Remove spouse/children branches, verify stale people disappear from the application and releases, then restore the branches and their documents. |
+| `child_removal` | Delete the first child with a distinct requested name; remaining children's requested names stay attached to them. Add a new child and supply a fresh requested name. |
+| `felony_recipient_edits` | Prepare two notices, remove an applying spouse, require review of the removed person's selection, and preserve the other notice. |
+
+Each browser scenario uses separate cookies/storage. `submission-trace.json` stores request timing, paths without queries, and token/cookie fingerprints, with no raw credentials or session URLs. Page-expiry alerts fail the scenario immediately; input is not retried. Failed HTML, screenshots, and downloads remain in ignored local artifacts. See TEST_RESULTS.md for actual executions and the unresolved expiry limitation.

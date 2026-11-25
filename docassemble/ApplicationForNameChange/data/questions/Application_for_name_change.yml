@@ -1,6 +1,7 @@
 ---
 modules:
 - docassemble.ALToolbox.ThreePartsDate
+- docassemble.ApplicationForNameChange.editing
 ---
 include:
 - docassemble.AssemblyLine:assembly_line.yml
@@ -109,6 +110,8 @@ code: |
   no_minor_children
   if not no_minor_children:
     children.gather()
+    # List edits can renumber children. Restore each person's own requested name.
+    child_name_row_ids = synchronize_child_name_rows(children, child_name_row_ids if defined("child_name_row_ids") else None, define, undefine)
     if children.number_gathered() > 5:
       children_extra_sheet
     minor_children_listed_not_included_in_application
@@ -117,6 +120,7 @@ code: |
       if request_childrens_name_change:
         for index in range(min(children.number_gathered(), 5)):
           value("children" + str(index + 1) + "_name_first_change")
+          remember_child_name_answers(children[index], [value("children" + str(index + 1) + "_name_" + part + "_change") for part in ["first", "middle", "last"]])
   no_nonapplicant_parent = no_minor_children or minor_children_listed_not_included_in_application != "minor_children_included_yes"
   if not no_nonapplicant_parent:
     parents_nonapplicant_unknown
@@ -191,6 +195,14 @@ code: |
   felony_notice_data = []
   if has_felony:
     court_administrator_address
+    felony_notice_current_rows, felony_recipient_changes = felony_recipient_row_changes(packet_people, [felony_notices[index] for index in range(felony_count)], felony_notice_person_rows if defined("felony_notice_person_rows") else None)
+    for felony_notice_index, felony_person_index in felony_recipient_changes.items():
+      if felony_person_index is None:
+        felony_notices[felony_notice_index].recipient_removed = True
+        undefine("felony_notices[" + str(felony_notice_index) + "].person_index")
+      else:
+        felony_notices[felony_notice_index].person_index = felony_person_index
+    felony_notice_person_rows = felony_notice_current_rows
     for index in range(felony_count):
       felony_notices[index].person_index
       felony_notices[index].kind
@@ -434,6 +446,8 @@ fields:
   required: false
 - New last name: children1_name_last_change
   required: false
+validation code: |
+  remember_child_name_answers(children[0], [children1_name_first_change, children1_name_middle_change, children1_name_last_change])
 ---
 id: child 2 requested name
 question: What name are you requesting for ${ children[1] }?
@@ -446,6 +460,8 @@ fields:
   required: false
 - New last name: children2_name_last_change
   required: false
+validation code: |
+  remember_child_name_answers(children[1], [children2_name_first_change, children2_name_middle_change, children2_name_last_change])
 ---
 id: child 3 requested name
 question: What name are you requesting for ${ children[2] }?
@@ -458,6 +474,8 @@ fields:
   required: false
 - New last name: children3_name_last_change
   required: false
+validation code: |
+  remember_child_name_answers(children[2], [children3_name_first_change, children3_name_middle_change, children3_name_last_change])
 ---
 id: child 4 requested name
 question: What name are you requesting for ${ children[3] }?
@@ -470,6 +488,8 @@ fields:
   required: false
 - New last name: children4_name_last_change
   required: false
+validation code: |
+  remember_child_name_answers(children[3], [children4_name_first_change, children4_name_middle_change, children4_name_last_change])
 ---
 id: child 5 requested name
 question: What name are you requesting for ${ children[4] }?
@@ -482,6 +502,8 @@ fields:
   required: false
 - New last name: children5_name_last_change
   required: false
+validation code: |
+  remember_child_name_answers(children[4], [children5_name_first_change, children5_name_middle_change, children5_name_last_change])
 ---
 id: Non Applicant Parent Information
 question: Tell us about your children’s other parent
@@ -832,6 +854,8 @@ subquestion: |
   ${ children.table }
 
   ${ children.add_action() }
+validation code: |
+  child_name_row_ids = synchronize_child_name_rows(children, child_name_row_ids if defined("child_name_row_ids") else None, define, undefine)
 ---
 table: children.table
 rows: children
