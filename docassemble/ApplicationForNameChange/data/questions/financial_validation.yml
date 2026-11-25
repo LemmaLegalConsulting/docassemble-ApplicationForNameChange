@@ -1,0 +1,270 @@
+---
+objects:
+  - fee_household_people: DAList.using(object_type=DAObject, complete_attribute="complete")
+  - fee_property: DAList.using(object_type=DAObject, complete_attribute="complete")
+---
+id: fee household others
+question: Does anyone else belong to your household?
+subquestion: |
+  Include your spouse or partner, your children under 18 (and older children still in
+  high school), and anyone who relies on you for most of their support.
+
+  Do not add yourself. We count you automatically.
+fields:
+  - no label: fee_household_people.there_are_any
+    datatype: yesnoradio
+---
+id: fee household member
+question: Tell us about household member ${ i + 1 }
+fields:
+  - Full name: fee_household_people[i].full_name
+  - Age: fee_household_people[i].age
+    datatype: integer
+    min: 0
+  - Relationship to you: fee_household_people[i].relationship
+    input type: radio
+    choices:
+      - Spouse: spouse
+      - Partner: partner
+      - Child: child
+      - Other person I support: dependent
+  - Relationship (for example, parent, sibling, or friend): fee_household_people[i].relationship_detail
+    show if:
+      variable: fee_household_people[i].relationship
+      is: dependent
+  - Monthly take-home income: fee_household_people[i].monthly_take_home
+    datatype: currency
+    min: 0
+    hide if:
+      variable: fee_household_people[i].relationship
+      is: spouse
+    help: Enter $0 if this person has no income. We ask about a spouse's income separately.
+  - Income sources (if this person has income): fee_household_people[i].income_source
+    required: false
+    hide if:
+      variable: fee_household_people[i].relationship
+      is: spouse
+validation code: |
+  if not fee_household_people[i].full_name.strip():
+    validation_error("Enter this person's name.", field="fee_household_people[i].full_name")
+  if fee_household_people[i].relationship == "dependent" and not fee_household_people[i].relationship_detail.strip():
+    validation_error("Describe your relationship to this person.", field="fee_household_people[i].relationship_detail")
+  if fee_household_people[i].relationship == "spouse" and not_married:
+    validation_error("You told us you are not married. Choose the correct relationship, or edit your marital status from Review your answers.", field="fee_household_people[i].relationship")
+  if fee_household_people[i].relationship == "spouse" and any(person.relationship == "spouse" for person in fee_household_people[:i]):
+    validation_error("Your spouse is already listed.", field="fee_household_people[i].relationship")
+  if fee_household_people[i].relationship != "spouse" and fee_household_people[i].monthly_take_home > 0 and not fee_household_people[i].income_source.strip():
+    validation_error("Enter where this person's income comes from.", field="fee_household_people[i].income_source")
+---
+code: |
+  fee_household_people[i].full_name
+  fee_household_people[i].complete = True
+---
+id: fee another household member
+question: Is there another household member to add?
+fields:
+  - no label: fee_household_people.there_is_another
+    datatype: yesnoradio
+---
+id: review fee household
+continue button field: fee_household_people.revisit
+question: Review your household members
+subquestion: |
+  You are counted automatically. Add everyone else in your household below.
+
+  ${ fee_household_people.table }
+  ${ fee_household_people.add_action() }
+---
+table: fee_household_people.table
+rows: fee_household_people
+columns:
+  - Name: row_item.full_name
+  - Age: row_item.age
+  - Relationship: row_item.relationship
+edit:
+  - full_name
+  - age
+  - relationship
+delete buttons: true
+confirm: true
+---
+id: fee waiver yearly income
+question: What is your household's yearly income?
+subquestion: |
+  Add the yearly income for everyone in your household **before taxes and deductions**.
+  Your household has ${ fee_household_size } ${ noun_plural("person", fee_household_size) }, including you.
+
+  % if fee_poverty_threshold is not None:
+  The ${ today().year } guideline at 125% for this household size is **${ currency(fee_poverty_threshold) } a year**.
+  We will compare your total with that figure for the affidavit.
+  % else:
+  Read the [court's fee-waiver instructions](https://mncourts.gov/getforms/fee-waiver)
+  and find the current 125% guideline for your household size.
+  % endif
+fields:
+  - Household yearly income before deductions: fee_yearly_income
+    datatype: currency
+    min: 0
+  - Is your household income less than the current 125% guideline?: fee_manual_below_guideline
+    datatype: yesnoradio
+    show if:
+      code: fee_poverty_threshold is None
+---
+id: review yearly income difference
+continue button field: fee_income_difference_review
+question: Check your yearly income
+subquestion: |
+  You entered **${ currency(fee_yearly_income) }** as your household's yearly income.
+  The monthly income you entered for yourself and any spouse totals
+  **${ currency(fee_known_monthly_income) }**, or **${ currency(fee_monthly_income_estimate) }** over 12 months.
+
+  Your yearly amount is lower. This may be right if income has changed.
+  Check both amounts before continuing.
+
+  ${ action_button_html(url_action('fee_monthly_income'), label='Edit your monthly income') }
+  ${ action_button_html(url_action('fee_yearly_income'), label='Edit yearly household income') }
+continue button label: These amounts are correct
+---
+id: fee housing living expenses
+question: What are your monthly housing and living expenses?
+subquestion: Enter $0 for any expense you do not pay.
+fields:
+  - Rent or mortgage: fee_expense_housing
+    datatype: currency
+    min: 0
+  - Utilities: fee_expense_utilities
+    datatype: currency
+    min: 0
+  - Food: fee_expense_food
+    datatype: currency
+    min: 0
+  - Car payments: fee_expense_car_payments
+    datatype: currency
+    min: 0
+  - Car insurance: fee_expense_car_insurance
+    datatype: currency
+    min: 0
+---
+id: fee support other expenses
+question: What other monthly expenses do you pay?
+subquestion: Enter $0 for any expense you do not pay.
+fields:
+  - Child support: fee_expense_child_support
+    datatype: currency
+    min: 0
+  - Spousal support: fee_expense_spousal_support
+    datatype: currency
+    min: 0
+  - Childcare: fee_expense_childcare
+    datatype: currency
+    min: 0
+  - Medical insurance: fee_expense_medical
+    datatype: currency
+    min: 0
+  - Cell phone: fee_expense_phone
+    datatype: currency
+    min: 0
+  - Other expenses: fee_expense_other
+    datatype: currency
+    min: 0
+  - What are the other expenses?: fee_expense_other_description
+    js show if: |
+      Number(val("fee_expense_other")) > 0
+---
+id: fee own property
+question: Do you own any property?
+subquestion: |
+  Include vehicles, your home, other real estate, and valuable personal property
+  such as jewelry, stocks, or bonds.
+fields:
+  - no label: fee_property.there_are_any
+    datatype: yesnoradio
+---
+id: fee property item
+question: Tell us about property item ${ i + 1 }
+fields:
+  - Property type: fee_property[i].kind
+    input type: radio
+    choices:
+      - Vehicle: vehicle
+      - Home: home
+      - Other real estate: real_estate
+      - Other personal property: personal
+  - Description: fee_property[i].description
+    help: For a vehicle, include the year and make. For other property, describe the item.
+  - What could this property sell for?: fee_property[i].estimated_value
+    datatype: currency
+    min: 0
+  - How much do you still owe on it?: fee_property[i].amount_owed
+    datatype: currency
+    min: 0
+    help: Enter $0 if you do not owe anything.
+validation code: |
+  if not fee_property[i].description.strip():
+    validation_error("Describe this property.", field="fee_property[i].description")
+---
+code: |
+  fee_property[i].description
+  fee_property[i].complete = True
+---
+id: fee another property item
+question: Is there another property item to add?
+fields:
+  - no label: fee_property.there_is_another
+    datatype: yesnoradio
+---
+id: review fee property
+continue button field: fee_property.revisit
+question: Review your property
+subquestion: |
+  ${ fee_property.table }
+  ${ fee_property.add_action() }
+---
+table: fee_property.table
+rows: fee_property
+columns:
+  - Property: row_item.description
+  - Value: currency(row_item.estimated_value)
+  - Amount owed: currency(row_item.amount_owed)
+  - Equity: currency(row_item.estimated_value - row_item.amount_owed)
+edit:
+  - description
+  - estimated_value
+  - amount_owed
+delete buttons: true
+confirm: true
+---
+id: review fee finances
+continue button field: review_fee_finances
+question: Review your fee-waiver finances
+subquestion: |
+  **Household size:** ${ fee_household_size }, including you
+
+  **Other household members:** ${ fee_household_members }
+
+  **Yearly household income:** ${ currency(fee_yearly_income) }
+
+  % if fee_poverty_threshold is not None:
+  **${ today().year } guideline at 125%:** ${ currency(fee_poverty_threshold) }
+  % endif
+
+  % if not fee_below_poverty_guideline:
+  **Monthly expense total:** ${ currency(fee_expense_total) }
+
+  **Property and equity:** ${ fee_assets }
+  % endif
+
+  ${ action_button_html(url_action('fee_household_people.revisit'), label='Edit household members') }
+  ${ action_button_html(url_action('fee_yearly_income'), label='Edit yearly income') }
+---
+id: child age help
+event: child_age_help
+question: This list is for children under 18
+subquestion: |
+  ${ children[child_age_index].name.full() } is ${ children[child_age_index].age_in_years() } based on the birth date you entered.
+  Check the birth date, or remove this adult from the list of children.
+
+  ${ action_button_html(url_action('children[' + str(child_age_index) + '].birthdate'), label='Edit birth date') }
+  ${ action_button_html(url_action('children.revisit'), label='Edit the list of children') }
+buttons:
+  - Restart: restart

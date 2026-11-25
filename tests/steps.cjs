@@ -70,3 +70,42 @@ scope.checkForError=async (...args)=>{
 };
 
 require('./reliability_steps.cjs');
+// Repeated PDF assertions must read the newly downloaded version after edits.
+When('I discard the previous download {string}', async (file) => {
+ if (path.basename(file) !== file) throw Error('Use a download filename without folders');
+ fs.unlinkSync(path.join(scope.paths.scenario, file));
+});
+When('I edit the table row containing {string}', {timeout:90000}, async (text) => {
+ const rows=await scope.page.$$('#daquestion table tr');
+ for (const row of rows) {
+  if (!(await row.evaluate(el=>el.innerText)).includes(text)) continue;
+  for (const link of await row.$$('a[role="button"]')) {
+   if ((await link.evaluate(el=>el.innerText)).trim()==='Edit') {
+    await scope.tapElementAndNavigate(scope,{elem:link});
+    return;
+   }
+  }
+ }
+ throw Error('No editable table row containing: '+text);
+});
+When('I delete the table row containing {string}', {timeout:90000}, async (text) => {
+ const rows=await scope.page.$$('#daquestion table tr');
+ for (const row of rows) {
+  if (!(await row.evaluate(el=>el.innerText)).includes(text)) continue;
+  for (const link of await row.$$('a[role="button"]')) {
+   if ((await link.evaluate(el=>el.innerText)).trim()!=='Delete') continue;
+   let confirmed=false;
+   const confirm=async dialog=>{
+    if(dialog.type()!=='confirm') throw Error('Unexpected dialog while deleting a test row');
+    confirmed=true;
+    await dialog.accept();
+   };
+   scope.page.once('dialog',confirm);
+   try { await scope.tapElementAndNavigate(scope,{elem:link}); }
+   finally { scope.page.off('dialog',confirm); }
+   if(!confirmed) throw Error('Expected the row-deletion confirmation');
+   return;
+  }
+ }
+ throw Error('No deletable table row containing: '+text);
+});
