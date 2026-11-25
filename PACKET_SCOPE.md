@@ -1,6 +1,6 @@
 # Name change packet scope and comparison
 
-Reviewed October 4, 2026. This is a development implementation for an adult application, including a spouse and up to five children requesting name changes. It is a packet preparation tool; court approval, filing, execution, and service still happen separately.
+Reviewed November 25, 2026. This is a development implementation for an adult application, including a spouse and up to five children requesting name changes. It is a packet preparation tool; court approval, filing, execution, and service still happen separately.
 
 ## What the packet generates
 
@@ -12,10 +12,11 @@ Reviewed October 4, 2026. This is a development implementation for an adult appl
 | NAM104 felony notice | Each disclosed felony, with selected person and jurisdiction | Serve the authority and application; federal/out-of-state cases also require Attorney General notice; provide proof of service |
 | NAM105 inmate affidavit | First request during this confinement | Review the confinement declaration and reason, then execute |
 | Hearing notice and NAM205 personal-service affidavit | Included children with one identified other parent and known address | Obtain hearing details; actual server completes delivery facts and affidavit |
-| Hearing notice and NAM207 publication request | Identified other parent with unknown address | File application before signing its declaration; judge decides alternative notice; newspaper supplies publication proof |
+| Hearing notice and NAM207 publication request | Identified other parent with unknown address outside Hennepin | File application before signing its declaration; judge decides alternative notice; newspaper supplies publication proof |
 | FEE102 adaptation (current 07/24 content) | Non-inmate fee-waiver request | Review financial declarations, sign, attach proof, file confidentially |
 | Official blank FEE201 | Inmate fee-waiver request | Check eligibility, fill financial affidavit, obtain correctional account records and authorization |
-| NAM101, NAM106, conditional NAM204/NAM206/FEE101, Hennepin supplement | Applicable instructions | Follow current court and county requirements |
+| NAM101, NAM106, conditional NAM204/NAM206/FEE101, current Hennepin guide link | Applicable instructions | Follow current court and county requirements |
+| Hennepin certified-mail instructions | Known-address other parent in Hennepin | Obtain court mailing affidavit; actual mailing, delivery records, and affidavit are still required |
 | Personalized next steps | All supported routes | Review the checklist with the forms |
 
 FEE102 is a clearly labeled content adaptation, not a facsimile of the six-page court PDF. Financial details may expand. It is individually downloadable and excluded from the combined public court bundle. Other documents may also contain sensitive information; follow the court's filing classifications.
@@ -30,7 +31,7 @@ The LHI launch identifies a 2019 update. Its instructions include dated fee figu
 
 - [Current adult packet](https://mncourts.gov/getforms/name-change/forms-packet-name-change), including NAM101 Rev 2/25.
 - [All name change forms](https://mncourts.gov/getforms/name-change), including the NAM103/104/105/107/205/207 sources.
-- [Hennepin supplement, Rev 12/24](https://mncourts.gov/_media/migration/courtforms/name-change/nam101-supp.pdf).
+- [Hennepin supplement, Rev 2/26](https://mncourts.gov/getforms/name-change/form-nam101-supp-dist-4-fourth-judicial-district-supplemental-name-change-guide).
 - [Fee waiver forms](https://mncourts.gov/getforms/fee-waiver), including current FEE102 and FEE201 Rev 07/24.
 - [Matching LawHelpMN resource](https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information).
 
@@ -43,6 +44,8 @@ Archived originals, retrieval dates, URLs, and SHA-256 hashes are in `reference/
 - Hennepin's certified-mail affidavit is not generated; NAM205 must not be used as mailing proof. Confirm the prepared individual orders and local service workflow with court/client reviewers.
 - Publication newspaper notices/proof, felony proof of service, contested objections, and repeat inmate constitutional-right cases are not automated. Judicial approval and actual completed service cannot be prefilled.
 - The unidentified-parent route uses a conservative confirmation of all four Hennepin guide conditions; local court review still controls notice.
-- Poverty-guideline eligibility is a user confirmation against current court instructions, not an automated annually updated calculation. Financial disclosures currently use multiline descriptions for household members, expenses, and assets; richer structured entry and consistency checks are a review priority.
+- Household, expense and property disclosures use structured entries. The sourced annual guideline comparison has a stale-year fallback; court review still controls eligibility and local acceptance.
 
 See [IMPROVEMENTS.md](IMPROVEMENTS.md) for the next work in priority order and [TEST_RESULTS.md](TEST_RESULTS.md) for actual checks.
+
+Supported combined child requests require the primary adult to be a documented legal parent of each included child, shared-address and six-month residency answers, and name-only relief. Other authority, parentage, mixed-parent, and special-notice cases receive editable referrals. Certified-mail routes omit NAM205. The current Hennepin guide is linked; the archived 12/24 copy is not distributed. See DECISIONS.md for the detailed rules.

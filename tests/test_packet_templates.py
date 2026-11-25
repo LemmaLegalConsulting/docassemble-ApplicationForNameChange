@@ -26,6 +26,12 @@ def render(name,c):
   text+='\n'+'\n'.join(c.text for t in doc.tables for row in t.rows for c in row.cells)
   return text,doc
 class PacketTemplates(unittest.TestCase):
+ def test_certified_mail_checklist_does_not_instruct_personal_service(self):
+  c=context();c.update(hennepin_packet=True,parental_notice_needed=True,parent_address_known=True,parent_service_method_active='certified_mail',included_children=[Person('Avery Child')],included_children_names='Avery Child',parents_nonapplicant_unknown=False)
+  text,_=render('Application_for_name_change_next_steps.docx',c)
+  self.assertIn('14 days',text);self.assertIn('February 2026',text)
+  self.assertIn('mailing affidavit',text);self.assertNotIn('Personal service: Use',text)
+  self.assertIn('court parentage/adoption order',text)
  def test_core_release_and_order(self):
   c=context();text,_=render('criminal_history_releases.docx',c)
   self.assertEqual(text.count('Criminal History Check Release'),2)

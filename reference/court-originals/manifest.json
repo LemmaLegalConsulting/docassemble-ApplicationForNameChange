@@ -21,7 +21,12 @@
     "file": "NAM101-supp.pdf",
     "url": "https://mncourts.gov/_media/migration/courtforms/name-change/nam101-supp.pdf",
     "retrieved": "2026-10-04",
-    "sha256": "abfa6e13ca8574a61a72dd1f0ce541c084647b3e1307d307156bdaaf5989f823"
+    "sha256": "abfa6e13ca8574a61a72dd1f0ce541c084647b3e1307d307156bdaaf5989f823",
+    "revision": "12/24 (archived; not distributed)",
+    "current_revision": "2/26",
+    "current_guide_verified": "2026-11-25",
+    "current_official_form_page": "https://mncourts.gov/getforms/name-change/form-nam101-supp-dist-4-fourth-judicial-district-supplemental-name-change-guide",
+    "distribution_note": "Checklist and download page link the current court guide. Current PDF content was verified online; raw-file export was blocked or stalled, so the archived binary was not relabeled or replaced."
   },
   {
     "file": "NAM101.pdf",

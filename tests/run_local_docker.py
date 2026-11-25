@@ -36,7 +36,18 @@ def main():
             subprocess.Popen([sys.executable, '-m', 'http.server', '8090', '--bind', '127.0.0.1', '--directory', str(live)], stdout=log, stderr=log, **flags)
     docker(args.container, 'sh', '-c', ': > /tmp/namechange-local.log')
     # Replace only viewers started by this project; do not touch the test browser.
-    stop = "import os; from pathlib import Path; names={b'/tmp/live-view.cjs',b'/tmp/validation-status.py',b'/tmp/namechange-source/tests/live_docker_view.cjs'}; [os.kill(int(p.name),15) for p in Path('/proc').iterdir() if p.name.isdigit() and p.name!=str(os.getpid()) and names.intersection((p/'cmdline').read_bytes().split(bytes([0])))]"
+    stop = """import os
+from pathlib import Path
+names={b'/tmp/live-view.cjs',b'/tmp/validation-status.py',b'/tmp/namechange-source/tests/live_docker_view.cjs'}
+for p in Path('/proc').iterdir():
+    if not p.name.isdigit() or p.name == str(os.getpid()):
+        continue
+    try:
+        if names.intersection((p/'cmdline').read_bytes().split(bytes([0]))):
+            os.kill(int(p.name),15)
+    except (FileNotFoundError, ProcessLookupError):
+        pass  # A process can exit between enumeration, reading, and signalling.
+"""
     docker(args.container, 'python3', '-c', stop)
     stamp = datetime.now().strftime('%Y%m%d-%H%M%S')
     remote_artifacts = '/tmp/namechange-artifacts/' + stamp

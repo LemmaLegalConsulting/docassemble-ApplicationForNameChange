@@ -26,7 +26,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -57,6 +56,9 @@ Feature: Narrative regression scenarios
       | users1_involved_in_victim_or_witness_protection | False | |
       | users1_inmate_in_correctional_facility_and_submitting_inmate_aff | False | |
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -91,7 +93,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -126,6 +127,9 @@ Feature: Narrative regression scenarios
       | spouses[0].name.first | Jamie | |
       | spouses[0].name.last | Spouse | |
       | spouses[0].birthdate | 01/02/1970 | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -160,7 +164,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -194,7 +197,6 @@ Feature: Narrative regression scenarios
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -210,6 +212,45 @@ Feature: Narrative regression scenarios
       | children2_name_last_change | Newname | |
       | children3_name_first_change | Third | |
       | children3_name_last_change | Newname | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | none_unknown | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | none_unknown | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -248,7 +289,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -292,6 +332,9 @@ Feature: Narrative regression scenarios
       | party1_name_of_offense | Example offense | |
       | party1_date_of_offense | 01/02/2005 | |
       | party1_state_of_offense | Minnesota | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -326,7 +369,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -358,6 +400,9 @@ Feature: Narrative regression scenarios
       | users1_inmate_in_correctional_facility_and_submitting_inmate_aff | False | |
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | name_of_person_and_description_of_person_with_claim_interest_or_lien | Robin Original. Synthetic property description for overflow testing. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County. Lot 1, Block 2, Example Addition, Ramsey County.  | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -392,7 +437,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -426,7 +470,6 @@ Feature: Narrative regression scenarios
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -442,6 +485,45 @@ Feature: Narrative regression scenarios
       | children2_name_last_change | Newname | |
       | children3_name_first_change | Third | |
       | children3_name_last_change | Newname | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | none_unknown | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | none_unknown | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     When I follow the review link containing "Edit answers"
     And I follow the review link containing "Children under 18"
     And I get to "Application for name change review screen" with this data:
@@ -484,7 +566,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -528,6 +609,9 @@ Feature: Narrative regression scenarios
       | spouses[0].address.zip | 55101 | |
       | spouses[0].phone_number | 6515550123 | |
       | spouses[0].email | jamie@example.com | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -564,7 +648,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -600,6 +683,9 @@ Feature: Narrative regression scenarios
       | children[0].name.last | Child | |
       | children[0].birthdate | 03/04/2014 | |
       | minor_children_listed_not_included_in_application | minor_children_included_no | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -635,7 +721,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -667,6 +752,9 @@ Feature: Narrative regression scenarios
       | users1_inmate_in_correctional_facility_and_submitting_inmate_aff | False | |
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | interpreter_language | Hmong | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -702,7 +790,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -736,6 +823,9 @@ Feature: Narrative regression scenarios
       | fee_legal_services | False | |
       | fee_public_assistance | listed | |
       | fee_benefits["SNAP"] | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -772,7 +862,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -806,6 +895,9 @@ Feature: Narrative regression scenarios
       | fee_legal_services | True | |
       | fee_lawyer_name | Counsel Example | |
       | fee_lawyer_program | Legal Aid | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -842,7 +934,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -897,6 +988,9 @@ Feature: Narrative regression scenarios
       | fee_accounts | 10 | |
       | fee_property.there_are_any | False | |
       | fee_other_reasons | Medical emergency | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -934,7 +1028,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -967,6 +1060,9 @@ Feature: Narrative regression scenarios
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | inmate_prior_name_change_request | False | |
       | inmate_name_change_reason | Match my identity | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -1003,7 +1099,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1037,7 +1132,6 @@ Feature: Narrative regression scenarios
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | False | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -1057,6 +1151,45 @@ Feature: Narrative regression scenarios
       | parents_nonapplicant_name_last | Parent | |
       | parents_nonapplicant_address_address | 456 Sample Avenue | |
       | parents_nonapplicant_city_state_zip | St. Paul, MN 55101 | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | one_known | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | one_known | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | one_known | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -1132,7 +1265,6 @@ Feature: Narrative regression scenarios
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | False | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -1154,6 +1286,45 @@ Feature: Narrative regression scenarios
       | parent_last_employment | Unknown | |
       | parent_relatives | Relative at sample address | |
       | parent_search_efforts | Called the relative and searched for an address | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | one_known | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | one_known | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | one_known | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -1194,7 +1365,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1238,6 +1408,9 @@ Feature: Narrative regression scenarios
       | party1_name_of_offense | Example offense | |
       | party1_date_of_offense | 01/02/2005 | |
       | party1_state_of_offense | Minnesota | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -1275,7 +1448,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1307,6 +1479,9 @@ Feature: Narrative regression scenarios
       | users1_inmate_in_correctional_facility_and_submitting_inmate_aff | False | |
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | True | |
       | divorce_exception_confirmed | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"
@@ -1341,7 +1516,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1372,6 +1546,9 @@ Feature: Narrative regression scenarios
       | users1_involved_in_victim_or_witness_protection | False | |
       | users1_inmate_in_correctional_facility_and_submitting_inmate_aff | False | |
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then the question id should be "adult applicant help"
 
   @residency_failure
@@ -1400,7 +1577,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1431,6 +1607,9 @@ Feature: Narrative regression scenarios
       | users1_involved_in_victim_or_witness_protection | False | |
       | users1_inmate_in_correctional_facility_and_submitting_inmate_aff | False | |
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then the question id should be "residency help"
 
   @no_relief
@@ -1459,7 +1638,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1490,6 +1668,9 @@ Feature: Narrative regression scenarios
       | users1_involved_in_victim_or_witness_protection | False | |
       | users1_inmate_in_correctional_facility_and_submitting_inmate_aff | False | |
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then the question id should be "no relief selected"
 
   @inmate_repeat
@@ -1518,7 +1699,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1550,6 +1730,9 @@ Feature: Narrative regression scenarios
       | users1_inmate_in_correctional_facility_and_submitting_inmate_aff | True | |
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
       | inmate_prior_name_change_request | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then the question id should be "inmate repeat request help"
 
   @minor_only
@@ -1578,7 +1761,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1612,7 +1794,6 @@ Feature: Narrative regression scenarios
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -1628,6 +1809,45 @@ Feature: Narrative regression scenarios
       | children2_name_last_change | Newname | |
       | children3_name_first_change | Third | |
       | children3_name_last_change | Newname | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | none_unknown | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | none_unknown | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then the question id should be "minor only packet help"
 
   @parent_not_exempt
@@ -1635,7 +1855,7 @@ Feature: Narrative regression scenarios
     # Only applicable people and requests should be gathered; entered data and overflow must survive document assembly.
     Given I start the interview at "Application_for_name_change.yml"
     And the maximum seconds for each step is 90
-    When I get to "unidentified parent help" with this data:
+    When I get to "parent child referral" with this data:
       | var | value | trigger |
       | acknowledged_information_use | True | |
       | all_applicants_resident_six_months | True | |
@@ -1656,7 +1876,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | False | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1690,7 +1909,6 @@ Feature: Narrative regression scenarios
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -1706,7 +1924,46 @@ Feature: Narrative regression scenarios
       | children2_name_last_change | Newname | |
       | children3_name_first_change | Third | |
       | children3_name_last_change | Newname | |
-    Then the question id should be "unidentified parent help"
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | False | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | none_unknown | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | False | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | none_unknown | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | False | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
+    Then the question id should be "parent child referral"
 
   @release_age_boundary
   Scenario: Children just below and at age ten get the correct release coverage
@@ -1734,7 +1991,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1768,7 +2024,6 @@ Feature: Narrative regression scenarios
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 10/05/2016 | |
@@ -1784,6 +2039,45 @@ Feature: Narrative regression scenarios
       | children2_name_last_change | Newname | |
       | children3_name_first_change | Third | |
       | children3_name_last_change | Newname | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | none_unknown | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | none_unknown | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "criminal_history_releases.pdf"
     And the downloaded PDF "criminal_history_releases.pdf" should not contain "SurnameOne"
     And the downloaded PDF "criminal_history_releases.pdf" should contain "SurnameTwo"
@@ -1815,7 +2109,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1859,11 +2152,14 @@ Feature: Narrative regression scenarios
       | spouses[0].address.zip | 55101 | |
       | spouses[0].phone_number | 6515550123 | |
       | spouses[0].email | jamie@example.com | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "proposed_name_change_order.pdf"
     And the downloaded PDF "proposed_name_change_order.pdf" should contain "Robin"
     And the downloaded PDF "proposed_name_change_order.pdf" should contain "Jamie"
     And the downloaded PDF "proposed_name_change_order.pdf" should contain "IT IS ORDERED that:" exactly 2 times
-    And I should see the phrase "Hennepin supplemental instructions"
+    And I should see the phrase "current Hennepin supplemental guide"
 
   @fee_below_guideline
   Scenario: Robin uses the below-guideline financial route
@@ -1891,7 +2187,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -1946,6 +2241,9 @@ Feature: Narrative regression scenarios
       | fee_accounts | 10 | |
       | fee_property.there_are_any | False | |
       | fee_other_reasons | Medical emergency | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "fee_waiver_affidavit.pdf"
     And the downloaded PDF "fee_waiver_affidavit.pdf" should contain "6000.00"
     And the downloaded PDF "fee_waiver_affidavit.pdf" should not contain "Rent $2000"
@@ -1976,7 +2274,6 @@ Feature: Narrative regression scenarios
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -2031,6 +2328,9 @@ Feature: Narrative regression scenarios
       | fee_accounts | 10 | |
       | fee_property.there_are_any | False | |
       | fee_other_reasons | Medical emergency | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     When I follow the review link containing "Edit packet information"
     And I follow the review link containing "Fee waiver"
     And I get to "review packet choices" with this data:

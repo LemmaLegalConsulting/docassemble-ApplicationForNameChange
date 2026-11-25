@@ -47,3 +47,20 @@ DAYamlChecker reports **zero errors** in default and style modes. Saved reports 
 Earlier exploratory failures identified invalid legacy Word metadata and dictionary access in Docassemble's template rendering. Those were fixed and exercised again. Intermittent localhost page-expiry responses remain a test/reliability investigation item rather than being called resolved. Raw artifacts, synthetic downloads, and LHI session pages are kept outside tracked Git files.
 
 The synthetic LHI adult route and its downloaded packet were inspected; full branch parity, client legal review, county acceptance, full accessibility evaluation, and public deployment are still outstanding. See [PACKET_SCOPE.md](PACKET_SCOPE.md) and [IMPROVEMENTS.md](IMPROVEMENTS.md).
+
+
+## Parent/child eligibility branch — November 25, 2026
+
+Branch: `codex/parent-child-eligibility`, based on main `88f9953`; the pending document-stress PR was not merged into this work.
+
+- Python/template suite: **26 passed**. Includes parentage routing, mixed-parent groups, county service methods, and certified-mail checklist content.
+- Browser navigation/expiry unit checks: **10 passed**.
+- Interview/Python checker: **0 errors** (10 warnings, 29 informational findings); checked the question directory and new helper with UTF-8 and network URL checking disabled. The official current Hennepin guide was separately verified online.
+- Docker checklist rendering: personal-service and no-other-parent checklists each fit one page; Hennepin plus fee-waiver content uses two pages. All pages were visually reviewed without clipping; current guide/resource links are clickable. Synthetic previews remain in ignored `.alkiln-artifacts/family-layout`.
+- Clean full browser run `20261125-135933`: **8 completed scenarios passed**, including adult core output, family removal/restoration, child deletion/addition with per-child authority, removal of a spouse's felony-notice assignment, and guardian/Recognition-of-Parentage/residence/child-relief referrals. The notice editing scenario found a hidden eligibility review control; it was corrected locally to an explicit action link and is awaiting rerun.
+- The full run was interrupted while the known-identity referral case was in progress. Docker Desktop's engine stopped responding and returned HTTP 500 errors for container inspection/listing. An earlier attempt also ended when the container exited 137 (OOMKilled reported false). These interrupted runs are not passing full-suite evidence.
+- Fixed local test-source synchronization to clear the fixed temporary source directory before extraction; the old overlay retained a document-stress feature from the previous branch. Also guarded viewer cleanup against processes exiting during `/proc` enumeration.
+
+Remaining Docker verification: rerun the corrected notice review, adult-only guardian recovery, listed-only child (without eligibility fixture answers), Hennepin certified mail, and all uncompleted parent/child scenarios after Docker recovers. The pending document-stress PR's layout fixes remain separate.
+
+The checklist/download page link the official Hennepin guide Rev 2/26. Raw PDF export was blocked or stalled; the archived 12/24 binary was retained for provenance and disabled in packets. No mailing affidavit or search affidavit is fabricated.

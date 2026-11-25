@@ -19,14 +19,7 @@ Feature: Editing an assembled family packet
       | children[0].release_other_names | | |
       | children[0].release_sex | Female | |
       | children[0].release_race | White | |
-      | children[1].release_other_names | | |
-      | children[1].release_sex | Male | |
-      | children[1].release_race | White | |
-      | children[2].release_other_names | | |
-      | children[2].release_sex | Female | |
-      | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -57,36 +50,39 @@ Feature: Editing an assembled family packet
       | users1_involved_in_victim_or_witness_protection | False | |
       | users1_inmate_in_correctional_facility_and_submitting_inmate_aff | False | |
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
-      | children.target_number | 3 | |
+      | children.target_number | 1 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | False | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
-      | children[1].name.first | Second | |
-      | children[1].name.last | SurnameTwo | |
-      | children[1].birthdate | 01/02/2014 | |
-      | children[2].name.first | Third | |
-      | children[2].name.last | SurnameThree | |
-      | children[2].birthdate | 01/02/2015 | |
       | children1_name_first_change | First | |
       | children1_name_last_change | Newname | |
-      | children2_name_first_change | Second | |
-      | children2_name_last_change | Newname | |
-      | children3_name_first_change | Third | |
-      | children3_name_last_change | Newname | |
       | parents_nonapplicant_name_first | Other | |
       | parents_nonapplicant_name_last | Parent | |
       | parents_nonapplicant_address_address | 456 Sample Avenue | |
       | parents_nonapplicant_city_state_zip | St. Paul, MN 55101 | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | one_known | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "parental_personal_service.pdf"
     And the downloaded PDF "parental_personal_service.pdf" should contain "Other Parent"
     When I follow the review link containing "Edit answers"
     And I follow the review link containing "other parent:"
     And I get to "Application for name change review screen" with this data:
       | var | value | trigger |
-      | parents_nonapplicant_unknown | False | |
       | parents_nonapplicant_name_first | Other | |
       | parents_nonapplicant_name_last | Parent | |
       | parent_address_known | False | |
@@ -104,31 +100,37 @@ Feature: Editing an assembled family packet
     And I follow the review link containing "other parent:"
     And I get to "Application for name change review screen" with this data:
       | var | value | trigger |
-      | parents_nonapplicant_unknown | True | |
-    When I tap to continue
-    And I get to "download Application_for_name_change" with this data:
-      | var | value | trigger |
-      | unidentified_parent_conditions_confirmed | True | |
-    Then the packet does not offer "parental_publication_request.pdf"
-    And the packet does not offer "parental_hearing_notice.pdf"
-    When I follow the review link containing "Edit answers"
-    And I follow the review link containing "other parent:"
-    And I get to "Application for name change review screen" with this data:
-      | var | value | trigger |
-      | parents_nonapplicant_unknown | False | |
       | parents_nonapplicant_name_first | Updated | |
       | parents_nonapplicant_name_last | Parent | |
       | parent_address_known | True | |
       | parents_nonapplicant_address_address | 789 Current Street | |
       | parents_nonapplicant_city_state_zip | Duluth, MN 55802 | |
     When I tap to continue
-    Then the question id should be "download Application_for_name_change"
+    And I get to "download Application_for_name_change" with this data:
+      | var | value | trigger |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | parent_service_method | personal_service | |
     When I archive the downloaded PDF "parental_personal_service.pdf" as "original-service.pdf"
     And I download "parental_personal_service.pdf"
     Then the downloaded PDF "parental_personal_service.pdf" should contain "Updated Parent"
     And the downloaded PDF "parental_personal_service.pdf" should not contain "Other Parent"
     And the packet does not offer "parental_publication_request.pdf"
 
+
+    When I follow the review link containing "Edit answers"
+    And I follow the review link containing "eligibility and notice"
+    And I follow the review link containing "Other-parent situation"
+    And I get to "download Application_for_name_change" with this data:
+      | var | value | trigger |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | parent_notice_exception_court_confirmed | True | |
+    Then the packet does not offer "parental_hearing_notice.pdf"
+    And the packet does not offer "parental_personal_service.pdf"
+    And the packet does not offer "parental_publication_request.pdf"
 
   @family_edits
   Scenario: Removing and restoring family branches regenerates the packet
@@ -155,7 +157,6 @@ Feature: Editing an assembled family packet
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -189,7 +190,6 @@ Feature: Editing an assembled family packet
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | False | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -222,6 +222,45 @@ Feature: Editing an assembled family packet
       | spouses[0].address.zip | 55101 | |
       | spouses[0].phone_number | 6125550101 | |
       | spouses[0].email | jamie@example.com | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | one_known | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | one_known | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | one_known | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "criminal_history_releases.pdf"
     And the downloaded PDF "criminal_history_releases.pdf" should contain "Jamie Former"
     And the downloaded PDF "criminal_history_releases.pdf" should contain "SurnameTwo"
@@ -292,7 +331,6 @@ Feature: Editing an assembled family packet
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -326,7 +364,6 @@ Feature: Editing an assembled family packet
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | False | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -346,6 +383,45 @@ Feature: Editing an assembled family packet
       | parents_nonapplicant_name_last | Parent | |
       | parents_nonapplicant_address_address | 456 Sample Avenue | |
       | parents_nonapplicant_city_state_zip | St. Paul, MN 55101 | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | one_known | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | one_known | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | one_known | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Avery"
     When I follow the review link containing "Edit answers"
@@ -375,6 +451,14 @@ Feature: Editing an assembled family packet
     And I tap to continue
     And I get to "download Application_for_name_change" with this data:
       | var | value | trigger |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | one_known | |
+      | children[2].name_change_shared_parent_confirmed | True | |
       | children3_name_first_change | Devin | |
       | children3_name_last_change | Newname | |
       | children[2].release_other_names | | |
@@ -412,7 +496,6 @@ Feature: Editing an assembled family packet
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | users[0].name.first | Robin | |
@@ -443,7 +526,6 @@ Feature: Editing an assembled family packet
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | False | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -493,6 +575,45 @@ Feature: Editing an assembled family packet
       | felony_notices[1].person_index | 0 | |
       | felony_notices[1].kind | federal | |
       | felony_notices[1].authority | United States Attorney | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | one_known | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | one_known | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | one_known | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "felony_name_change_notices.pdf"
     And the downloaded PDF "felony_name_change_notices.pdf" should contain "Jamie Originalspouse"
     And the downloaded PDF "felony_name_change_notices.pdf" should contain "United States Attorney"
