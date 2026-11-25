@@ -371,23 +371,7 @@ question: What other income-based program helps you?
 fields:
   - Program name: fee_other_program
 ---
-id: fee waiver household
-question: Who is in your household?
-subquestion: |
-  Count:
 
-  * Yourself
-  * Your spouse or partner
-  * Your children under 18, and older children still in high school
-  * Anyone else who relies on you for most of their support
-fields:
-  - Household size, including you: fee_household_size
-    datatype: integer
-    min: 1
-  - Other household members: fee_household_members
-    input type: area
-    help: For each person, write their name, age, and relationship to you on a new line. If you live alone, write “None.”
----
 id: fee waiver income
 question: What is your income?
 subquestion: |
@@ -424,46 +408,9 @@ fields:
   - Reason the income is unknown: fee_spouse_income_unknown_reason
     input type: area
 ---
-id: fee waiver other household income
-question: Do other household members have income?
-fields:
-  - Each person’s name, monthly take-home pay, and where it comes from: fee_other_household_income
-    input type: area
-    help: Write each person on a new line. If no one else has income, write “None.”
----
-id: fee waiver yearly income
-question: What is your household’s yearly income?
-subquestion: |
-  Add up the yearly income for everyone in your household before taxes and deductions.
 
-  Next, look at the [court’s fee waiver instructions](https://mncourts.gov/getforms/fee-waiver).
-  Find the **125% poverty guideline** for a household of ${ fee_household_size }.
-  If you are not sure, contact the court’s Self-Help Center.
-fields:
-  - Household yearly income before deductions: fee_yearly_income
-    datatype: currency
-    min: 0
-  - Is your household income less than that guideline?: fee_below_poverty_guideline
-    datatype: yesnoradio
----
-id: fee waiver expenses
-question: What are your household’s monthly expenses?
-subquestion: |
-  Write the amount you pay each month for each of these. Write $0 if you do not pay it.
 
-  * Rent or mortgage
-  * Utilities
-  * Food
-  * Car payment and car insurance
-  * Child support and spousal support
-  * Childcare
-  * Medical insurance
-  * Cell phone
-  * Anything else (say what it is)
-fields:
-  - Monthly expenses: fee_expenses
-    input type: area
----
+
 id: fee waiver debt and cash
 question: What debt and available money do you have?
 fields:
@@ -477,21 +424,7 @@ fields:
     datatype: currency
     min: 0
 ---
-id: fee waiver property
-question: What property do you own?
-subquestion: |
-  For each item, write what it could sell for minus what you still owe on it.
-  Include:
 
-  * Each vehicle (year and make)
-  * Your home and any other real estate
-  * Other valuable things, like jewelry, stocks, and bonds
-
-  If you do not own any of these, write “None.”
-fields:
-  - Items and values: fee_assets
-    input type: area
----
 id: fee waiver other reasons
 question: Is there anything else affecting your ability to pay?
 fields:
@@ -575,9 +508,24 @@ review:
   - Edit: fee_public_assistance
     show if: request_fee_waiver and not users1_inmate_in_correctional_facility_and_submitting_inmate_aff and not fee_legal_services
     button: Public assistance
-  - Edit: fee_household_size
+  - Edit: fee_household_people.revisit
     show if: fee_financial_details
-    button: Household and finances
+    button: Household members
+  - Edit: fee_monthly_income
+    show if: fee_financial_details
+    button: Your income
+  - Edit: fee_yearly_income
+    show if: fee_financial_details
+    button: Yearly household income
+  - Edit: fee_expense_housing
+    show if: fee_full_details
+    button: Housing and living expenses
+  - Edit: fee_expense_child_support
+    show if: fee_full_details
+    button: Support and other expenses
+  - Edit: fee_property.revisit
+    show if: fee_full_details
+    button: Property and equity
   - Edit: parent_address_known
     show if: parental_notice_needed
     button: Other parent’s address

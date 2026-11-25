@@ -9,7 +9,7 @@ repo = Path(__file__).resolve().parents[1]
 alkiln = Path(os.environ["ALKILN_PATH"]).resolve()
 package = next((repo / "docassemble").glob("*/data/questions")).parents[1].name
 sources = repo / "docassemble" / package / "data/sources"
-artifacts = repo / ".alkiln-artifacts" / "ci"
+artifacts = Path(os.environ.get("ALKILN_ARTIFACTS_PATH", repo / ".alkiln-artifacts" / "ci"))
 artifacts.mkdir(parents=True, exist_ok=True)
 # The bootstrap stores only paths and install mode, never server credentials.
 helper = artifacts / "bootstrap.cjs"
