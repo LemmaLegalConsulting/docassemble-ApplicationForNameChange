@@ -54,6 +54,10 @@ class PacketTemplates(unittest.TestCase):
   c=context();c['order_people']=[dict(caption='Robin Original',requested_caption='Robin Newname',primary=True,spouse=False,children=''),dict(caption='Jamie Spouse',requested_caption='Jamie Newname',primary=False,spouse=True,children='')]
   text,_=render('proposed_name_change_order.docx',c)
   self.assertEqual(text.count('IT IS ORDERED that:'),2)
+  self.assertEqual(text.count('1. The application is made in good faith'),2)
+  self.assertEqual(text.count('5. Name(s) of minor children'),2)
+  self.assertEqual(text.count('6. This applicant requests:'),2)
+  self.assertEqual(text.count('9. Other:'),2)
   self.assertIn('Robin Newname',text);self.assertIn('Jamie Newname',text)
  def test_parent_service_title_is_separate_from_children(self):
   c=context();c.update(included_children_names='Avery Original; Casey Original',children_requested_names='Avery Newname; Casey Newname')

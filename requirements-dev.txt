@@ -8,3 +8,6 @@ PyYAML==6.0.3
 
 # Distrust compromised eMudhra CA certificates.
 certifi>=2026.10.19
+
+# Portable court PDF appearances and continuation pages
+reportlab>=4.4,<6

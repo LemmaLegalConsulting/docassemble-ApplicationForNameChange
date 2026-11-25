@@ -39,7 +39,7 @@ Archived originals, retrieval dates, URLs, and SHA-256 hashes are in `reference/
 ## Boundaries still needing work
 
 - Minor-only applications use a separate court packet (NAM202); this adult interview provides a referral. Prior-granted-name birth-record replacement in an existing case (NAM113/114) is not implemented.
-- Multiple non-applicant parents, more than five requested child names/felony rows, and additional minor signatures still need automated sheets and per-person notice handling. Current extra-sheet instructions are manual.
+- Multiple non-applicant parents and more than five requested child names/felony rows still need automated sheets and per-person notice handling. NAM102 now generates full-value continuation pages for text that cannot fit at 9 points, plus individual manual signature blocks for included children age 14 or older. These supplements need the same court/client acceptance review as the packet.
 - Hennepin's certified-mail affidavit is not generated; NAM205 must not be used as mailing proof. Confirm the prepared individual orders and local service workflow with court/client reviewers.
 - Publication newspaper notices/proof, felony proof of service, contested objections, and repeat inmate constitutional-right cases are not automated. Judicial approval and actual completed service cannot be prefilled.
 - The unidentified-parent route uses a conservative confirmation of all four Hennepin guide conditions; local court review still controls notice.

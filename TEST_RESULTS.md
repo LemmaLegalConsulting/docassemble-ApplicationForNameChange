@@ -1,5 +1,47 @@
 # Verified local packet tests
 
+## November 25, 2026: repaired document stress failures
+
+Implemented the four layout repairs from the baseline below. Docker verification on the final installed application/renderer/order hashes passed **9 scenarios / 208 steps**, covering the three stress cases, all four editing-reliability cases, the ordinary adult route, and county changes. **25 Python regressions and 10 navigation/expiry checks pass.** Scoped YAML/style checks: **0 errors, 6 warnings, 10 informational findings**. See [the sanitized baseline and repair record](validation/document-stress-review.json).
+
+- NAM102 has embedded DejaVu/Droid TrueType appearance streams and vector checkbox marks. Tested CJK and extended-Latin names render in both Poppler and MuPDF, with no Poppler font diagnostics. All 152 canonical fields remain, and values match their widgets. A standalone validator also checks embedded fonts, 9-point minimum generated text, and all 25 checkbox states in downloaded applications.
+- Complete values that cannot fit at 9-11 points move to numbered, labeled continuation entries. The field and its logical value contain the same reference. Full 7,531-character statements and 2,999-character property descriptions were independently compared against the continuation body text after removing navigation headers/footers. No content is split by a character-count threshold at a clipped field boundary.
+- Each included child age 14 or older gets a separate blank manual signature/date/place block with the original NAM102 perjury declaration and full printed name. Removing the first of three signing-age minors regenerates two blocks and removes the former child's block. No signatures or execution dates are automated.
+- All three NAM107 numbering groups restart (findings 1-9), and one-point loop-break paragraphs remove footer-only pages. The six-order stress packet decreases from 22 to **18 pages**, with no footer-only pages. After removal of a child, five orders occupy 15 pages. Regression tests retain exact original XML for the judicial section beginning IT IS ORDERED.
+
+Rendered 13 final stress PDFs / 88 pages, including the before/after family-edit downloads. Cross-rendered all stress application pages in Poppler and MuPDF and inspected names, continuation boundaries, checkboxes, signature space, and order numbering/pagination. The final geometry scan flags **no off-page spans or text below 8 points**. Local artifacts: `.alkiln-artifacts/20261125-085331` and `.alkiln-artifacts/document-stress-fixed/`.
+
+An earlier intermediate run (`20261125-084456`) passed 3 scenarios / 41 steps. Visual inspection then caught the remaining decimal list groups and checkbox fallback marks; both were fixed before the final run and gained explicit regressions. The first repair attempt (`20261125-084217`) failed at interview load because zip package updates did not install the newly declared pypdf dependency. The local installer now installs `requirements-runtime.txt` in Docassemble's virtual environment before restarting workers. The local viewer cleanup also handles processes exiting during `/proc` enumeration; application input errors and expiry/security failures remain failures.
+
+These results cover the synthetic configurations and writing systems tested. Court acceptance of continuation/signature supplements, other writing systems/shaping, broader companion layouts, and the remaining accessibility/client review are still open. The older baseline evidence below is retained for comparison.
+
+## November 25, 2026: local document stress and layout review
+
+Reviewed merged main at `88f9953` in the existing `namechange-test` Docker container. SHA-256 comparisons confirmed that all 14 installed question/template files match this checkout. All names, property descriptions, and declarations are synthetic. No application code or court templates changed; nothing was pushed to GitHub.
+
+Added `docassemble/ApplicationForNameChange/data/sources/document_stress.feature` and the optional local rendering helper `scripts/review_stress_pdfs.py`. Run the feature explicitly with `tests/run_local_docker.py --tags '@document_stress'`. These are **known-failing stress regressions**, not a green release suite. The renderer needs local PyMuPDF and Pillow; rendered PDFs, page PNGs, contact sheets, geometry, stored-field comparisons, and failed artifacts remain under ignored `.alkiln-artifacts/document-stress-review/`. The sanitized record is [validation/document-stress-review.json](validation/document-stress-review.json).
+
+| Configuration | Application | Proposed orders | Releases | Other |
+| --- | --- | --- | --- | --- |
+| Long accented names; 7,531-character declaration; 2,999-character property description | 9 pages | 6 pages | 1 page | Fee waiver 3 pages; next steps 1 page |
+| CJK current/requested names | 6 pages | 3 pages | 1 page | — |
+| Adult and five children with long names; three minors age 14+; Hennepin | 7 pages | 22 pages (six orders) | 6 pages | — |
+
+Rendered and visually reviewed 11 distinct PDFs / 65 pages, with detailed inspection of captions, child rows, declaration boundaries, signature areas, and order breaks. NAM102 page 1 was also rendered in Poppler to compare with MuPDF. PDF text alone misses the clipping and signature-capacity problems.
+
+**Open defects:**
+
+1. **Unicode rendering portability:** NAM102 preserves the complete field values, but Poppler renders the tested CJK name fields blank and omits extended Latin glyphs. MuPDF can display the CJK names through fallback. The DOCX-derived companion forms preserve the tested names. Embedded/portable appearances need repair and cross-renderer verification.
+2. **Long names and fixed PDF fields:** caption first names shrink to about **4.43 pt**. Applicant/child surnames and signature-area printed names clip in MuPDF. The property field's bottom line is also clipped before the continuation starts in its addendum; a start/end marker assertion alone does not establish that every intervening character is legible.
+3. **Minor signature capacity:** three signing-age minors still share one minor signature/date line and one clipped printed-name field. No additional signature sheet is generated. Adult, fee-waiver, release, and judicial signature lines remain blank for manual execution.
+4. **Repeated-order pagination and numbering:** six Hennepin orders expand to **22 pages**, including footer-only pages **7, 11, 15, and 19**. Findings numbering continues between separate orders. Judicial signature areas remain present, but the packet needs pagination/numbering repair.
+
+**What held up:** lengthy statements and financial explanations wrap over additional pages rather than covering the signature blocks. The application includes its statement/property addendum. All 60 statement section labels are present across the application and its addendum, and all 30 financial explanation items survive. The 3-page fee affidavit keeps its perjury/date/signature block together. Each of the six criminal releases occupies its own page with a clear signature line. No off-page text boxes were flagged by the geometry helper; this does not establish that fixed-field text is uncut.
+
+**Run history:** `.alkiln-artifacts/20261125-014308`: 3 scenarios, 2 failed / 1 passed, 39 steps (32 passed, 2 failed, 5 skipped). Its fee end-marker failure was caused by a hyphenated marker breaking at a line wrap. Replaced it with an unbroken marker and added exact long-name checks. `.alkiln-artifacts/20261125-014649`: 2 scenarios, 1 failed / 1 passed, 29 steps (27 passed, 1 failed, 1 skipped). The corrected declaration marker passes; the long original surname fails as expected. Combining the latest Latin/family cases with the unchanged CJK case leaves **two real name-rendering failures and one text-passing family case with visual defects**. Failed assertions were retained, not weakened or suppressed. The final family fixture includes three minors age 14 or older. The initial family fixture had younger children and is retained as historical evidence.
+
+This is a layout review of these configurations, not court acceptance, all-script Unicode support, or a full accessibility audit. Next: repair NAM102 Unicode/long-field appearances and continuation handling, add minor signature capacity, then fix repeated-order blank pages/numbering and rerun the same cases in both renderers.
+
 ## November 24, 2026: local editing reliability
 
 Tested the working changes based on local `main` at `1ab3f6f`. The separate `codex/name-change-validation` branch was inspected locally to exclude its financial validation, child-name/age validation, and county-recalculation work. No commits, pushes, pull requests, or other GitHub actions were performed.

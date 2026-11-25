@@ -109,3 +109,12 @@ On Windows, set `PYTHONUTF8=1` before running DAYamlChecker. Restrict its input 
 `docassemble/ApplicationForNameChange/data/sources/poverty_guidelines.json` contains dated, sourced HHS figures for the contiguous states. Add each new year's one-person amount and additional-person increment, verify the published 125% table, and extend the boundary tests in `tests/test_financial_validation.py`. An unknown year falls back to asking the user to check the current court guideline; it does not reuse an older year's figure.
 
 The FEE102 adaptation distinguishes income **less than** 125% from income **greater than or equal to** it. At the exact boundary this interview collects the remaining financial details; it still permits a fee-waiver request. The court makes the decision. Household size is the applicant plus structured household entries. Other household income is monthly take-home pay, while the separate yearly total is before deductions; those figures must not be treated as interchangeable.
+
+
+## Document stress and layout checks
+
+Run `tests/run_local_docker.py --tags '@document_stress'` after installing the checkout. The cases cover extended Latin names, CJK names, long statements/property/financial explanations, six Hennepin orders, three signing-age minors, and removal of one signing minor. The assertions check fresh documents after edits, full names, declaration ends, signature-sheet names, independent findings numbering, and the absence of footer-only order pages.
+
+`requirements-runtime.txt` lists the PDF renderer dependencies also declared by setup.py. The local installer installs them in the Docassemble virtual environment because zip updates may retain older dependency metadata. It then restarts web workers. `--sync-only` copies test sources; it does not update the installed interview or its dependencies.
+
+For visual QA, install optional local PyMuPDF and Pillow, then run `python scripts/review_stress_pdfs.py ARTIFACT_DIR .alkiln-artifacts/document-stress-fixed/rendered`. Inspect the PNGs as well as PDF text: fixed field appearances can lose characters even when stored field values are correct. Cross-render the application with Docker's `pdftoppm`; verify canonical field values and embedded appearance streams. Checkboxes use vector marks, so small glyphs are not needed. Rebuild the order from originals with `scripts/build_packet_templates.py`, which applies `scripts/order_layout.py` after labeling.
