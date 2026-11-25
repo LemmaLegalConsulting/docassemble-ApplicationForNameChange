@@ -1,5 +1,11 @@
 # Verified local packet tests
 
+## November 25, 2026: GitHub container dependency setup
+
+The first PR #7 isolated browser run (`45640989660`, head `f9ee64f`) failed at interview import with `ModuleNotFoundError: No module named pypdf`. Host-side PDF validation dependencies were installed successfully, but the Docassemble container used a separate virtual environment. This failure did not exercise the document stress assertions.
+
+The workflow now copies `requirements-runtime.txt` into the disposable container, finds its Docassemble virtual-environment Python, installs the requirements there, and explicitly imports `PdfReader`, `PdfWriter`, and ReportLab before restarting web workers. The runner-side installation remains for checking downloaded PDF files. The workflow YAML, Bash syntax, step order, and exact in-container installation/import block were verified against the pinned local image. Application and template code are unchanged by this setup repair. A new PR-triggered run will verify the fix on a fresh server; the earlier failure is retained rather than rerun on the old revision.
+
 ## November 25, 2026: repaired document stress failures
 
 Implemented the four layout repairs from the baseline below. Docker verification on the final installed application/renderer/order hashes passed **9 scenarios / 208 steps**, covering the three stress cases, all four editing-reliability cases, the ordinary adult route, and county changes. **25 Python regressions and 10 navigation/expiry checks pass.** Scoped YAML/style checks: **0 errors, 6 warnings, 10 informational findings**. See [the sanitized baseline and repair record](validation/document-stress-review.json).

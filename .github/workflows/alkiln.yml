@@ -30,7 +30,20 @@ jobs:
             preloaded modules:
               - docassemble.ALToolbox.ThreePartsDate
           DOCASSEMBLE_IMAGE: jhpyle/docassemble:1.10.7@sha256:c0b0a707a6cd2149d5777ee83af1ea1de544210e597371eac93e67a1503c395c
-      - name: Restart web workers after installing datatype dependencies
+      - name: Install application dependencies inside Docassemble
+        run: |
+          docker cp requirements-runtime.txt docassemble_container:/tmp/namechange-runtime-requirements.txt
+          docker exec -i docassemble_container python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+
+          candidates = list(Path('/usr/share/docassemble').glob('local*/bin/python'))
+          assert len(candidates) == 1, f'Expected one Docassemble virtual environment: {candidates}'
+          python = str(candidates[0])
+          subprocess.run([python, '-m', 'pip', 'install', '-r', '/tmp/namechange-runtime-requirements.txt'], check=True)
+          subprocess.run([python, '-c', 'from pypdf import PdfReader, PdfWriter; import reportlab; print("Docassemble PDF dependencies ready")'], check=True)
+          PY
+      - name: Restart web workers after installing application dependencies
         env:
           SERVER_URL: ${{ steps.server.outputs.SERVER_URL }}
         run: |
