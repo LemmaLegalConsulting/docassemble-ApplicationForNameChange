@@ -59,12 +59,17 @@ scope.waitUntilContinued=require('./navigation.cjs');
 const checkForError=scope.checkForError;
 scope.checkForError=async (...args)=>{
  for(let attempt=0;attempt<5;attempt++){
-  try{return await checkForError(...args);}catch(error){
+  try{
+   await require('./page_expiry.cjs')(scope.page);
+   return await checkForError(...args);
+  }catch(error){
    if(!String(error).includes('Execution context was destroyed')||attempt===4)throw error;
    await new Promise(resolve=>setTimeout(resolve,100));
   }
  }
 };
+
+require('./reliability_steps.cjs');
 // Repeated PDF assertions must read the newly downloaded version after edits.
 When('I discard the previous download {string}', async (file) => {
  if (path.basename(file) !== file) throw Error('Use a download filename without folders');

@@ -1,0 +1,221 @@
+{
+  "review_date": "2026-11-24",
+  "base_commit": "1ab3f6fb0c5f358f77291debed97e735a8873d32",
+  "state": "uncommitted local working changes on main",
+  "excluded_local_branch": "codex/name-change-validation",
+  "github_actions_performed": false,
+  "scope": "Focused editing-reliability investigation; not a complete rerun of all historical scenarios.",
+  "runs": [
+    {
+      "phase": "fixture label mismatch",
+      "artifacts": ".alkiln-artifacts/editing-20261124-171423",
+      "summary": "1 scenario (1 failed)\n30 steps (1 failed, 23 skipped, 6 passed)\n0m54.551s (executing steps: 0m54.367s)",
+      "scenarios": [
+        {
+          "name": "Notice routes update after review edits",
+          "steps": {
+            "passed": 10,
+            "failed": 1,
+            "skipped": 23
+          },
+          "failures": [
+            "Error: No review link containing: Children's other parent"
+          ]
+        }
+      ],
+      "recorded_step_time_csrf_errors": 0,
+      "trace_has_token_response_diagnostics": false
+    },
+    {
+      "phase": "notice/family baseline",
+      "artifacts": ".alkiln-artifacts/editing-20261124-171621",
+      "summary": "2 scenarios (2 passed)\n68 steps (68 passed)\n2m39.985s (executing steps: 2m39.820s)",
+      "scenarios": [
+        {
+          "name": "Notice routes update after review edits",
+          "steps": {
+            "passed": 34
+          }
+        },
+        {
+          "name": "Removing and restoring family branches regenerates the packet",
+          "steps": {
+            "passed": 42
+          }
+        }
+      ],
+      "recorded_step_time_csrf_errors": 0,
+      "trace_has_token_response_diagnostics": false
+    },
+    {
+      "phase": "reproduced child-name reassignment",
+      "artifacts": ".alkiln-artifacts/editing-20261124-171751",
+      "summary": "1 scenario (1 failed)\n20 steps (1 failed, 6 skipped, 13 passed)\n1m03.895s (executing steps: 1m03.754s)",
+      "scenarios": [
+        {
+          "name": "Deleting a child keeps requested names with the remaining children",
+          "steps": {
+            "passed": 17,
+            "failed": 1,
+            "skipped": 6
+          },
+          "failures": [
+            "Error: Unexpected PDF text: Avery"
+          ]
+        }
+      ],
+      "recorded_step_time_csrf_errors": 0,
+      "trace_has_token_response_diagnostics": false
+    },
+    {
+      "phase": "reproduced removed-spouse notice reassignment",
+      "artifacts": ".alkiln-artifacts/editing-20261124-172443",
+      "summary": "1 scenario (1 failed)\n17 steps (1 failed, 6 skipped, 10 passed)\n1m35.229s (executing steps: 1m34.980s)",
+      "scenarios": [
+        {
+          "name": "Removing a spouse requires reviewing a felony notice assigned to that spouse",
+          "steps": {
+            "passed": 14,
+            "failed": 1,
+            "skipped": 6
+          },
+          "failures": [
+            "AssertionError: The question id was supposed to be \"felony notice recipient\", but it is actually \"download-application-for-name-change\".: expected false to be true"
+          ]
+        }
+      ],
+      "recorded_step_time_csrf_errors": 0,
+      "trace_has_token_response_diagnostics": true
+    },
+    {
+      "phase": "post-fix editing regressions",
+      "artifacts": ".alkiln-artifacts/editing-20261124-201906",
+      "summary": "4 scenarios (4 passed)\n118 steps (118 passed)\n5m15.560s (executing steps: 5m15.348s)",
+      "scenarios": [
+        {
+          "name": "Notice routes update after review edits",
+          "steps": {
+            "passed": 34
+          }
+        },
+        {
+          "name": "Removing and restoring family branches regenerates the packet",
+          "steps": {
+            "passed": 42
+          }
+        },
+        {
+          "name": "Deleting a child keeps requested names with the remaining children",
+          "steps": {
+            "passed": 37
+          }
+        },
+        {
+          "name": "Removing a spouse requires reviewing a felony notice assigned to that spouse",
+          "steps": {
+            "passed": 21
+          }
+        }
+      ],
+      "recorded_step_time_csrf_errors": 0,
+      "trace_has_token_response_diagnostics": true
+    },
+    {
+      "phase": "existing regressions with isolated browser storage",
+      "artifacts": ".alkiln-artifacts/editing-20261124-202059",
+      "summary": "7 scenarios (7 passed)\n99 steps (99 passed)\n4m55.582s (executing steps: 4m55.385s)",
+      "scenarios": [
+        {
+          "name": "Robin applies alone with no criminal history",
+          "steps": {
+            "passed": 14
+          }
+        },
+        {
+          "name": "Robin includes three children with distinct surnames",
+          "steps": {
+            "passed": 18
+          }
+        },
+        {
+          "name": "Robin removes children after completing the application",
+          "steps": {
+            "passed": 20
+          }
+        },
+        {
+          "name": "Robin and Jamie both request new names",
+          "steps": {
+            "passed": 16
+          }
+        },
+        {
+          "name": "Robin prepares notice for the children\u2019s other parent",
+          "steps": {
+            "passed": 22
+          }
+        },
+        {
+          "name": "Robin cannot find the children\u2019s other parent",
+          "steps": {
+            "passed": 20
+          }
+        },
+        {
+          "name": "Robin needs notice for a federal conviction",
+          "steps": {
+            "passed": 17
+          }
+        }
+      ],
+      "recorded_step_time_csrf_errors": 0,
+      "trace_has_token_response_diagnostics": true
+    },
+    {
+      "phase": "final warning verification with isolated browser storage",
+      "artifacts": ".alkiln-artifacts/editing-20261124-202651",
+      "summary": "1 scenario (1 passed)\n18 steps (18 passed)\n1m09.248s (executing steps: 1m09.105s)",
+      "scenarios": [
+        {
+          "name": "Removing a spouse requires reviewing a felony notice assigned to that spouse",
+          "steps": {
+            "passed": 22
+          }
+        }
+      ],
+      "recorded_step_time_csrf_errors": 0,
+      "trace_has_token_response_diagnostics": true
+    }
+  ],
+  "final_source_sha256": {
+    "docassemble/ApplicationForNameChange/editing.py": "4938c52b3e4c7cdb089e0bc7507e000696873240cfef9cfaf092c4a40b37ea7d",
+    "docassemble/ApplicationForNameChange/data/questions/Application_for_name_change.yml": "9db4c4ab007eabc5afc58decf0adb2e96f2d90af19957aa4524d90035495ff79",
+    "docassemble/ApplicationForNameChange/data/questions/name_change_packet.yml": "30ee16fca4f4d094c5f5ad83aba2083b1575563a01dc806ea9cb7231870534e6",
+    "docassemble/ApplicationForNameChange/data/sources/editing_reliability.feature": "e943edf2b12a1acbf04ce79670cab947be2235b12708b899c7bfb7b885ed5fdb",
+    "tests/steps.cjs": "8ca0eac4bee9c58dab6cbd13def33c4051134cd360a4fc043dbb556219c74dc1",
+    "tests/reliability_steps.cjs": "7270eb6922b2c62eba684f8e229632f79f9c8522e39a785c2e9038432ce49e83",
+    "tests/page_expiry.cjs": "5555dd6f2d496a4b723efdd32b172aa63b12076f9629f25a0531d974a6fab1e8",
+    "tests/page_expiry.test.cjs": "1a65d00782a4a971da327ab19ca9bf1913a4128b458eb017db8d0b7f0817eaa1",
+    "tests/test_family_editing.py": "2d09175fb534f6d85e48f3de8976a1c419fcf7f0f733b075e97690dca7a4cbf9",
+    "tests/run_alkiln.py": "45675e77d28943fcd7b488b98ead31d1fd03834043347d46f6aeae97cf9dc4b9"
+  },
+  "installed_application_matches_final_source": true,
+  "checks": {
+    "python_unit_and_template_tests": 12,
+    "node_navigation_and_expiry_tests": 10,
+    "local_runner_hook_order": "passed",
+    "controlled_invalid_token_browser_probe": "passed; real expiry alert rejected without resubmission",
+    "default_question_lint": "No issues found",
+    "style_question_lint": {
+      "errors": 0,
+      "warnings": 6,
+      "informational": 7
+    }
+  },
+  "limitations": [
+    "The historical intermittent interview-time expiry root cause remains unconfirmed.",
+    "Some server token errors occur during ALKiln sign-out; scenario request traces end before that cleanup.",
+    "Final source hashes describe the report-time tree. Earlier runs precede the final warning wording/assertion and browser isolation updates; run phases identify those differences.",
+    "Separate financial/family-validation PR work was not included."
+  ]
+}
