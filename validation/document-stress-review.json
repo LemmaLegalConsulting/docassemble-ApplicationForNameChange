@@ -1,0 +1,183 @@
+{
+  "date": "2026-11-25",
+  "application_commit": "88f9953e09438a77af60990a0bdc94f34763e763",
+  "application_or_templates_modified": true,
+  "container": "namechange-test",
+  "installed_question_and_template_hashes_match": true,
+  "matched_files": 14,
+  "runs": [
+    {
+      "artifacts": ".alkiln-artifacts/20261125-014308",
+      "scenarios": [
+        {
+          "name": "Long Latin names and multi-page declarations survive assembly",
+          "steps": {
+            "passed": 16,
+            "failed": 1,
+            "skipped": 0
+          },
+          "failures": [
+            "the downloaded PDF \"fee_waiver_affidavit.pdf\" should contain \"END-FEE-REASONS.\""
+          ]
+        },
+        {
+          "name": "CJK names survive PDF form fields and companion documents",
+          "steps": {
+            "passed": 6,
+            "failed": 1,
+            "skipped": 5
+          },
+          "failures": [
+            "the downloaded PDF \"Application_for_name_change.pdf\" should contain \"美咲\""
+          ]
+        },
+        {
+          "name": "Five long family names paginate across Hennepin orders and releases",
+          "steps": {
+            "passed": 10,
+            "failed": 0,
+            "skipped": 0
+          },
+          "failures": []
+        }
+      ]
+    },
+    {
+      "artifacts": ".alkiln-artifacts/20261125-014649",
+      "scenarios": [
+        {
+          "name": "Long Latin names and multi-page declarations survive assembly",
+          "steps": {
+            "passed": 17,
+            "failed": 1,
+            "skipped": 1
+          },
+          "failures": [
+            "the downloaded PDF \"Application_for_name_change.pdf\" should contain \"García-Montgomery-Washington-Świątek\""
+          ]
+        },
+        {
+          "name": "Five long family names paginate across Hennepin orders and releases",
+          "steps": {
+            "passed": 10,
+            "failed": 0,
+            "skipped": 0
+          },
+          "failures": []
+        }
+      ]
+    }
+  ],
+  "fixture_sha256": "6444b0f12394b5a97d936420df22e96129ea0452081b67fe9fad65a3ac1eaa8b",
+  "findings": [
+    {
+      "id": "unicode-appearance",
+      "priority": "P1",
+      "finding": "NAM102 stores the complete Unicode field values but displays differently across renderers. Poppler omits the CJK names and some extended Latin glyphs; MuPDF displays CJK via fallback. Portable appearance is not established.",
+      "evidence": [
+        "poppler-CJK.png",
+        "poppler-Long.png",
+        "installed-hashes.json"
+      ],
+      "baseline_status": "open",
+      "status": "fixed_for_tested_configurations"
+    },
+    {
+      "id": "long-name-clipping",
+      "priority": "P1",
+      "finding": "NAM102 caption first names shrink to 4.43 pt. Other fixed fields clip names rather than wrapping: applicant surname, child-list surnames, and adult/minor printed names at the signature area. MuPDF also clips the bottom of the property-description field before its addendum continuation. No off-page geometry flags were raised; visual inspection is necessary.",
+      "evidence": [
+        "signature-rendered/01-Application_for_name_change/page-02.png",
+        "signature-rendered/01-Application_for_name_change/page-06.png",
+        "signature-rendered/04-Application_for_name_change/page-05.png"
+      ],
+      "baseline_status": "open",
+      "status": "fixed_for_tested_configurations"
+    },
+    {
+      "id": "minor-signature-capacity",
+      "priority": "P1",
+      "finding": "Three included children age 14 or older are entered in the optional signer field, but NAM102 still has one minor signature/date line and a clipped single-line printed-name field. No extra signature sheet is generated.",
+      "evidence": [
+        "signature-rendered/01-Application_for_name_change/page-06.png"
+      ],
+      "baseline_status": "open",
+      "status": "fixed_for_tested_configurations"
+    },
+    {
+      "id": "order-pagination",
+      "priority": "P1",
+      "finding": "Six Hennepin orders (adult plus five children) occupy 22 pages, including footer-only pages 7, 11, 15, and 19. Numbered findings continue across separate orders instead of restarting. Each order retains its judicial signature area.",
+      "evidence": [
+        "signature-rendered/03-proposed_name_change_order/contact-01.png",
+        "signature-rendered/03-proposed_name_change_order/contact-02.png"
+      ],
+      "baseline_status": "open",
+      "status": "fixed_for_tested_configurations"
+    }
+  ],
+  "working_behavior": [
+    "All 60 numbered statement sections are visible across NAM102 addendum pages; long statements also reach the end marker in the proposed order.",
+    "All 30 fee-explanation items and the unbroken ending marker are preserved; signature/date/perjury content remains together on page 3.",
+    "Six release pages retain separate names and signature lines.",
+    "Companion DOCX-derived CJK order and release text retains the test names."
+  ],
+  "limitations": [
+    "Synthetic stress configurations only; not every form combination or writing system.",
+    "No mobile, keyboard, screen-reader or tagged-PDF-order audit performed in this batch.",
+    "Defective PDFs are retained as baseline evidence, not approved filing documents."
+  ],
+  "artifact_root": ".alkiln-artifacts/document-stress-review",
+  "baseline_local_only": true,
+  "repair": {
+    "date": "2026-11-25",
+    "branch": "codex/document-stress-review",
+    "runtime": {
+      "files": {
+        "pdf_layout.py": "c037dbab1c847b9bead7659e3684322ba39f25ace544267472634b97eeee4d9c",
+        "document_layout.py": "6a5bb28c7e5c5e313dcad4936d4d4c69efcf08ef429be49198212847d47703c8",
+        "data/questions/Application_for_name_change.yml": "0d29f319a98b84b98967a321c0733f3d9eaaebee769d8bdbf78763360414c596",
+        "data/templates/proposed_name_change_order.docx": "eea7a0388c32a1029400e1c11d1b2f279abe1da09fe38547eeac8ee2263fff5d"
+      },
+      "dependencies": {
+        "pypdf": "6.21.1",
+        "reportlab": "5.0.0"
+      }
+    },
+    "artifacts": ".alkiln-artifacts/20261125-085331",
+    "scenarios_passed": 9,
+    "steps_passed": 208,
+    "python_regressions_passed": 25,
+    "navigation_expiry_checks_passed": 10,
+    "yaml_style": {
+      "errors": 0,
+      "warnings": 6,
+      "info": 10
+    },
+    "application_structure_checks": 6,
+    "minimum_generated_text_points": 9,
+    "canonical_fields_per_application": 152,
+    "checkbox_states_per_application": 25,
+    "stress_pdfs_rendered": 13,
+    "stress_pages_rendered": 88,
+    "pdf_renderers": [
+      "MuPDF 1.28.6 via PyMuPDF 2.1",
+      "Poppler in pinned Docassemble Docker image"
+    ],
+    "poppler_font_diagnostics_empty": true,
+    "declaration_characters_verified": 7531,
+    "property_characters_verified": 2999,
+    "six_order_pages_before": 22,
+    "six_order_pages_after": 18,
+    "five_orders_after_child_removal_pages": 15,
+    "footer_only_order_pages": 0,
+    "minor_signature_blocks_before_removal": 3,
+    "minor_signature_blocks_after_removal": 2,
+    "unsupported_scripts": "Only the fixture scripts are claimed; unsupported code points fail explicitly. No universal Unicode or shaping support claim."
+  },
+  "local_only": false,
+  "baseline_interpretation": "Use the latest Latin/family scenarios and the first-run CJK case: two automated failures, one text-pass with visual defects. The first fee marker failure was a line-break artifact; the corrected unbroken marker passes. Known failures remain failures; no assertions suppressed.",
+  "interpretation": "Final verification passes 9 scenarios / 208 steps, 25 Python regressions, 10 navigation/expiry checks, and independent downloaded-application structure checks. Baseline failures are retained for provenance.",
+  "baseline_reviewed_unique_pdfs": 11,
+  "baseline_reviewed_unique_pages": 65
+}

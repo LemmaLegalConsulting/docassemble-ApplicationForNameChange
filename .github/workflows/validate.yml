@@ -20,6 +20,6 @@ jobs:
       - name: Check YAML, Python, URLs, templates, accessibility, and style
         run: dayamlchecker --style .
       - name: Test browser navigation compatibility
-        run: node --test tests/navigation.test.cjs
+        run: node --test tests/navigation.test.cjs tests/page_expiry.test.cjs
       - name: Test template regressions
         run: python -m unittest discover -s tests -p "test_*.py"

@@ -73,8 +73,13 @@ def main():
     else:
         raise TimeoutError('Local package installation did not finish within 10 minutes.')
     if args.container:
-        subprocess.run(['docker', 'exec', args.container, 'supervisorctl', 'restart', 'uwsgi'], check=True)
         sync_sources(files, args.container)
+        # Zip updates can retain an existing package's dependency metadata.
+        # Install the declared PDF runtime requirements into docassemble's venv,
+        # not the container's unrelated system Python, before restarting workers.
+        install_runtime = "from pathlib import Path; import subprocess; candidates=list(Path('/usr/share/docassemble').glob('local*/bin/python')); assert len(candidates)==1, candidates; subprocess.run([str(candidates[0]), '-m', 'pip', 'install', '-r', '/tmp/namechange-source/requirements-runtime.txt'],check=True)"
+        subprocess.run(['docker', 'exec', args.container, 'python3', '-c', install_runtime], check=True)
+        subprocess.run(['docker', 'exec', args.container, 'supervisorctl', 'restart', 'uwsgi'], check=True)
     deadline = time.monotonic() + 180
     while time.monotonic() < deadline:
         try:

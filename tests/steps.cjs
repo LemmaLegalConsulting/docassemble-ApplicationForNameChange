@@ -17,6 +17,13 @@ scope.setCheckbox=async (_scope,{label,answer})=>{
  },String(answer).toLowerCase()==='true');
 };
 const clean=s=>s.replace(/\s+/g,' ').trim();
+Then('the downloaded PDF {string} should have no empty content pages', async(file)=>{
+ const pages=execFileSync('pdftotext',[path.join(scope.paths.scenario,file),'-'],{encoding:'utf8'}).split('\f');
+ if(!pages.at(-1).trim()) pages.pop();
+ for(const [index,page] of pages.entries()){
+  if(clean(page).length<150) throw Error('Empty or footer-only content on page '+(index+1));
+ }
+});
 Then('the downloaded PDF {string} should contain {string}',async(file,expected)=>{
  const pdf=path.join(scope.paths.scenario,file);
  const text=clean(execFileSync('pdftotext',[pdf,'-'],{encoding:'utf8'}));

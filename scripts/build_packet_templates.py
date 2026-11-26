@@ -120,3 +120,7 @@ for name in ['criminal_history_releases','inmate_name_change_affidavit']:
   if 'Signature' in para.text or 'Your Signature' in para.text:
    para.paragraph_format.space_before=Pt(14)
  doc.save(path)
+
+# Apply the same numbering and page-break repair when rebuilding from originals.
+from order_layout import repair_order_template
+repair_order_template(OUT/'proposed_name_change_order.docx')

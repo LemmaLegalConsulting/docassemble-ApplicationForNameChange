@@ -44,7 +44,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.ApplicationForNameChange',
-      version='1.0',
+      version='1.0.1',
       description=('Application for name change'),
       long_description='# docassemble.ApplicationForNameChange\r\n\r\nApplication for name change\r\n\r\n## Author\r\n\r\nColeman Silver\r\n\r\n',
       long_description_content_type='text/markdown',
@@ -53,7 +53,7 @@ setup(name='docassemble.ApplicationForNameChange',
       license='MIT',
       url='https://courtformsonline.org',
       packages=find_namespace_packages(),
-      install_requires=['docassemble.AssemblyLine @ git+https://github.com/SuffolkLITLab/docassemble-AssemblyLine.git@main', 'docassemble.LawHelpMNBranding @ git+https://github.com/AmandaSauber/docassemble-LawHelpMNBranding.git@4f8cfa486cc3cea67ad14c671f2936e34c75c6e9'],
+      install_requires=['pypdf==6.21.1', 'reportlab>=4.4,<6', 'docassemble.AssemblyLine @ git+https://github.com/SuffolkLITLab/docassemble-AssemblyLine.git@main', 'docassemble.LawHelpMNBranding @ git+https://github.com/AmandaSauber/docassemble-LawHelpMNBranding.git@4f8cfa486cc3cea67ad14c671f2936e34c75c6e9'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/ApplicationForNameChange/', package='docassemble.ApplicationForNameChange'),
      )
