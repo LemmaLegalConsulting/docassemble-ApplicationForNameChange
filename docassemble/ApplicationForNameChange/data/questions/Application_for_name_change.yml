@@ -3,6 +3,7 @@ modules:
 - docassemble.ALToolbox.ThreePartsDate
 - docassemble.ApplicationForNameChange.editing
 - docassemble.ApplicationForNameChange.validation
+- docassemble.ApplicationForNameChange.document_layout
 ---
 include:
 - docassemble.AssemblyLine:assembly_line.yml
@@ -301,6 +302,8 @@ code: |
   Parental_personal_service.enabled = parental_notice_needed and parent_address_known
   Parental_publication_request.enabled = parental_notice_needed and not parent_address_known
   Fee_waiver_affidavit.enabled = request_fee_waiver and not users1_inmate_in_correctional_facility_and_submitting_inmate_aff
+  Application_for_name_change_attachment.minor_signers = [child.name.full() for child in included_children if child.age_in_years() >= 14]
+  minor_fourteen_years_old_name_full = "See signature sheet" if Application_for_name_change_attachment.minor_signers else ""
   Application_for_name_change_download
 ---
 comment: |
@@ -695,8 +698,6 @@ subquestion: You can leave these blank and fill them in by hand when you sign.
 fields:
 - County and state where you will sign (optional): county_and_state_where_signed
   required: false
-- Name of each child age 14 or older who will sign (optional): minor_fourteen_years_old_name_full
-  required: false
 ---
 code: |
   signature_fields = []
@@ -940,8 +941,8 @@ progress: 100
 objects:
 - Application_for_name_change_Post_interview_instructions: ALDocument.using(title="Instructions", filename="Application_for_name_change_next_steps.docx",
     enabled=True, has_addendum=False)
-- Application_for_name_change_attachment: ALDocument.using(title="Application for name change", filename="Application_for_name_change",
-    enabled=True, has_addendum=True, default_overflow_message=AL_DEFAULT_OVERFLOW_MESSAGE)
+- Application_for_name_change_attachment: NameChangeApplication.using(title="Application for name change", filename="Application_for_name_change",
+    enabled=True, has_addendum=False)
 ---
 objects:
 - al_user_bundle: ALDocumentBundle.using(elements=[Application_for_name_change_Post_interview_instructions,
@@ -1071,7 +1072,7 @@ attachment:
       >= 5 else "" }
   - minor_children_listed_not_included_in_application: ${ (minor_children_listed_not_included_in_application)
       if not no_minor_children else "" }
-  - minor_children_included_names: ${ (Application_for_name_change_attachment.safe_value("minor_children_included_names"))
+  - minor_children_included_names: ${ (minor_children_included_names)
       if not no_minor_children and minor_children_listed_not_included_in_application == "minor_children_included_yes"
       else "" }
   - no_nonapplicant_parent: ${ no_nonapplicant_parent }
@@ -1163,7 +1164,7 @@ attachment:
       request_childrens_name_change else "" }
   - no_parties_have_criminal_history: ${ no_parties_have_criminal_history }
   - parties_have_criminal_history: ${ parties_have_criminal_history }
-  - criminal_history: ${ (Application_for_name_change_attachment.safe_value("criminal_history")) if parties_have_criminal_history
+  - criminal_history: ${ (criminal_history) if parties_have_criminal_history
       else "" }
   - parties_with_criminal_history: ${ (parties_with_criminal_history) if parties_have_criminal_history
       else "" }
@@ -1209,7 +1210,7 @@ attachment:
       and felony_count >= 5 else "" }
   - applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota: ${ applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota
       }
-  - name_of_person_and_description_of_person_with_claim_interest_or_lien: ${ (Application_for_name_change_attachment.safe_value("name_of_person_and_description_of_person_with_claim_interest_or_lien"))
+  - name_of_person_and_description_of_person_with_claim_interest_or_lien: ${ (name_of_person_and_description_of_person_with_claim_interest_or_lien)
       if applicant_spouse_or_children_have_claim_interest_or_lien_in_Minnesota == "parties_have_claim_interest_or_lien"
       else "" }
   - users1_involved_in_victim_or_witness_protection: ${ users1_involved_in_victim_or_witness_protection
@@ -1218,7 +1219,7 @@ attachment:
       }
   - users1_divorced_seeking_change_to_legal_name_on_birth_certificate: ${ users1_divorced_seeking_change_to_legal_name_on_birth_certificate
       }
-  - users1_other_statements: ${ Application_for_name_change_attachment.safe_value("users1_other_statements")
+  - users1_other_statements: ${ users1_other_statements
       }
   - users1_name_full: ${ users[0] }
   - users1_address_line_one: ${ users[0].address.line_one() }
@@ -1238,17 +1239,6 @@ attachment:
   - spouses_email: ${ (spouses[0].email) if not not_married and application_includes_spouse == "yes_includes_spouse"
       else "" }
   - minor_fourteen_years_old_name_full: ${ minor_fourteen_years_old_name_full }
----
-code: |
-  Application_for_name_change_attachment.overflow_fields["minor_children_included_names"].overflow_trigger = 144
-  Application_for_name_change_attachment.overflow_fields["minor_children_included_names"].label = "List the names of the minor children you listed who are included in this application"
-  Application_for_name_change_attachment.overflow_fields["criminal_history"].overflow_trigger = 198
-  Application_for_name_change_attachment.overflow_fields["criminal_history"].label = "The parties in this application with a criminal history include:"
-  Application_for_name_change_attachment.overflow_fields["name_of_person_and_description_of_person_with_claim_interest_or_lien"].overflow_trigger = 360
-  Application_for_name_change_attachment.overflow_fields["name_of_person_and_description_of_person_with_claim_interest_or_lien"].label = "Give the name of the person with the claim, interest, or lien, and a legal description"
-  Application_for_name_change_attachment.overflow_fields["users1_other_statements"].overflow_trigger = 144
-  Application_for_name_change_attachment.overflow_fields["users1_other_statements"].label = "Other information which you think should be given to the court:"
-  Application_for_name_change_attachment.overflow_fields.gathered = True
 ---
 id: applicant county
 question: |

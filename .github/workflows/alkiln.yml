@@ -30,7 +30,20 @@ jobs:
             preloaded modules:
               - docassemble.ALToolbox.ThreePartsDate
           DOCASSEMBLE_IMAGE: jhpyle/docassemble:1.10.7@sha256:c0b0a707a6cd2149d5777ee83af1ea1de544210e597371eac93e67a1503c395c
-      - name: Restart web workers after installing datatype dependencies
+      - name: Install application dependencies inside Docassemble
+        run: |
+          docker cp requirements-runtime.txt docassemble_container:/tmp/namechange-runtime-requirements.txt
+          docker exec -i docassemble_container python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+
+          candidates = list(Path('/usr/share/docassemble').glob('local*/bin/python'))
+          assert len(candidates) == 1, f'Expected one Docassemble virtual environment: {candidates}'
+          python = str(candidates[0])
+          subprocess.run([python, '-m', 'pip', 'install', '-r', '/tmp/namechange-runtime-requirements.txt'], check=True)
+          subprocess.run([python, '-c', 'from pypdf import PdfReader, PdfWriter; import reportlab; print("Docassemble PDF dependencies ready")'], check=True)
+          PY
+      - name: Restart web workers after installing application dependencies
         env:
           SERVER_URL: ${{ steps.server.outputs.SERVER_URL }}
         run: |
@@ -48,10 +61,15 @@ jobs:
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '22'
+      - name: Use the PDF-check runtime
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
       - name: Install ALKiln and PDF assertion tools
         run: |
           sudo apt-get update
           sudo apt-get install -y poppler-utils
+          python3 -m pip install -r requirements-runtime.txt
           npm install --install-strategy=nested --prefix "$RUNNER_TEMP/alkiln" @suffolklitlab/alkiln@5.17.1
           echo "ALKILN_PATH=$RUNNER_TEMP/alkiln/node_modules/@suffolklitlab/alkiln" >> "$GITHUB_ENV"
       - name: Run all interview features with repository custom steps
@@ -64,6 +82,19 @@ jobs:
           TZ: America/New_York
           _ORIGIN: github
         run: python3 tests/run_alkiln_ci.py
+      - name: Verify downloaded application fields and embedded appearances
+        run: |
+          python3 - <<'PY'
+          import importlib.util
+          from pathlib import Path
+          spec = importlib.util.spec_from_file_location("pdf_check", "tests/check_rendered_application.py")
+          checker = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(checker)
+          paths = list(Path(".alkiln-artifacts/ci").rglob("Application_for_name_change.pdf"))
+          assert paths, "No generated applications were downloaded"
+          for path in paths:
+              print(path.parent.name, checker.check(path))
+          PY
       - name: Show disposable server error logs on failure
         if: failure()
         run: |
