@@ -39,6 +39,9 @@ Feature: Complete a representative interview
       | users1_involved_in_victim_or_witness_protection | False | |
       | users1_inmate_in_correctional_facility_and_submitting_inmate_aff | False | |
       | users1_divorced_seeking_change_to_legal_name_on_birth_certificate | False | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the link to "https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information"
     And I download "Application_for_name_change.pdf"
     And the downloaded PDF "Application_for_name_change.pdf" should contain "Robin"

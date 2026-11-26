@@ -1,10 +1,18 @@
 from pathlib import Path
+import re
 from docx import Document
-from docx.shared import Pt
+from docx.shared import Pt, Inches
 from docx.shared import RGBColor
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
+
+LINK_LABELS = {
+ 'https://mncourts.gov/getforms/name-change': 'Court name change forms',
+ 'https://mncourts.gov/getforms/fee-waiver': 'Court fee-waiver forms',
+ 'https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information': 'Name Change on LawHelpMN',
+ 'https://mncourts.gov/getforms/name-change/form-nam101-supp-dist-4-fourth-judicial-district-supplemental-name-change-guide': 'Hennepin court guide',
+}
 
 def styles(document):
  document.styles['Normal'].font.name='Arial'
@@ -19,7 +27,17 @@ def add_text(document,text,heading=False):
   link=OxmlElement('w:hyperlink');link.set(qn('r:id'),document.part.relate_to(text,RT.HYPERLINK,is_external=True))
   run=OxmlElement('w:r');properties=OxmlElement('w:rPr');style=OxmlElement('w:rStyle');style.set(qn('w:val'),'Hyperlink');properties.append(style);run.append(properties)
   value=OxmlElement('w:t');value.text=text;run.append(value);link.append(run);paragraph._p.append(link)
- else:paragraph.add_run(text)
+ else:
+  for part in re.split(r'(https://[^ ]+)',text):
+   if part.startswith('https://'):
+    url=part.rstrip('.')
+    link=OxmlElement('w:hyperlink');link.set(qn('r:id'),document.part.relate_to(url,RT.HYPERLINK,is_external=True))
+    run=OxmlElement('w:r');value=OxmlElement('w:t');value.text=LINK_LABELS.get(url,url);run.append(value);link.append(run);paragraph._p.append(link)
+    if part.endswith('.'):paragraph.add_run('.')
+   else:paragraph.add_run(part)
+ if text.startswith('After approval,'):
+  paragraph.paragraph_format.keep_with_next=True
+  paragraph.paragraph_format.space_after=Pt(3)
  return paragraph
 p=Path(__file__).resolve().parents[1]/'docassemble/ApplicationForNameChange/data/templates'
 d=Document();styles(d)
@@ -77,15 +95,20 @@ d.sections[0].footer.paragraphs[0].text='Adapted from Minnesota Judicial Branch 
 d.save(p/'fee_waiver_affidavit.docx')
 # Fresh packet checklist, rather than the old application-only instructions.
 d=Document();styles(d)
+for section in d.sections:
+ section.left_margin=Inches(1);section.right_margin=Inches(1)
 for t in [
 'Minnesota name change — your next steps',
 'For {{ users[0].name.full() }}',
 'Nothing has been filed or approved. Review every page of the packet.',
-'1. Review and sign the application (NAM102). Any included spouse must sign. Each included child age 14 or older must sign. Use an additional signature sheet for more than one child needing to sign.',
+'1. Review and sign the application (NAM102). Any included spouse must sign. Each included child age 14 or older must sign their blank block on the included minor signature sheet.',
 '2. Sign one criminal-history release (NAM103) for each covered person age 10 or older. The packet includes {{ release_people | length }} release(s). If the binary sex choices do not fit, ask court administration how to complete that field before filing.',
 '3. Review the proposed order(s) (NAM107). The portions below IT IS ORDERED and the judge’s signature are for the court. The hearing date and service/no-objection findings are left blank.',
 '{%p if hennepin_packet %}',
-'Hennepin: This packet includes a separate proposed order for each person requesting a change. Read the included supplemental guide. For notice to a known-address parent, follow its certified-mail, affidavit-of-service, and receipt requirements. NAM205 is for actual personal service; it does not prove mailing. Ask the court for the correct mailing affidavit.',
+'Hennepin: This packet includes a separate proposed order for each person requesting a change. Read the current February 2026 supplemental guide: https://mncourts.gov/getforms/name-change/form-nam101-supp-dist-4-fourth-judicial-district-supplemental-name-change-guide. For a known-address parent, send the hearing letter and application by certified mail, return receipt requested, at least 14 days before the hearing. File the required affidavit and bring the mailing receipt, letter copy, and signed return receipt if available. Obtain the mailing affidavit the court specifies; NAM205 does not prove mailing.',
+'{%p endif %}',
+'{%p if included_children %}',
+'Bring records establishing your relationship to each included child, such as a certified birth certificate or court parentage/adoption order. Children must attend the hearing; children age 14 or older must sign the application as directed by the court.',
 '{%p endif %}',
 '4. Read the included official instructions (NAM101). File in the county where you live. Pay the fee or submit the applicable fee-waiver or exemption documents. Ask court administration how to schedule your hearing.',
 '5. Bring two witnesses who know you to the hearing unless the court confirms an exception. Included minors must attend. Obtain certified copies of a signed order after approval.',
@@ -100,13 +123,19 @@ for t in [
 'Incarceration: Review and sign NAM105 only if every statement is true. A repeated name change request during confinement needs legal review.',
 '{%p endif %}',
 '{%p if parental_notice_needed %}',
-'Children’s other parent: Fill in the hearing notice after the court schedules the hearing. Attach the application. Ask court administration whether certified mail or personal service is required. For personal service, use a person age 18 or older who can complete NAM205 with the actual date, place, and delivery facts. Follow the included personal-service instructions about who may serve. The person who actually served the papers completes the affidavit.',
+"{%p if parent_service_method_active | default('personal_service') == 'personal_service' %}",
+'Personal service: Use a person age 18 or older as described in NAM204. The person who actually serves the papers completes NAM205 with the true date, place, and delivery facts. Do not use NAM205 to prove mailing.',
+'{%p endif %}',
+"{%p if parent_service_method_active | default('personal_service') == 'certified_mail' %}",
+'Certified mail: The packet does not include a mailing affidavit. Obtain the form required by court administration. Keep actual mailing and delivery records; do not certify service before it happens.',
+'{%p endif %}',
+'Children’s other parent: Fill in the hearing notice after the court schedules the hearing. Attach the application. Use the notice method stated in your court instructions. You are responsible for arranging notice and filing the required proof.',
 '{%p if not parent_address_known %}',
 'Unknown address: Review the search-effort statements in NAM207. Its first statement says the application has been filed: file the application before signing that statement. Ask the judge to permit publication or other notice; wait for an order before arranging publication. The newspaper supplies proof of publication. The publication order fields are left blank for the judge.',
 '{%p endif %}',
 '{%p endif %}',
 '{%p if included_children and parents_nonapplicant_unknown %}',
-'Unknown parent: Bring the certified birth certificate showing that no second parent is named. Your answers confirmed no marriage or attempted marriage in the stated period, Recognition of Parentage, or parentage order. Ask court administration to confirm that notice may be omitted.',
+'No identified other parent: Bring each certified birth certificate and relevant parentage records. You confirmed the four parentage facts for each included child. Outside the districts covered by those instructions, you also confirmed the notice exception with court administration. Do not treat a known person as unknown or omit notice solely because you have sole custody.',
 '{%p endif %}',
 '{%p if request_fee_waiver %}',
 '{%p if users1_inmate_in_correctional_facility_and_submitting_inmate_aff %}',
@@ -116,10 +145,7 @@ for t in [
 '{%p endif %}',
 '{%p endif %}',
 'After approval, follow NAM106 and the signed order to update records. If you have criminal history, report the approved name change to the BCA within the required 10-day period. File a certified order with each county recorder where there is an interest in land.',
-'Court forms and instructions: https://mncourts.gov/getforms/name-change',
-'Court fee-waiver forms: https://mncourts.gov/getforms/fee-waiver',
-'Name Change — Minnesota Court Forms and Information on LawHelpMN:',
-'https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information'
+'Resources: https://mncourts.gov/getforms/name-change | https://mncourts.gov/getforms/fee-waiver | https://www.lawhelpmn.org/self-help-library/legal-resource/name-change-minnesota-court-forms-and-information'
 ]:
  add_text(d,t,heading=t == 'Minnesota name change — your next steps')
 d.core_properties.title='Minnesota name change — your next steps'

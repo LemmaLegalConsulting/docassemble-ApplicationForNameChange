@@ -95,3 +95,43 @@ DAYamlChecker reports **zero errors** in default and style modes. Saved reports 
 Earlier exploratory failures identified invalid legacy Word metadata and dictionary access in Docassemble's template rendering. Those were fixed and exercised again. Intermittent localhost page-expiry responses remain a test/reliability investigation item rather than being called resolved. Raw artifacts, synthetic downloads, and LHI session pages are kept outside tracked Git files.
 
 The synthetic LHI adult route and its downloaded packet were inspected; full branch parity, client legal review, county acceptance, full accessibility evaluation, and public deployment are still outstanding. See [PACKET_SCOPE.md](PACKET_SCOPE.md) and [IMPROVEMENTS.md](IMPROVEMENTS.md).
+
+
+## Parent/child eligibility branch — November 25, 2026
+
+Branch: `codex/parent-child-eligibility`. Initial work began from main `88f9953`; PR #7 was subsequently merged to main `6311d02` and integrated into this branch in `c918fff`. The continuation below supersedes the initially incomplete Docker verification.
+
+- Python/template suite: **26 passed**. Includes parentage routing, mixed-parent groups, county service methods, and certified-mail checklist content.
+- Browser navigation/expiry unit checks: **10 passed**.
+- Interview/Python checker: **0 errors** (10 warnings, 29 informational findings); checked the question directory and new helper with UTF-8 and network URL checking disabled. The official current Hennepin guide was separately verified online.
+- Docker checklist rendering: personal-service and no-other-parent checklists each fit one page; Hennepin plus fee-waiver content uses two pages. All pages were visually reviewed without clipping; current guide/resource links are clickable. Synthetic previews remain in ignored `.alkiln-artifacts/family-layout`.
+- Clean full browser run `20261125-135933`: **8 completed scenarios passed**, including adult core output, family removal/restoration, child deletion/addition with per-child authority, removal of a spouse's felony-notice assignment, and guardian/Recognition-of-Parentage/residence/child-relief referrals. The notice editing scenario found a hidden eligibility review control; it was corrected locally to an explicit action link and is awaiting rerun.
+- The full run was interrupted while the known-identity referral case was in progress. Docker Desktop's engine stopped responding and returned HTTP 500 errors for container inspection/listing. An earlier attempt also ended when the container exited 137 (OOMKilled reported false). These interrupted runs are not passing full-suite evidence.
+- Fixed local test-source synchronization to clear the fixed temporary source directory before extraction; the old overlay retained a document-stress feature from the previous branch. Also guarded viewer cleanup against processes exiting during `/proc` enumeration.
+
+The initially pending Docker checks were completed after the restart and PR #7 integration, as recorded below.
+
+The checklist/download page link the official Hennepin guide Rev 2/26. Raw PDF export was blocked or stalled; the archived 12/24 binary was retained for provenance and disabled in packets. No mailing affidavit or search affidavit is fabricated.
+
+
+## Parent/child continuation after Docker restart and PR #7 merge — November 25, 2026
+
+PR [#7](https://github.com/LemmaLegalConsulting/docassemble-ApplicationForNameChange/pull/7) passed both GitHub workflows and was merged as `6311d02`. Local main was fast-forwarded and the parent/child branch integrated its Unicode appearances, full-value continuations, minor signature sheets, order numbering/pagination, and runtime dependency installation. The overlap conflicts retained both sets of changes.
+
+**All 55 distinct Docker scenarios have a passing result across the completed full and focused runs.** The recorded sequence is:
+
+| Local Docker run | Passed | Failed at that stage | Follow-up |
+| --- | ---: | ---: | --- |
+| `20261125-205842` | 50 | 3 | Corrected missing post-referral fee/parentage answers and removed contradictory street-address data from the unknown-address story. |
+| `20261125-213721` | 4 | 2 | The three original failures were resolved. Stronger adult-only/mixed-parent tests incorrectly rejected required family-information rows in NAM107; assertions were scoped to included-applicant and requested-relief sections. |
+| `20261125-214225` | 2 | 0 | Both recovery stories passed, including actual order and criminal-history-release checks. |
+
+The focused coverage adds two cases beyond the initial 53: an unconfirmed county notice exception that can be corrected to a known-parent notice route, and a mixed-parent referral where one child remains listed without a request while the other child continues. NAM102 and NAM107 retain the listed child in required family facts; inclusion, requested relief, and individual releases omit that child's request. The existing DOB-correction story now supplies the new per-child answers after correcting the age.
+
+All notice-referral screens offer an other-parent-situation edit. Parentage-fact instructions explicitly direct uncertain users to answer No rather than affirm an unconfirmed fact. Cases needing court confirmation remain referrals.
+
+The actual Docker-generated Hennepin checklist was rendered and visually inspected. Standard one-inch side margins and keeping the closing instructions with their resource links eliminated a resource-only second page; the known-address/no-fee sample is **one page**, has clickable current-guide/resource links, and directs eligible children to the included minor signature sheet. The PDF regression rejects footer-only pages. Certified-mail packets omit NAM205, NAM204, and the archived Hennepin supplement.
+
+Final local checks: **29 Python/template tests passed**, **10 navigation/expiry tests passed**, and the package-wide style/interview checker reported **0 errors, 21 warnings, 39 informational findings**. The inherited/document-language warnings remain review items. Docker installation uses the application Python environment with `pypdf==6.21.1` and reportlab installed; a one-time local package ownership issue was repaired before successful API installation.
+
+Raw reports and synthetic downloads remain ignored in `.alkiln-artifacts`; `parent-child-final-summary.json` records the latest passing status for each distinct scenario. These results verify the tested interview/document behavior, not court acceptance of every supported configuration.

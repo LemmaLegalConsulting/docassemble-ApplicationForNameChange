@@ -78,6 +78,9 @@ Feature: Financial and family validation
       | fee_expense_other | 25 | |
       | fee_expense_other_description | Internet | |
       | fee_property.target_number | 2 | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "fee_waiver_affidavit.pdf"
     And the downloaded PDF "fee_waiver_affidavit.pdf" should contain "Jamie Partner, age 28, partner"
     And the downloaded PDF "fee_waiver_affidavit.pdf" should contain "Total monthly expenses: $1740.00"
@@ -177,7 +180,6 @@ Feature: Financial and family validation
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -211,7 +213,6 @@ Feature: Financial and family validation
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -227,6 +228,45 @@ Feature: Financial and family validation
       | children2_name_last_change | Newname | |
       | children3_name_first_change | Third | |
       | children3_name_last_change | Newname | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | none_unknown | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | none_unknown | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     When I set the variable "children1_name_first_change" to "Avery"
     Then I cannot continue
     And I should see the phrase "Enter both a first and last name"
@@ -259,7 +299,6 @@ Feature: Financial and family validation
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -293,7 +332,6 @@ Feature: Financial and family validation
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2000 | |
@@ -309,6 +347,45 @@ Feature: Financial and family validation
       | children2_name_last_change | Newname | |
       | children3_name_first_change | Third | |
       | children3_name_last_change | Newname | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_shared_parent_confirmed | True | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | none_unknown | |
+      | children[1].name_change_shared_parent_confirmed | True | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | none_unknown | |
+      | children[2].name_change_shared_parent_confirmed | True | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I should see the phrase "This list is for children under 18"
     And I should see the phrase "Edit birth date"
     When I follow the review link containing "Edit birth date"
@@ -333,7 +410,6 @@ Feature: Financial and family validation
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -367,7 +443,6 @@ Feature: Financial and family validation
       | children.target_number | 3 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | True | |
       | children[0].name.first | First | |
       | children[0].name.last | Child | |
       | children[0].birthdate | 01/02/2013 | |
@@ -383,6 +458,40 @@ Feature: Financial and family validation
       | children2_name_last_change | Newname | |
       | children3_name_first_change | Third | |
       | children3_name_last_change | Newname | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | none_unknown | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | none_unknown | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "criminal_history_releases.pdf"
     And the downloaded PDF "criminal_history_releases.pdf" should contain "First Child"
 
@@ -411,7 +520,6 @@ Feature: Financial and family validation
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -455,6 +563,9 @@ Feature: Financial and family validation
       | spouses[0].address.zip | 55101 | |
       | spouses[0].phone_number | 6515550123 | |
       | spouses[0].email | jamie@example.com | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "proposed_name_change_order.pdf"
     And the downloaded PDF "proposed_name_change_order.pdf" should contain "IT IS ORDERED that:" exactly 2 times
     When I follow the review link containing "Edit answers"
@@ -521,6 +632,9 @@ Feature: Financial and family validation
       | fee_income_is_average | False | |
       | fee_yearly_income | 6000 | |
       | fee_manual_below_guideline | True | |
+      | spouse_other_relief | False | |
+      | parent_service_method | personal_service | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "fee_waiver_affidavit.pdf"
     And the downloaded PDF "fee_waiver_affidavit.pdf" should contain "My household size is 2."
     And the downloaded PDF "fee_waiver_affidavit.pdf" should contain "Pat Relative, age 65, mother"

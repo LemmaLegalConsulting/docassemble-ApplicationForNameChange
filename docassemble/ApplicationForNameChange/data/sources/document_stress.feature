@@ -26,7 +26,6 @@ Feature: Synthetic document stress and layout review
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -126,7 +125,6 @@ Feature: Synthetic document stress and layout review
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -193,7 +191,6 @@ Feature: Synthetic document stress and layout review
       | children[2].release_sex | Female | |
       | children[2].release_race | White | |
       | parent_address_known | True | |
-      | unidentified_parent_conditions_confirmed | True | |
       | court_administrator_address | 15 West Kellogg Boulevard | |
       | court_administrator_city_state_zip | St. Paul, MN 55102 | |
       | felony_notices[0].person_index | 0 | |
@@ -227,7 +224,6 @@ Feature: Synthetic document stress and layout review
       | children.target_number | 5 | |
       | minor_children_listed_not_included_in_application | minor_children_included_yes | |
       | request_childrens_name_change | True | |
-      | parents_nonapplicant_unknown | True | |
       | children[0].name.first | Élodie-Alexandria | |
       | children[0].name.last | García-Montgomery-Washington-Świątek | |
       | children[0].birthdate | 01/02/2010 | |
@@ -259,6 +255,61 @@ Feature: Synthetic document stress and layout review
       | children[4].name.last | García-Montgomery-Washington-Świątek | |
       | children5_name_first_change | Anaïs-Valentina | |
       | children5_name_last_change | Dvořák-Nguyễn-Łukaszewicz | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | none_unknown | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | none_unknown | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | children[3].name_change_parent_role | legal_parent | |
+      | children[3].name_change_parent_basis | birth_certificate | |
+      | children[3].name_change_authority_uncertain | False | |
+      | children[3].name_change_resident_six_months | True | |
+      | children[3].name_change_same_home | True | |
+      | children[3].name_change_relief | name_only | |
+      | children[3].name_change_other_parent_status | none_unknown | |
+      | children[3].name_change_no_parent_on_certificate | True | |
+      | children[3].name_change_no_marriage_presumption | True | |
+      | children[3].name_change_no_recognition | True | |
+      | children[3].name_change_no_parentage_order | True | |
+      | children[4].name_change_parent_role | legal_parent | |
+      | children[4].name_change_parent_basis | birth_certificate | |
+      | children[4].name_change_authority_uncertain | False | |
+      | children[4].name_change_resident_six_months | True | |
+      | children[4].name_change_same_home | True | |
+      | children[4].name_change_relief | name_only | |
+      | children[4].name_change_other_parent_status | none_unknown | |
+      | children[4].name_change_no_parent_on_certificate | True | |
+      | children[4].name_change_no_marriage_presumption | True | |
+      | children[4].name_change_no_recognition | True | |
+      | children[4].name_change_no_parentage_order | True | |
     And I download "Application_for_name_change.pdf"
     And I download "proposed_name_change_order.pdf"
     And I download "criminal_history_releases.pdf"

@@ -1,6 +1,6 @@
 # Name Change: prioritized review
 
-Updated 2026-11-24 after the financial/family-validation implementation. See [PACKET_SCOPE.md](PACKET_SCOPE.md) for generated forms, primary sources, the completed LHI route, and explicit boundaries. Passing tests does not establish court acceptance or complete LHI parity.
+Updated 2026-11-25 after parent/child eligibility, document-layout integration, and Docker verification. See [PACKET_SCOPE.md](PACKET_SCOPE.md) for generated forms, primary sources, the completed LHI route, and explicit boundaries. Passing tests does not establish court acceptance or complete LHI parity.
 
 ## Implemented
 
@@ -16,8 +16,12 @@ Financial/family validation now includes structured household members, expense c
 
 2. **P1 — Broader packet configurations.** Add multiple non-applicant parents and overflow rows for more than five children/felonies. NAM102 now has measured-fit continuation pages and individual signature blocks for included minors age 14 or older; broader companion-form capacity still needs review. Decide whether to implement the separate minor-only NAM202 packet and existing-case NAM113/114 workflow. Finish the distinct FEE201 financial interview; currently the official blank form is included for manual completion.
 
-3. **P1 — Remaining financial and family validation.** Confirm whether the requester is the relevant parent/guardian and how to handle included family members seeking relief beyond a name change. Review household and income definitions with the court, including separated spouses, older dependents, variable income, and gross-versus-take-home figures. Keep guideline data current each year. Further notice-route and family re-addition combinations remain in priority 4.
+3. **P1 — Remaining financial and family validation.** Documented legal-parent/name-only cases now have per-child checks; guardian/next-of-kin, uncertain parentage, and additional family relief receive referrals. Extend those routes only after court review. Review household and income definitions with the court, including separated spouses, older dependents, variable income, and gross-versus-take-home figures. Keep guideline data current each year. Further notice-route and family re-addition combinations remain in priority 4.
 
 4. **P1 — Broader editing and document review.** Extend the new notice-route, family-removal/re-addition, and two-recipient felony tests to additional combinations. County/district/order recalculation is covered by the financial-validation tests. The 2026-11-25 stress defects have been repaired for the tested extended-Latin/CJK and five-child configurations: embedded appearances, readable numbered continuations, individual minor signature blocks, and independent order numbering without footer-only pages. See TEST_RESULTS.md and validation/document-stress-review.json for baseline and repair evidence. Broader writing systems, extreme companion-form declarations, and additional combinations still need review. Inspect real signature space, pagination, mobile/keyboard navigation, and tagged-PDF reading order. Source Word forms contain inherited layout/headings warnings. Investigate intermittent localhost “page expired” responses observed in fast browser runs; preserve failed artifacts and rerun affected scenarios independently rather than suppressing the error.
 
 5. **P2 — Plain language, accessibility, and translations.** Review remaining generated terminology and substantive birth-record labels against the Assembly Line style guide with client input. Improve template semantics without changing required legal declarations. Confirm public publishing metadata and support/contact text before deployment.
+
+### Parent/child rules implemented and tested locally — November 25, 2026
+
+Per-child parentage, scope and notice checks now support documented legal-parent cases and refer cases requiring confirmation. Hennepin certified-mail instructions use the February 2026 guide; the current official guide is linked instead of distributing the outdated PDF. Remaining court-review objectives include the Hennepin mailing/search affidavits, additional applicant roles and mixed-parent groups, and local acceptance of the combined packet. Docker verification is recorded in TEST_RESULTS.md.

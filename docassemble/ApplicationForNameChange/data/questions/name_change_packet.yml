@@ -305,35 +305,6 @@ subquestion: |
   Your packet will include a blank copy. Read its instructions and fill it out before you file.
   If FEE201 does not fit your situation, ask court administration which form to use.
 ---
-id: unidentified parent conditions
-question: Check whether another parent may need notice
-subquestion: |
-  A name missing from a birth certificate does not always mean notice can be skipped.
-  Check each statement for every child applying:
-
-  * No other parent is named on the birth certificate.
-  * You were not married to the other parent at the child's birth or within 280 days
-    of the birth, including an attempted marriage.
-  * The other parent never signed a Recognition of Parentage.
-  * No court order establishes another legal parent.
-
-  Bring certified birth certificates to court. Ask court administration about notice rules in your county.
-fields:
-  - Are all of these true for every child applying?: unidentified_parent_conditions_confirmed
-    datatype: yesnoradio
----
-id: unidentified parent help
-event: unidentified_parent_help
-question: Get help with notice to the other parent
-subquestion: |
-  The other parent may need notice of your application. This interview cannot prepare the
-  notice without the parent’s name. Ask court administration or a lawyer who must get notice
-  and how to give it. [Find legal help on LawHelpMN](https://www.lawhelpmn.org/providers-and-clinics).
-
-  ${ action_button_html(url_action('parents_nonapplicant_unknown'), label='Edit other parent information') }
-buttons:
-  - Restart: restart
----
 id: fee waiver legal services
 question: Do you have a free lawyer from a legal aid or volunteer lawyer program?
 fields:

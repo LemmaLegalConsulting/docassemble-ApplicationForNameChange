@@ -17,6 +17,22 @@ scope.setCheckbox=async (_scope,{label,answer})=>{
  },String(answer).toLowerCase()==='true');
 };
 const clean=s=>s.replace(/\s+/g,' ').trim();
+// NAM107 retains all listed children as family facts. Check inclusion/relief
+// separately instead of rejecting a correctly retained family-information row.
+function pdfSection(file,start,end){
+ const text=clean(execFileSync('pdftotext',[path.join(scope.paths.scenario,file),'-'],{encoding:'utf8'}));
+ const from=text.indexOf(clean(start));
+ if(from<0)throw Error('Missing section start: '+start);
+ const to=text.indexOf(clean(end),from+clean(start).length);
+ if(to<0)throw Error('Missing section end: '+end);
+ return text.slice(from,to);
+}
+Then('the downloaded PDF {string} should contain {string} between {string} and {string}',async(file,expected,start,end)=>{
+ if(!pdfSection(file,start,end).includes(clean(expected)))throw Error('Missing section text: '+expected);
+});
+Then('the downloaded PDF {string} should not contain {string} between {string} and {string}',async(file,unwanted,start,end)=>{
+ if(pdfSection(file,start,end).includes(clean(unwanted)))throw Error('Unexpected section text: '+unwanted);
+});
 Then('the downloaded PDF {string} should have no empty content pages', async(file)=>{
  const pages=execFileSync('pdftotext',[path.join(scope.paths.scenario,file),'-'],{encoding:'utf8'}).split('\f');
  if(!pages.at(-1).trim()) pages.pop();

@@ -61,7 +61,7 @@ The court’s NAM101/NAM106 and conditional service, publication, and fee-waiver
 
 ## Local court requirements and rendering corrections
 
-The downloaded LHI adult packet contains NAM102, NAM103, NAM107, court instructions, and next steps. Its fee and browser advice is dated; use current court guidance instead. The current Hennepin supplement (Rev 12/24) requests a separate proposed order for each person changing their name. Generate those copies with individual captions and relief, retaining the joint application's family facts and leaving the entire judicial section untouched. Include the official supplement. A known-address Hennepin notice still requires actual certified mailing, a mailing affidavit, and receipts; NAM205 is personal-service proof, not mailing proof.
+The downloaded LHI adult packet contains NAM102, NAM103, NAM107, court instructions, and next steps. Its fee and browser advice is dated; use current court guidance instead. The current Hennepin supplement (Rev 2/26) requests a separate proposed order for each person changing their name. Generate those copies with individual captions and relief, retaining the joint application's family facts and leaving the entire judicial section untouched. Link the current official supplement from the checklist and download page. The archived 12/24 PDF is retained for provenance but is not offered in the packet; automated export of the current PDF was blocked/stalled. A known-address Hennepin notice still requires actual certified mailing, a mailing affidavit, and receipts; NAM205 is personal-service proof, not mailing proof.
 
 Missing a parent from a birth certificate does not alone establish a notice exception. Require confirmation of the supplemental guide's marriage/attempted-marriage, Recognition of Parentage, and parentage-order conditions before using the unidentified-parent route. This is a conservative development guard for all counties, not a determination that a court has waived notice.
 
@@ -100,6 +100,18 @@ Guideline data is stored by year with its source and verification date. The 2026
 
 Children may leave all requested-name parts blank when not applying. A nonblank request requires both first and last name, consistent with the screen's full-new-name instruction. Adults entered in the under-18 list get edit links rather than silently entering the minor branch. The filing county now recomputes the judicial district during the main flow so edits cannot leave a stale caption.
 
+
+## Parent/child packet rules — November 25, 2026
+
+The combined adult packet supports a primary applicant who is each included child's legal parent, established by a birth certificate or court parentage/adoption order, with no uncertain authority. Ask separately for each child about Minnesota residence, the shared address, name-only relief, and other parents. Listing a child does not request a change or require parentage answers. Guardians, next of kin, spouse-only parents, caregivers, uncertain/Recognition-of-Parentage-only cases, child birth-record relief, and adult-birth-record-only plus minor-name combinations get editable referrals, not legal-ineligibility decisions.
+
+The present packet has one non-applicant-parent area. Every included child must have the same identified other parent (confirmed per child), or all must satisfy the truly unknown-parent facts. Mixed groups, known identity with unestablished parentage, a joining spouse parent, death/termination/order exceptions, and uncertain notice go to court/legal help. Sole custody does not waive notice. Users can correct answers or leave a child listed without requesting a change. NAM107 retains all listed children in its family-information finding; its included-child and requested-relief fields use only applying children.
+
+Hennepin known-address notice uses certified mail with return receipt requested at least 14 days before the hearing, an application copy and hearing letter, filing an affidavit, and actual receipts. NAM205 and NAM204 are omitted on certified-mail routes. The required mailing affidavit is not generated; obtain the court's form. Hennepin unknown-address cases remain referrals pending a verified search-affidavit workflow. Elsewhere, ask for the court-confirmed method; unknown methods refer. Non-Hennepin unknown-address routes prepare only a NAM207 request, never an approved publication order.
+
+The unknown-parent checkbox requires truly unknown identity and no other parent on the birth certificate, no marriage/attempted-marriage presumption, no Recognition of Parentage, and no parentage order. Hennepin and Third District published instructions support these conditions; other counties additionally require court confirmation. Reconfirm county-specific instructions after a county change and the shared parent after a name change.
+
+Sources: NAM101/NAM201 Rev 2/25; NAM102 Rev 7/23; NAM202 Rev 1/20; [Hennepin supplement Rev 2/26](https://mncourts.gov/getforms/name-change/form-nam101-supp-dist-4-fourth-judicial-district-supplemental-name-change-guide); Third District supplement July 2025. These rules describe supported automation; court review controls eligibility, notice, and acceptance.
 
 ## 2026-11-25: Portable NAM102 appearances and capacity supplements
 

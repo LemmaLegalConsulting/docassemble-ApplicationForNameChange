@@ -3,6 +3,8 @@ modules:
 - docassemble.ALToolbox.ThreePartsDate
 - docassemble.ApplicationForNameChange.editing
 - docassemble.ApplicationForNameChange.validation
+- docassemble.ApplicationForNameChange.family_eligibility
+
 - docassemble.ApplicationForNameChange.document_layout
 ---
 include:
@@ -10,6 +12,7 @@ include:
 - lawhelpmn_theme.yml
 - name_change_packet.yml
 - financial_validation.yml
+- parent_child_eligibility.yml
 ---
 metadata:
   title: Minnesota name change packet
@@ -108,6 +111,9 @@ code: |
     spouses[0].birthdate
     if application_includes_spouse == "yes_includes_spouse":
       request_applicant_spouse_name_change
+      spouse_other_relief
+      if spouse_other_relief:
+        spouse_additional_relief_help
       spouses[0].address.address
       spouses[0].phone_number
       spouses[0].email
@@ -128,12 +134,6 @@ code: |
         for index in range(min(children.number_gathered(), 5)):
           value("children" + str(index + 1) + "_name_first_change")
           remember_child_name_answers(children[index], [value("children" + str(index + 1) + "_name_" + part + "_change") for part in ["first", "middle", "last"]])
-  no_nonapplicant_parent = no_minor_children or minor_children_listed_not_included_in_application != "minor_children_included_yes"
-  if not no_nonapplicant_parent:
-    parents_nonapplicant_unknown
-    if not parents_nonapplicant_unknown:
-      parents_nonapplicant_name_first
-      parent_address_known
   parties_have_criminal_history
   no_parties_have_criminal_history = not parties_have_criminal_history
   if parties_have_criminal_history:
@@ -161,7 +161,85 @@ code: |
           included_children.append(child)
           child_requested_pairs.append((child.name.full(), requested))
   if child_requested_pairs and not (applicant_requested_name or spouse_requested_name):
-    minor_only_help
+    if birth_requested_name or request_sex_change_on_birth_record or replacement_birth_record:
+      parent_child_referral_child = included_children[0]
+      parent_child_referral_kind = 'mixed_birth_record'
+      parent_child_help
+    else:
+      minor_only_help
+  no_nonapplicant_parent = not bool(included_children)
+  parents_nonapplicant_unknown = False
+  parent_service_method_active = 'none'
+  for eligibility_child in included_children:
+    parent_child_referral_child = eligibility_child
+    eligibility_child.name_change_parent_role
+    if eligibility_child.name_change_parent_role == 'legal_parent':
+      eligibility_child.name_change_parent_basis
+      eligibility_child.name_change_authority_uncertain
+    parent_child_referral_kind = parent_authority_route(eligibility_child.name_change_parent_role, eligibility_child.name_change_parent_basis if eligibility_child.name_change_parent_role == 'legal_parent' else None, eligibility_child.name_change_authority_uncertain if eligibility_child.name_change_parent_role == 'legal_parent' else False)
+    if parent_child_referral_kind != 'supported':
+      parent_child_help
+    eligibility_child.name_change_resident_six_months
+    eligibility_child.name_change_same_home
+    eligibility_child.name_change_relief
+    if not eligibility_child.name_change_resident_six_months or not eligibility_child.name_change_same_home:
+      parent_child_referral_kind = 'residence'
+      parent_child_help
+    if eligibility_child.name_change_relief != 'name_only':
+      parent_child_referral_kind = 'relief'
+      parent_child_help
+    eligibility_child.name_change_other_parent_status
+  parent_notice_group_active = parent_notice_group([child.name_change_other_parent_status for child in included_children])
+  if parent_notice_group_active == 'notice_review':
+    parent_child_referral_child = next((child for child in included_children if child.name_change_other_parent_status != 'one_known'), included_children[0])
+    parent_child_referral_kind = 'notice_review'
+    parent_child_help
+  if parent_notice_group_active == 'one_known':
+    parents_nonapplicant_name_first
+    parent_address_known
+    parent_shared_name_context = ' '.join([parents_nonapplicant_name_first, parents_nonapplicant_name_middle, parents_nonapplicant_name_last]).strip()
+    for eligibility_child in included_children:
+      parent_child_referral_child = eligibility_child
+      if not defined(eligibility_child.instanceName + '.name_change_parent_confirmation_context') or eligibility_child.name_change_parent_confirmation_context != parent_shared_name_context:
+        eligibility_child.name_change_parent_confirmation_context = parent_shared_name_context
+        undefine(eligibility_child.instanceName + '.name_change_shared_parent_confirmed')
+      eligibility_child.name_change_shared_parent_confirmed
+      if not eligibility_child.name_change_shared_parent_confirmed:
+        parent_child_referral_kind = 'notice_review'
+        parent_child_help
+    parent_child_referral_child = included_children[0]
+    parent_service_county_context = district_court_county.strip().casefold()
+    if parent_address_known and parent_service_county_context != 'hennepin':
+      if not defined('parent_service_confirmed_county') or parent_service_confirmed_county != parent_service_county_context:
+        parent_service_confirmed_county = parent_service_county_context
+        undefine('parent_service_method')
+      parent_service_method
+    elif parent_address_known:
+      parent_service_confirmed_county = parent_service_county_context
+    parent_service_method_active = parent_notice_method(district_court_county, parent_address_known, parent_service_method if parent_address_known and parent_service_county_context != 'hennepin' else None)
+    if parent_service_method_active == 'notice_review':
+      parent_child_referral_kind = 'notice_method' if parent_address_known else 'notice_review'
+      parent_child_help
+  if parent_notice_group_active == 'none_unknown':
+    for eligibility_child in included_children:
+      parent_child_referral_child = eligibility_child
+      eligibility_child.name_change_no_parent_on_certificate
+      eligibility_child.name_change_no_marriage_presumption
+      eligibility_child.name_change_no_recognition
+      eligibility_child.name_change_no_parentage_order
+      if not all([eligibility_child.name_change_no_parent_on_certificate, eligibility_child.name_change_no_marriage_presumption, eligibility_child.name_change_no_recognition, eligibility_child.name_change_no_parentage_order]):
+        parent_child_referral_kind = 'notice_exception'
+        parent_child_help
+    if district_court_county != 'Hennepin' and minnesota_judicial_districts.get(district_court_county, '') != 'Third':
+      parent_notice_exception_context = district_court_county + ':' + ':'.join(child.name_change_row_id for child in included_children)
+      if not defined('parent_notice_exception_confirmed_context') or parent_notice_exception_confirmed_context != parent_notice_exception_context:
+        parent_notice_exception_confirmed_context = parent_notice_exception_context
+        undefine('parent_notice_exception_court_confirmed')
+      parent_notice_exception_court_confirmed
+      if not parent_notice_exception_court_confirmed:
+        parent_child_referral_kind = 'notice_exception_county'
+        parent_child_help
+    parents_nonapplicant_unknown = True
   if not (applicant_requested_name or birth_requested_name or request_sex_change_on_birth_record or replacement_birth_record or spouse_requested_name or child_requested_pairs):
     no_relief_help
   included_children_names = "; ".join(child.name.full() for child in included_children)
@@ -221,10 +299,6 @@ code: |
       inmate_repeat_help
     inmate_name_change_reason
   parental_notice_needed = bool(included_children) and not parents_nonapplicant_unknown
-  if included_children and parents_nonapplicant_unknown:
-    unidentified_parent_conditions_confirmed
-    if not unidentified_parent_conditions_confirmed:
-      unidentified_parent_help
   nonapplicant_parent_name = " ".join([parents_nonapplicant_name_first, parents_nonapplicant_name_middle, parents_nonapplicant_name_last]) if parental_notice_needed else ""
   if parental_notice_needed and not parent_address_known:
     parent_last_location
@@ -290,16 +364,16 @@ code: |
         review_fee_finances
   fee_financial_details = request_fee_waiver and not users1_inmate_in_correctional_facility_and_submitting_inmate_aff and not fee_legal_services and fee_public_assistance != "listed"
   fee_full_details = fee_financial_details and not fee_below_poverty_guideline
-  Personal_service_instructions.enabled = parental_notice_needed and parent_address_known
+  Personal_service_instructions.enabled = parent_service_method_active == "personal_service"
   Publication_instructions.enabled = parental_notice_needed and not parent_address_known
   Fee_waiver_instructions.enabled = request_fee_waiver
-  Hennepin_name_change_instructions.enabled = hennepin_packet
+  Hennepin_name_change_instructions.enabled = False  # Archived 12/24 guide; checklist links the current court guide.
   Inmate_fee_waiver_form.enabled = request_fee_waiver and users1_inmate_in_correctional_facility_and_submitting_inmate_aff
   Criminal_history_releases.enabled = bool(release_people)
   Felony_name_change_notices.enabled = has_felony
   Inmate_name_change_affidavit.enabled = users1_inmate_in_correctional_facility_and_submitting_inmate_aff
   Parental_hearing_notice.enabled = parental_notice_needed
-  Parental_personal_service.enabled = parental_notice_needed and parent_address_known
+  Parental_personal_service.enabled = parent_service_method_active == "personal_service"
   Parental_publication_request.enabled = parental_notice_needed and not parent_address_known
   Fee_waiver_affidavit.enabled = request_fee_waiver and not users1_inmate_in_correctional_facility_and_submitting_inmate_aff
   Application_for_name_change_attachment.minor_signers = [child.name.full() for child in included_children if child.age_in_years() >= 14]
@@ -555,35 +629,18 @@ validation code: |
 id: Non Applicant Parent Information
 question: Tell us about your children’s other parent
 subquestion: |
-  The court must tell the other parent about your application.
+  You must arrange notice to the other parent and provide the required proof.
   This interview works for one other parent shared by all the children applying.
 fields:
-- Which is true?: parents_nonapplicant_unknown
-  datatype: radio
-  choices:
-  - I know who the other parent is, or their name is on the birth certificate: false
-  - The other parent is unknown, and no other parent is named on the birth certificate: true
 - First name: parents_nonapplicant_name_first
-  show if:
-    variable: parents_nonapplicant_unknown
-    is: false
 - Middle name (optional): parents_nonapplicant_name_middle
   required: false
-  show if:
-    variable: parents_nonapplicant_unknown
-    is: false
 - Last name: parents_nonapplicant_name_last
-  show if:
-    variable: parents_nonapplicant_unknown
-    is: false
 - Do you know the other parent’s address?: parent_address_known
   datatype: yesnoradio
-  show if:
-    variable: parents_nonapplicant_unknown
-    is: false
   help: |
-    If you do not know the address, you can ask the court for permission to publish a notice.
-    The notice goes in a newspaper. You will need to explain how you tried to find the parent.
+    If you do not know the address, the court decides what notice is required.
+    You will need to explain how you tried to find the parent.
 - Street address: parents_nonapplicant_address_address
   show if: parent_address_known
 - City, state, and ZIP code: parents_nonapplicant_city_state_zip
@@ -783,10 +840,19 @@ review:
   show if: not no_minor_children and children.number_gathered() > 4 and minor_children_listed_not_included_in_application == "minor_children_included_yes" and request_childrens_name_change
   button: |
     **New name for child 5:** ${ " ".join(value("children5_name_" + part + "_change") for part in ["first", "middle", "last"]).strip() or "No change" }
-- Edit: parents_nonapplicant_unknown
+- note: |
+    ${ action_button_html(url_action('parent_child_eligibility_review'), label='Children’s eligibility and notice') }
+  show if: bool(included_children)
+- Edit: parents_nonapplicant_name_first
   button: |
     **Children's other parent:** ${ "Unknown" if parents_nonapplicant_unknown else parents_nonapplicant_name_first + " " + parents_nonapplicant_name_last }
-  show if: not no_nonapplicant_parent
+  show if: parental_notice_needed
+- Edit: parent_service_method
+  button: Court-confirmed notice method
+  show if: parental_notice_needed and parent_address_known and not hennepin_packet
+- Edit: spouse_other_relief
+  button: Spouse’s requested relief
+  show if: spouse_included
 - Edit: parties_have_criminal_history
   button: |
     **Criminal record:** ${ yesno(parties_have_criminal_history) }
@@ -929,7 +995,14 @@ subquestion: |
   * Sign the application and each criminal history release.
   * Leave the parts of the order for the judge blank.
   * The court will give you the hearing date, time, and place. Write them on any hearing notice.
-  * The person who delivers papers to the other parent must fill out the service form.
+  % if parent_service_method_active == 'personal_service':
+  * The person who delivers papers to the other parent must fill out the personal-service form.
+  % elif parent_service_method_active == 'certified_mail':
+  * Obtain the court's mailing affidavit and keep the actual mailing and delivery records.
+  % endif
+  % if hennepin_packet:
+  * Read the [current Hennepin supplemental guide (February 2026)](https://mncourts.gov/getforms/name-change/form-nam101-supp-dist-4-fourth-judicial-district-supplemental-name-change-guide).
+  % endif
   % if request_fee_waiver:
   * Keep the fee waiver affidavit separate from your other forms. It is confidential.
   % endif

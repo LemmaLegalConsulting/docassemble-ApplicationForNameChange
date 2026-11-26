@@ -39,14 +39,14 @@ def main():
     stop = """import os
 from pathlib import Path
 names={b'/tmp/live-view.cjs',b'/tmp/validation-status.py',b'/tmp/namechange-source/tests/live_docker_view.cjs'}
-for process in Path('/proc').iterdir():
-    if not process.name.isdigit() or process.name==str(os.getpid()):
+for p in Path('/proc').iterdir():
+    if not p.name.isdigit() or p.name == str(os.getpid()):
         continue
     try:
-        if names.intersection((process/'cmdline').read_bytes().split(bytes([0]))):
-            os.kill(int(process.name),15)
+        if names.intersection((p/'cmdline').read_bytes().split(bytes([0]))):
+            os.kill(int(p.name),15)
     except (FileNotFoundError, ProcessLookupError):
-        pass  # A viewer or unrelated process can exit during enumeration.
+        pass  # A process can exit between enumeration, reading, and signalling.
 """
     docker(args.container, 'python3', '-c', stop)
     stamp = datetime.now().strftime('%Y%m%d-%H%M%S')

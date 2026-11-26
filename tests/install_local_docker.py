@@ -22,7 +22,11 @@ def sync_sources(files, container):
     with tarfile.open(fileobj=archive, mode='w') as bundle:
         for path in files:
             bundle.add(path, arcname=path.relative_to(ROOT).as_posix(), recursive=False)
-    subprocess.run(['docker', 'exec', container, 'mkdir', '-p', '/tmp/namechange-source'], check=True)
+    # Mirror this checkout: an overlay leaves tests from a previous branch behind.
+    subprocess.run(['docker', 'exec', container, 'python3', '-c',
+                    "from pathlib import Path; import shutil; p=Path('/tmp/namechange-source'); "
+                    "assert p.is_absolute() and str(p)=='/tmp/namechange-source'; "
+                    "shutil.rmtree(p,ignore_errors=True); p.mkdir()"], check=True)
     subprocess.run(['docker', 'exec', '-i', container, 'tar', '-xf', '-', '-C', '/tmp/namechange-source'], input=archive.getvalue(), check=True)
 
 

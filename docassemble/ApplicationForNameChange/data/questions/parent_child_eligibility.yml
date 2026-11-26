@@ -1,0 +1,247 @@
+---
+generic object: ALIndividual
+id: child applicant authority
+question: What is your legal relationship to ${ x.name.full() }?
+subquestion: |
+  Answer for the adult named as the primary applicant. We check each child separately.
+  Living with or caring for a child does not by itself tell us which court forms fit.
+fields:
+  - Your relationship: x.name_change_parent_role
+    input type: radio
+    choices:
+      - I am this child's legal parent: legal_parent
+      - I am this child's court-appointed legal guardian: guardian
+      - I am applying as next of kin: next_of_kin
+      - My spouse is the legal parent, but I am not: spouse_parent
+      - I am a stepparent, foster parent, or another caregiver: caregiver
+      - I am not sure: unsure
+---
+generic object: ALIndividual
+id: child parentage basis
+question: What establishes that you are ${ x.name.full() }'s legal parent?
+subquestion: |
+  You do not need to upload a document here. Bring the relevant records to your hearing.
+  A parentage or adoption order can establish a legal parent-child relationship.
+fields:
+  - Record establishing parentage: x.name_change_parent_basis
+    input type: radio
+    choices:
+      - I am named as a parent on this child's birth certificate: birth_certificate
+      - A court order establishes that I am this child's legal parent: court_order
+      - I rely on a Recognition of Parentage or another basis: other_basis
+      - I am not sure: unsure
+  - Is parentage uncertain, or might a court order limit your right to apply?: x.name_change_authority_uncertain
+    datatype: yesnoradio
+    help: This is different from another parent disagreeing with the new name. Sole custody does not by itself excuse notice to another legal parent.
+---
+generic object: ALIndividual
+id: child request scope
+question: Check the request for ${ x.name.full() }
+fields:
+  - Has this child lived in Minnesota for at least 6 months?: x.name_change_resident_six_months
+    datatype: yesnoradio
+  - Does this child live at ${ users[0].address.on_one_line() }?: x.name_change_same_home
+    datatype: yesnoradio
+  - What does this child need from this application?: x.name_change_relief
+    input type: radio
+    choices:
+      - Only a legal name change: name_only
+      - A birth-record change as well: birth_record
+      - Another kind of court relief: other_relief
+      - I am not sure: unsure
+---
+generic object: ALIndividual
+id: child other legal parent
+question: What is the other-parent situation for ${ x.name.full() }?
+subquestion: |
+  Notice is about legal parentage, not just custody or whether another parent agrees.
+  A name missing from a birth certificate does not always mean notice can be omitted.
+fields:
+  - Other-parent situation: x.name_change_other_parent_status
+    input type: radio
+    choices:
+      - There is one identified other parent who is not joining this application: one_known
+      - No other parent is known or named on the birth certificate: none_unknown
+      - I know the person's identity, but parentage has not been established: none_known
+      - The other legal parent is my spouse and is joining this application: joining_spouse
+      - There may be more than one other parent to notify: multiple
+      - A parent has died, parental rights were terminated, or an order affects notice: special
+      - I am not sure: unsure
+---
+generic object: ALIndividual
+id: child shared other parent
+question: Is ${ parents_nonapplicant_name_first } ${ parents_nonapplicant_name_last } the other parent of ${ x.name.full() }?
+subquestion: |
+  This packet currently supports one shared non-applicant parent.
+  Choose No if a different person must receive notice for this child.
+fields:
+  - This is the other parent for this child: x.name_change_shared_parent_confirmed
+    datatype: yesnoradio
+---
+generic object: ALIndividual
+id: child no other parent facts
+question: Check the parentage facts for ${ x.name.full() }
+subquestion: |
+  Answer Yes only if you can confirm a statement is true.
+  Choose No if it is false or you are not sure.
+fields:
+  - No other parent is named on the birth certificate: x.name_change_no_parent_on_certificate
+    datatype: yesnoradio
+  - No marriage or attempted marriage at birth or within 280 days of birth: x.name_change_no_marriage_presumption
+    datatype: yesnoradio
+    help: Answer Yes only if you were not married to the non-applicant parent at the child's birth or within 280 days of the birth. This includes attempted marriages.
+  - No other parent signed a Recognition of Parentage: x.name_change_no_recognition
+    datatype: yesnoradio
+  - No court order establishes another legal parent: x.name_change_no_parentage_order
+    datatype: yesnoradio
+---
+id: county parent notice exception
+question: Confirm the notice instructions for your county
+subquestion: |
+  Your answers do not identify another legal parent. Bring certified birth certificates
+  to court. Ask court administration to confirm whether notice may be omitted in
+  ${ district_court_county } County for the children in this request.
+fields:
+  - Has court administration confirmed that notice may be omitted?: parent_notice_exception_court_confirmed
+    datatype: yesnoradio
+---
+id: county parent notice method
+question: How did the court tell you to notify the other parent?
+subquestion: |
+  Ask court administration in ${ district_court_county } County which method to use.
+  You are responsible for arranging notice and providing the required proof.
+fields:
+  - Method confirmed by court administration: parent_service_method
+    input type: radio
+    choices:
+      - Personal service: personal_service
+      - Certified mail with return receipt requested: certified_mail
+      - I have not confirmed the method yet: unsure
+---
+id: parent child referral
+event: parent_child_help
+question: Get guidance for ${ parent_child_referral_child.name.full() }'s request
+subquestion: |
+  % if parent_child_referral_kind == 'authority':
+  A parent, legal guardian, or next of kin may be able to apply for a child.
+  This version prepares the combined parent-and-child packet only when the primary
+  applicant is the child's legal parent. Ask which forms fit your relationship.
+  You do not necessarily need guardianship to apply as next of kin.
+  % elif parent_child_referral_kind == 'parentage_review':
+  A Recognition of Parentage or other record may establish parentage. Ask the court
+  or a lawyer to review the records and any orders affecting your authority.
+  This interview cannot decide an uncertain parentage question.
+  % elif parent_child_referral_kind == 'residence':
+  This packet cannot make its shared-address and 6-month residency statements for
+  this child based on your answers. Ask how to handle this child's residence.
+  % elif parent_child_referral_kind == 'relief':
+  This version prepares only legal name changes for included children. Ask which
+  forms are needed for birth-record changes or other relief for this child.
+  % elif parent_child_referral_kind == 'mixed_birth_record':
+  You requested birth-record relief for an adult and name changes only for children.
+  Ask the court which packet should cover this combination before including the children.
+  % elif parent_child_referral_kind == 'notice_method':
+  Ask court administration how to give notice to the other parent. Confirm the method
+  before continuing. This packet supports personal service or certified mail as
+  directed by the court. It does not include a mailing affidavit.
+  % elif parent_child_referral_kind == 'notice_exception':
+  At least one parentage fact does not support omitting notice under these instructions.
+  Ask the court who must receive notice. The application must not describe a known
+  person as unknown, or omit an established legal parent.
+  % elif parent_child_referral_kind == 'notice_exception_county':
+  Ask court administration to confirm whether notice may be omitted for these children.
+  The interview does not apply another district's exception automatically in your county.
+  % else:
+  Ask court administration or a lawyer who must receive notice and how to give it.
+  This version cannot prepare the child's packet for different parent groups,
+  a joining parent, uncertain parentage, or a special notice situation.
+  A known person's identity must not be described as unknown on the application.
+  For Hennepin cases with an unknown address, ask about the required signed,
+  notarized search affidavit and any court-ordered alternative notice.
+  % endif
+
+  This referral means the situation needs different paperwork or guidance. It does
+  not mean that the law prevents you from applying.
+
+  [Court Self-Help Centers](https://mncourts.gov/help-topics/self-help-centers)
+  | [LawHelpMN legal help](https://www.lawhelpmn.org/providers-and-clinics)
+  | [Minor name change forms](https://mncourts.gov/getforms/name-change/forms-packet-minor-name-change)
+
+  ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_parent_role'), label='Edit your relationship to this child') }
+  ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_parent_basis'), label='Edit the parentage records') if defined(parent_child_referral_child.instanceName + '.name_change_parent_role') and parent_child_referral_child.name_change_parent_role == 'legal_parent' else '' }
+  ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_resident_six_months'), label='Edit this child’s residence and request') if parent_child_referral_kind in ['residence', 'relief'] else '' }
+  ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_other_parent_status'), label='Edit the other-parent situation') if parent_child_referral_kind in ['notice_review', 'notice_method', 'notice_exception', 'notice_exception_county'] else '' }
+  ${ action_button_html(url_action('parent_service_method'), label='Edit the court’s notice instructions') if parent_child_referral_kind == 'notice_method' else '' }
+  ${ action_button_html(url_action('parent_address_known'), label='Edit the other parent’s address') if parent_child_referral_kind == 'notice_review' and parent_notice_group_active == 'one_known' else '' }
+  ${ action_button_html(url_action('parents_nonapplicant_name_first'), label='Edit the shared parent’s name') if parent_child_referral_kind == 'notice_review' and parent_notice_group_active == 'one_known' else '' }
+  ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_shared_parent_confirmed'), label='Edit whether this is the child’s other parent') if parent_child_referral_kind == 'notice_review' and parent_notice_group_active == 'one_known' else '' }
+  ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_no_parent_on_certificate'), label='Edit the parentage facts') if parent_child_referral_kind == 'notice_exception' else '' }
+  ${ action_button_html(url_action('parent_notice_exception_court_confirmed'), label='Edit the county confirmation') if parent_child_referral_kind == 'notice_exception_county' else '' }
+  ${ action_button_html(url_action('request_for_applicant_name_change'), label='Edit the adult’s requested changes') if parent_child_referral_kind == 'mixed_birth_record' else '' }
+  % if parent_child_referral_kind == 'notice_review':
+  % for notice_review_child in included_children:
+  ${ action_button_html(url_action(notice_review_child.instanceName + '.name_change_other_parent_status'), label='Edit other-parent situation for ' + notice_review_child.name.full()) }
+  % endfor
+  % endif
+  ${ action_button_html(url_action('exclude_referred_child_request'), label='Leave this child listed, without requesting a name change') }
+  ${ action_button_html(url_action('exclude_all_child_requests'), label='Continue with adults only; keep children listed') }
+buttons:
+  - Restart: restart
+---
+event: exclude_referred_child_request
+code: |
+  for child_request_index, child_request_person in enumerate(children):
+    if child_request_person is parent_child_referral_child:
+      for child_request_part in ['first', 'middle', 'last']:
+        define('children' + str(child_request_index + 1) + '_name_' + child_request_part + '_change', '')
+      remember_child_name_answers(child_request_person, ['', '', ''])
+---
+event: exclude_all_child_requests
+code: |
+  for child_request_index, child_request_person in enumerate(children):
+    if child_request_index < 5:
+      for child_request_part in ['first', 'middle', 'last']:
+        define('children' + str(child_request_index + 1) + '_name_' + child_request_part + '_change', '')
+      remember_child_name_answers(child_request_person, ['', '', ''])
+  minor_children_listed_not_included_in_application = 'minor_children_included_no'
+---
+id: child eligibility review
+continue button field: parent_child_eligibility_review
+question: Review the children’s eligibility and notice
+subquestion: |
+  % for eligibility_review_child in included_children:
+  **${ eligibility_review_child.name.full() }**
+
+  ${ action_button_html(url_action(eligibility_review_child.instanceName + '.name_change_parent_role'), label='Relationship') }
+  ${ action_button_html(url_action(eligibility_review_child.instanceName + '.name_change_parent_basis'), label='Parentage records') }
+  ${ action_button_html(url_action(eligibility_review_child.instanceName + '.name_change_resident_six_months'), label='Residence and request') }
+  ${ action_button_html(url_action(eligibility_review_child.instanceName + '.name_change_other_parent_status'), label='Other-parent situation') }
+  ${ action_button_html(url_action(eligibility_review_child.instanceName + '.name_change_shared_parent_confirmed'), label='Confirm the shared other parent') if eligibility_review_child.name_change_other_parent_status == 'one_known' else '' }
+  ${ action_button_html(url_action(eligibility_review_child.instanceName + '.name_change_no_parent_on_certificate'), label='No-other-parent facts') if eligibility_review_child.name_change_other_parent_status == 'none_unknown' else '' }
+  % endfor
+  ${ action_button_html(url_action('parent_notice_exception_court_confirmed'), label='County notice confirmation') if parent_notice_group_active == 'none_unknown' and district_court_county != 'Hennepin' and minnesota_judicial_districts.get(district_court_county, '') != 'Third' else '' }
+---
+id: spouse additional relief
+question: Does your spouse need more than a legal name change?
+fields:
+  - Does your spouse need a birth-record change or other court relief?: spouse_other_relief
+    datatype: yesnoradio
+---
+id: spouse additional relief referral
+event: spouse_additional_relief_help
+question: Ask which forms your spouse needs
+subquestion: |
+  This version prepares only a legal name change for an included spouse. A birth-record
+  change or another kind of relief may need separate paperwork. This is a limit of
+  this interview, not a decision about your spouse's legal eligibility.
+
+  [Court Self-Help Centers](https://mncourts.gov/help-topics/self-help-centers)
+
+  ${ action_button_html(url_action('spouse_other_relief'), label='Edit the spouse’s request') }
+  ${ action_button_html(url_action('exclude_spouse_request'), label='Continue without a request for the spouse; keep the spouse listed') }
+buttons:
+  - Restart: restart
+---
+event: exclude_spouse_request
+code: |
+  application_includes_spouse = 'no_includes_spouse'
