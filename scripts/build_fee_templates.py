@@ -1,7 +1,7 @@
 from pathlib import Path
 import re
 from docx import Document
-from docx.shared import Pt
+from docx.shared import Pt, Inches
 from docx.shared import RGBColor
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
@@ -35,6 +35,9 @@ def add_text(document,text,heading=False):
     run=OxmlElement('w:r');value=OxmlElement('w:t');value.text=LINK_LABELS.get(url,url);run.append(value);link.append(run);paragraph._p.append(link)
     if part.endswith('.'):paragraph.add_run('.')
    else:paragraph.add_run(part)
+ if text.startswith('After approval,'):
+  paragraph.paragraph_format.keep_with_next=True
+  paragraph.paragraph_format.space_after=Pt(3)
  return paragraph
 p=Path(__file__).resolve().parents[1]/'docassemble/ApplicationForNameChange/data/templates'
 d=Document();styles(d)
@@ -92,11 +95,13 @@ d.sections[0].footer.paragraphs[0].text='Adapted from Minnesota Judicial Branch 
 d.save(p/'fee_waiver_affidavit.docx')
 # Fresh packet checklist, rather than the old application-only instructions.
 d=Document();styles(d)
+for section in d.sections:
+ section.left_margin=Inches(1);section.right_margin=Inches(1)
 for t in [
 'Minnesota name change — your next steps',
 'For {{ users[0].name.full() }}',
 'Nothing has been filed or approved. Review every page of the packet.',
-'1. Review and sign the application (NAM102). Any included spouse must sign. Each included child age 14 or older must sign. Use an additional signature sheet for more than one child needing to sign.',
+'1. Review and sign the application (NAM102). Any included spouse must sign. Each included child age 14 or older must sign their blank block on the included minor signature sheet.',
 '2. Sign one criminal-history release (NAM103) for each covered person age 10 or older. The packet includes {{ release_people | length }} release(s). If the binary sex choices do not fit, ask court administration how to complete that field before filing.',
 '3. Review the proposed order(s) (NAM107). The portions below IT IS ORDERED and the judge’s signature are for the court. The hearing date and service/no-objection findings are left blank.',
 '{%p if hennepin_packet %}',

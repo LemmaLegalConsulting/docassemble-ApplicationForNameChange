@@ -30,6 +30,7 @@ class PacketTemplates(unittest.TestCase):
   c=context();c.update(hennepin_packet=True,parental_notice_needed=True,parent_address_known=True,parent_service_method_active='certified_mail',included_children=[Person('Avery Child')],included_children_names='Avery Child',parents_nonapplicant_unknown=False)
   text,_=render('Application_for_name_change_next_steps.docx',c)
   self.assertIn('14 days',text);self.assertIn('February 2026',text)
+  self.assertIn('included minor signature sheet',text)
   self.assertIn('mailing affidavit',text);self.assertNotIn('Personal service: Use',text)
   self.assertIn('court parentage/adoption order',text)
  def test_core_release_and_order(self):

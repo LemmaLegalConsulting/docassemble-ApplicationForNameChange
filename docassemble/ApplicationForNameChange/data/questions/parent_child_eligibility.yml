@@ -82,7 +82,8 @@ generic object: ALIndividual
 id: child no other parent facts
 question: Check the parentage facts for ${ x.name.full() }
 subquestion: |
-  Answer each statement separately. A No or uncertain answer needs review.
+  Answer Yes only if you can confirm a statement is true.
+  Choose No if it is false or you are not sure.
 fields:
   - No other parent is named on the birth certificate: x.name_change_no_parent_on_certificate
     datatype: yesnoradio
@@ -169,7 +170,7 @@ subquestion: |
   ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_parent_role'), label='Edit your relationship to this child') }
   ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_parent_basis'), label='Edit the parentage records') if defined(parent_child_referral_child.instanceName + '.name_change_parent_role') and parent_child_referral_child.name_change_parent_role == 'legal_parent' else '' }
   ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_resident_six_months'), label='Edit this child’s residence and request') if parent_child_referral_kind in ['residence', 'relief'] else '' }
-  ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_other_parent_status'), label='Edit the other-parent situation') if parent_child_referral_kind == 'notice_review' else '' }
+  ${ action_button_html(url_action(parent_child_referral_child.instanceName + '.name_change_other_parent_status'), label='Edit the other-parent situation') if parent_child_referral_kind in ['notice_review', 'notice_method', 'notice_exception', 'notice_exception_county'] else '' }
   ${ action_button_html(url_action('parent_service_method'), label='Edit the court’s notice instructions') if parent_child_referral_kind == 'notice_method' else '' }
   ${ action_button_html(url_action('parent_address_known'), label='Edit the other parent’s address') if parent_child_referral_kind == 'notice_review' and parent_notice_group_active == 'one_known' else '' }
   ${ action_button_html(url_action('parents_nonapplicant_name_first'), label='Edit the shared parent’s name') if parent_child_referral_kind == 'notice_review' and parent_notice_group_active == 'one_known' else '' }

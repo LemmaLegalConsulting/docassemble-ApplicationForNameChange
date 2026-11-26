@@ -458,6 +458,40 @@ Feature: Financial and family validation
       | children2_name_last_change | Newname | |
       | children3_name_first_change | Third | |
       | children3_name_last_change | Newname | |
+      | children[0].name_change_parent_role | legal_parent | |
+      | children[0].name_change_parent_basis | birth_certificate | |
+      | children[0].name_change_authority_uncertain | False | |
+      | children[0].name_change_resident_six_months | True | |
+      | children[0].name_change_same_home | True | |
+      | children[0].name_change_relief | name_only | |
+      | children[0].name_change_other_parent_status | none_unknown | |
+      | children[0].name_change_no_parent_on_certificate | True | |
+      | children[0].name_change_no_marriage_presumption | True | |
+      | children[0].name_change_no_recognition | True | |
+      | children[0].name_change_no_parentage_order | True | |
+      | children[1].name_change_parent_role | legal_parent | |
+      | children[1].name_change_parent_basis | birth_certificate | |
+      | children[1].name_change_authority_uncertain | False | |
+      | children[1].name_change_resident_six_months | True | |
+      | children[1].name_change_same_home | True | |
+      | children[1].name_change_relief | name_only | |
+      | children[1].name_change_other_parent_status | none_unknown | |
+      | children[1].name_change_no_parent_on_certificate | True | |
+      | children[1].name_change_no_marriage_presumption | True | |
+      | children[1].name_change_no_recognition | True | |
+      | children[1].name_change_no_parentage_order | True | |
+      | children[2].name_change_parent_role | legal_parent | |
+      | children[2].name_change_parent_basis | birth_certificate | |
+      | children[2].name_change_authority_uncertain | False | |
+      | children[2].name_change_resident_six_months | True | |
+      | children[2].name_change_same_home | True | |
+      | children[2].name_change_relief | name_only | |
+      | children[2].name_change_other_parent_status | none_unknown | |
+      | children[2].name_change_no_parent_on_certificate | True | |
+      | children[2].name_change_no_marriage_presumption | True | |
+      | children[2].name_change_no_recognition | True | |
+      | children[2].name_change_no_parentage_order | True | |
+      | parent_notice_exception_court_confirmed | True | |
     Then I download "criminal_history_releases.pdf"
     And the downloaded PDF "criminal_history_releases.pdf" should contain "First Child"
 

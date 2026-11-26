@@ -1,6 +1,6 @@
 # Name Change: prioritized review
 
-Updated 2026-11-24 after the financial/family-validation implementation. See [PACKET_SCOPE.md](PACKET_SCOPE.md) for generated forms, primary sources, the completed LHI route, and explicit boundaries. Passing tests does not establish court acceptance or complete LHI parity.
+Updated 2026-11-25 after parent/child eligibility, document-layout integration, and Docker verification. See [PACKET_SCOPE.md](PACKET_SCOPE.md) for generated forms, primary sources, the completed LHI route, and explicit boundaries. Passing tests does not establish court acceptance or complete LHI parity.
 
 ## Implemented
 
@@ -22,6 +22,6 @@ Financial/family validation now includes structured household members, expense c
 
 5. **P2 — Plain language, accessibility, and translations.** Review remaining generated terminology and substantive birth-record labels against the Assembly Line style guide with client input. Improve template semantics without changing required legal declarations. Confirm public publishing metadata and support/contact text before deployment.
 
-### Parent/child rules implemented locally — November 25, 2026
+### Parent/child rules implemented and tested locally — November 25, 2026
 
 Per-child parentage, scope and notice checks now support documented legal-parent cases and refer cases requiring confirmation. Hennepin certified-mail instructions use the February 2026 guide; the current official guide is linked instead of distributing the outdated PDF. Remaining court-review objectives include the Hennepin mailing/search affidavits, additional applicant roles and mixed-parent groups, and local acceptance of the combined packet. Docker verification is recorded in TEST_RESULTS.md.

@@ -49,3 +49,5 @@ Archived originals, retrieval dates, URLs, and SHA-256 hashes are in `reference/
 See [IMPROVEMENTS.md](IMPROVEMENTS.md) for the next work in priority order and [TEST_RESULTS.md](TEST_RESULTS.md) for actual checks.
 
 Supported combined child requests require the primary adult to be a documented legal parent of each included child, shared-address and six-month residency answers, and name-only relief. Other authority, parentage, mixed-parent, and special-notice cases receive editable referrals. Certified-mail routes omit NAM205. The current Hennepin guide is linked; the archived 12/24 copy is not distributed. See DECISIONS.md for the detailed rules.
+
+Listed-only children remain in the required family-information sections of NAM102 and NAM107. They are omitted from included-applicant/requested-relief sections and individual criminal-history releases; both adult-only and individual-child recovery paths are covered by Docker tests.
